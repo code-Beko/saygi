@@ -1,0 +1,8 @@
+/* static/css/style.css */
+body {
+    background-color: #e1efff !important;
+  }
+  :root {
+    --bs-font-sans-serif: 'Nunito', sans-serif !important;
+  }
+  

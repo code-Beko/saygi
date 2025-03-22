@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center align-items-center"
+             style="min-height: 100vh">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <img src="{% static 'images/login.png' %}"
+                     width="auto"
+                     height="auto"
+                     alt="Not Resmi"
+                     class="img-fluid rounded shadow-lg rounded-5">
+            </div>
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Giriş Yap</h2>
+                <!-- Hata Mesajları Ekleyelim -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+                    </div>
+                {% endif %}
+                <form method="post" class="card shadow-lg p-4">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="id_username" class="form-label">Kullanıcı Adı</label>
+                        <input type="text"
+                               name="username"
+                               id="id_username"
+                               class="form-control"
+                               required>
+                        <!-- Kullanıcı adı hataları burada gösterilecek -->
+                        {% if form.username.errors %}
+                            <div class="text-danger">
+                                {% for error in form.username.errors %}<p>{{ error }}</p>{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_password" class="form-label">Şifre</label>
+                        <input type="password"
+                               name="password"
+                               id="id_password"
+                               class="form-control"
+                               required>
+                        <!-- Şifre hataları burada gösterilecek -->
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}<p>{{ error }}</p>{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <button type="submit" class="btn btn-primary w-100 py-2">Giriş Yap</button>
+                </form>
+                <div class="text-center mt-3">
+                    <p>
+                        Hesabınız yok mu?
+                        <a class="btn btn-link">Üye Ol</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
