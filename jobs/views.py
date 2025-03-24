@@ -11,10 +11,6 @@ def care(request):
     return render(request, "care.html")
 
 
-def care_add(request):
-    return render(request, "care/care_add.html")
-
-
 def dokuman_list(request):
     dokumanlar = Dokuman.objects.all()
     return render(request, "care/list.html", {"dokumanlar": dokumanlar})
@@ -28,7 +24,7 @@ def dokuman_ekle(request):
             return redirect("dokuman_list")
     else:
         form = DokumanForm()
-    return render(request, "care/form.html", {"form": form})
+    return render(request, "care/add.html", {"form": form})
 
 
 def dokuman_sil(request, id):
