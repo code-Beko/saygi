@@ -135,3 +135,5 @@ LANGUAGES = [
     ("en", "English"),
 ]
 LANGUAGE_CODE = "tr"
+
+LOGIN_REDIRECT_URL = "home"
