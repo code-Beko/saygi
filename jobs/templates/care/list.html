@@ -1,0 +1,9 @@
+{% for dokuman in dokumanlar %}
+    <p>
+        {{ dokuman.baslik }} - <a href="{{ dokuman.dosya.url }}" download>İndir</a>
+        <a href="{% url 'dokuman_sil' dokuman.id %}">Sil</a>
+    </p>
+{% empty %}
+    <p>Henüz doküman eklenmemiş.</p>
+{% endfor %}
+<a href="{% url 'dokuman_ekle' %}">Yeni Doküman Ekle</a>

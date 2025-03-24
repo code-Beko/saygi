@@ -64,3 +64,12 @@ body {
   p {
     margin-bottom: 0 !important;
 }
+.form-control:focus {
+  color: black !important;
+}
+.form-control{
+  color: black !important;
+}
+.card{
+  color: black !important;
+}
