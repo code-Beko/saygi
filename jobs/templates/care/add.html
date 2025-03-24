@@ -6,15 +6,15 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Yeni Doküman Ekle</h5>
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-black text-white">
+                        <h5 class="m-3 ms-0">Yeni Doküman Ekle</h5>
                     </div>
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <button type="submit" class="btn btn-warning mt-5 w-100">Kaydet</button>
                         </form>
                     </div>
                 </div>
