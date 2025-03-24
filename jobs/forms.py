@@ -10,23 +10,32 @@ class DokumanForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DokumanForm, self).__init__(*args, **kwargs)
 
+        # Tüm alanlara form-control class'ını ekliyoruz (boolean dışındaki alanlar)
         for field in self.fields.values():
-
+            # Eğer widget'ta 'class' özelliği yoksa, onu oluşturuyoruz
             if "class" not in field.widget.attrs:
                 field.widget.attrs["class"] = ""
 
+            # Boolean alanları hariç tutuyoruz
             if not isinstance(field.widget, forms.CheckboxInput):
                 field.widget.attrs["class"] += " form-control"
 
+            # Placeholder ekliyoruz
             if isinstance(field.widget, forms.TextInput):
                 field.widget.attrs["placeholder"] = f" {field.label}"
 
+            # Date alanları için placeholder
             if isinstance(field.widget, forms.DateInput):
                 field.widget.attrs["placeholder"] = "YYYY-MM-DD"
 
+            # Boolean alanları için CheckboxInput widget'ı
             if isinstance(field.widget, forms.CheckboxInput):
                 field.widget.attrs["class"] += " form-check-input"
 
+            # Tüm alanlar isteğe bağlı (boş bırakılabilir) olacak şekilde ayarlıyoruz
+            field.required = False  # Bütün alanları isteğe bağlı yapıyoruz
+
+        # Tarih alanları için date tipi ve form-control ekleme
         date_fields = [
             "tarih",
             "demonte_tarih",
