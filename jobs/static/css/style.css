@@ -1,6 +1,6 @@
 /* static/css/style.css */
 body {
-    background-color: #0E0E0E !important;
+  background:linear-gradient(to right, #161616, #65626c) !important;
   }
 :root {
     --bs-font-sans-serif: 'Poppins', sans-serif !important;
@@ -8,8 +8,6 @@ body {
     --bs-body-color:#ffffff !important;
     --bs-secondary-rgb: 243, 188, 43 !important;
     --bs-link-color-rgb: 255, 255, 255;
-
-    
   }
 .roboto-family{
     font-family: "Roboto", sans-serif;

@@ -1,42 +1,44 @@
 <!-- templates/includes/slider.html -->
 {% load static %}
-<div class="container mt-5">
-    <p class="m-0 fs-14" style="color:#E89E49">Hakkımızda</p>
-    <div class="row">
-        <div class="col-md-6 d-flex flex-column">
-            <div>
-                <p class="m-0 fw-bold fs-60">Deniz Teknolojisi</p>
-                <p class="lead">
-                    1977 yılından bu yana denizcilik ve elektrik sektöründe öncü bir güç olan Saygı Denizcilik, 30 yılı aşkın deneyimiyle gemi elektriği projelerinde güvenilir çözümler sunmaktadır. Yeni inşa edilen gemiler için donanım sağlanmasından kontrol panolarının üretimine, radar görüntüleme ve yangın alarm sistemlerinden otomasyon ve takip sistemlerine kadar geniş bir yelpazede hizmet vermekteyiz.
-                </p>
-                <a class="btn btn-light mt-5 p-3 text-black w-25">Not Ekle</a>
+<div class="bg-black">
+    <div class="container py-5">
+        <p class="m-0 fs-14" style="color:#E89E49">Hakkımızda</p>
+        <div class="row">
+            <div class="col-md-6 d-flex flex-column">
+                <div>
+                    <p class="m-0 fw-bold fs-60">Deniz Teknolojisi</p>
+                    <p class="lead">
+                        1977 yılından bu yana denizcilik ve elektrik sektöründe öncü bir güç olan Saygı Denizcilik, 30 yılı aşkın deneyimiyle gemi elektriği projelerinde güvenilir çözümler sunmaktadır. Yeni inşa edilen gemiler için donanım sağlanmasından kontrol panolarının üretimine, radar görüntüleme ve yangın alarm sistemlerinden otomasyon ve takip sistemlerine kadar geniş bir yelpazede hizmet vermekteyiz.
+                    </p>
+                    <a class="btn btn-light mt-5 p-3 text-black w-25">Not Ekle</a>
+                </div>
+                <div class="mt-auto d-flex  justify-content-start align-items-center">
+                    <p class="fw-bold fs-60"
+                       style="background: linear-gradient(90deg, #84FAB0 0%, #8FD3F4 100%);
+                              -webkit-background-clip: text;
+                              color: transparent;
+                              margin-right: 10px">+44</p>
+                    <p class="fs-18">
+                        Denizcilik ve Elektrik
+                        <br>
+                        Sektöründe Güçlü Adımlar
+                    </p>
+                </div>
             </div>
-            <div class="mt-auto d-flex  justify-content-start align-items-center">
-                <p class="fw-bold fs-60"
-                   style="background: linear-gradient(90deg, #84FAB0 0%, #8FD3F4 100%);
-                          -webkit-background-clip: text;
-                          color: transparent;
-                          margin-right: 10px">+44</p>
-                <p class="fs-18">
-                    Denizcilik ve Elektrik
-                    <br>
-                    Sektöründe Güçlü Adımlar
-                </p>
+            <div class="col-md-6">
+                <div>
+                    <p class="fw-bold fs-24 mb-3">"Saygı Denizcilik, 1977'den bu yana denizcilik sektöründe liderdir."</p>
+                    <p class="mb-5">
+                        Ayrıca AC ve DC motor, jeneratör ve transformatör sarımı, tamiri ve testleri konusunda uzman ekibimizle sektöre yön veriyoruz. 1994 yılından itibaren ise Loyd kurallarına uygun olarak gemi bakım, elektrik, dekorasyon, makine ve yanaştırma hizmetleriyle denizcilik dünyasında fark yaratmaya devam ediyoruz.
+                        Güç, inovasyon ve mükemmeliyet ilkeleriyle şekillenen Saygı Denizcilik, her dalgada geleceği inşa ediyor.
+                    </p>
+                </div>
+                <img width="100%"
+                     height="auto"
+                     src="{% static 'images/about-us.jpg' %}"
+                     alt="about"
+                     class="img-fluid rounded">
             </div>
-        </div>
-        <div class="col-md-6">
-            <div>
-                <p class="fw-bold" style="font-size:24px">"Saygı Denizcilik, 1977'den bu yana denizcilik sektöründe liderdir."</p>
-                <p>
-                    Ayrıca AC ve DC motor, jeneratör ve transformatör sarımı, tamiri ve testleri konusunda uzman ekibimizle sektöre yön veriyoruz. 1994 yılından itibaren ise Loyd kurallarına uygun olarak gemi bakım, elektrik, dekorasyon, makine ve yanaştırma hizmetleriyle denizcilik dünyasında fark yaratmaya devam ediyoruz.
-                    Güç, inovasyon ve mükemmeliyet ilkeleriyle şekillenen Saygı Denizcilik, her dalgada geleceği inşa ediyor.
-                </p>
-            </div>
-            <img width="100%"
-                 height="auto"
-                 src="{% static 'images/about-us.jpg' %}"
-                 alt="about"
-                 class="img-fluid rounded">
         </div>
     </div>
 </div>
