@@ -6,6 +6,10 @@ body {
     --bs-font-sans-serif: 'Poppins', sans-serif !important;
     --bs-emphasis-color-rgb: 255, 255, 255 !important;
     --bs-body-color:#ffffff !important;
+    --bs-secondary-rgb: 243, 188, 43 !important;
+
+
+    
   }
 .roboto-family{
     font-family: "Roboto", sans-serif;
@@ -46,5 +50,19 @@ body {
   .fs-20 {
     font-size: 20px;
   }
-  
-  
+  .fs-24{
+    font-size:24px
+  }
+  .fs-30{
+    font-size:30px;
+  }
+  .fs-40{
+    font-size: 40px;
+  }
+  .fs-60{
+    font-size: 60px;
+  }
+
+  p {
+    margin-bottom: 0 !important;
+}
