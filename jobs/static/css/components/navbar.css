@@ -1,0 +1,29 @@
+.line {
+    position: absolute;
+    top: -37px;
+    left: 55%;
+    transform: translateX(-50%); 
+    width: auto;
+    height: auto; 
+}
+
+
+.navbar-height{
+    background:linear-gradient(to right, #000000, #2a2626);
+    position: relative;
+    padding-top: 1.5rem ;
+    overflow: hidden;
+    height: 700px;
+}
+
+.navbar-text {
+   margin-top: 70px;
+}
+.double-image{
+    margin-top: 80px !important;
+    text-align: end;
+}
+.double-image img{
+    margin-right: 1rem;
+}
+
