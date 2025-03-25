@@ -1,0 +1,15 @@
+# Python bytecode files
+__pycache__/
+
+# Django migrations
+*/migrations/
+
+# Other common Python-related ignores
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.pot
+*.pyc
