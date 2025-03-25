@@ -44,7 +44,6 @@
                     <th>MOTOR İSMİ</th>
                     <th>GÜCÜ</th>
                     <th>Tarih</th>
-                    <th>İndir</th>
                     <th>Düzenle</th>
                     <th>Sil</th>
                 </tr>
@@ -59,14 +58,8 @@
                         <td>{{ dokuman.gucu }}</td>
                         <td>{{ dokuman.tarih|date:"d M Y" }}</td>
                         <td>
-                            <a href="{{ dokuman.dosya.url }}"
-                               class="btn btn-success btn-sm"
-                               download>İndir</a>
-                        </td>
-                        <td>
-                            <a href="{{ dokuman.dosya.url }}"
-                               class="btn btn-warning btn-sm"
-                               download>Düzenle</a>
+                            <a href="{% url 'dokuman_duzenle' dokuman.id %}"
+                               class="btn btn-warning btn-sm">Düzenle</a>
                         </td>
                         <td>
                             <button type="button"

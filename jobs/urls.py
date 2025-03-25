@@ -9,4 +9,5 @@ urlpatterns = [
     path("care/list/", dokuman_list, name="dokuman_list"),
     path("care/add/", dokuman_ekle, name="dokuman_ekle"),
     path("care/delete/<int:id>/", dokuman_sil, name="dokuman_sil"),
+    path("dokuman/<int:id>/duzenle/", views.dokuman_duzenle, name="dokuman_duzenle"),
 ]

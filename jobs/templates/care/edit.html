@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-black text-white">
+                        <h5 class="m-3 ms-0">Dökümanı Düzenle</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="row" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="col-4">
+                                <label for="{{ form.tersane.id_for_label }}" class="form-label">Tersane</label>
+                                {{ form.tersane }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.gemi.id_for_label }}" class="form-label">Gemi</label>
+                                {{ form.gemi }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.motor_ismi.id_for_label }}" class="form-label">Motor İsmi</label>
+                                {{ form.motor_ismi }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.is_no.id_for_label }}" class="form-label">İş No</label>
+                                {{ form.is_no }}
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.musteri_ismi.id_for_label }}" class="form-label">Müşteri İsmi</label>
+                                {{ form.musteri_ismi }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.tarih.id_for_label }}" class="form-label">Tarih</label>
+                                <input type="date"
+                                       name="tarih"
+                                       value="{{ form.tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.cihaz_teslim_alan.id_for_label }}" class="form-label">Cihazı Teslim Alan</label>
+                                {{ form.cihaz_teslim_alan }}
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.cihaz_turu.id_for_label }}" class="form-label">Cihaz Türü</label>
+                                {{ form.cihaz_turu }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.model.id_for_label }}" class="form-label">Model</label>
+                                {{ form.model }}
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.cihaz_markasi.id_for_label }}" class="form-label">Cihaz Markası</label>
+                                {{ form.cihaz_markasi }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.seri_no.id_for_label }}" class="form-label">Seri No</label>
+                                {{ form.seri_no }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.gucu.id_for_label }}" class="form-label">Gücü</label>
+                                {{ form.gucu }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.akim.id_for_label }}" class="form-label">Akım</label>
+                                {{ form.akim }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.voltaj.id_for_label }}" class="form-label">Voltaj</label>
+                                {{ form.voltaj }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.devir.id_for_label }}" class="form-label">Devir</label>
+                                {{ form.devir }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.ikaz_akimi.id_for_label }}" class="form-label">İkaz Akımı</label>
+                                {{ form.ikaz_akimi }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.ikaz_voltaji.id_for_label }}" class="form-label">İkaz Voltajı</label>
+                                {{ form.ikaz_voltaji }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.gelis_nedeni.id_for_label }}" class="form-label">Geliş Nedeni</label>
+                                {{ form.gelis_nedeni }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.monte.id_for_label }}" class="form-label">Monte</label>
+                                {{ form.monte }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.demonte.id_for_label }}" class="form-label">Demonte</label>
+                                {{ form.demonte }}
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.parca.id_for_label }}" class="form-label">Parca</label>
+                                {{ form.parca }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.eksik_malzemeler.id_for_label }}" class="form-label">Eksik Malzemeler</label>
+                                {{ form.eksik_malzemeler }}
+                            </div>
+                            <p>KONTROL LİSTESİ -></p>
+                            <div class="col-3">
+                                <label for="{{ form.kasnak_kaplin.id_for_label }}" class="form-label">Kasnak Kaplin</label>
+                                {{ form.kasnak_kaplin }}
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ form.fan_tasi.id_for_label }}" class="form-label">Fan Tasi</label>
+                                {{ form.fan_tasi }}
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.ayaklar.id_for_label }}" class="form-label">ayaklar</label>
+                                {{ form.ayaklar }}
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.kama.id_for_label }}" class="form-label">Kama</label>
+                                {{ form.kama }}
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.klemens.id_for_label }}" class="form-label">Klemens</label>
+                                {{ form.klemens }}
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ form.fircalar.id_for_label }}" class="form-label">Fircalar</label>
+                                {{ form.fircalar }}
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ form.klemens_kapagi_kut.id_for_label }}" class="form-label">Klemens Kapagi Kut</label>
+                                {{ form.klemens_kapagi_kut }}
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.komurlar.id_for_label }}" class="form-label">Komurlar</label>
+                                {{ form.komurlar }}
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.arka_kapak.id_for_label }}" class="form-label">Arka Kapak</label>
+                                {{ form.arka_kapak }}
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.fan_pervane.id_for_label }}" class="form-label">Fan Pervane</label>
+                                {{ form.fan_pervane }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.rulmanlar.id_for_label }}" class="form-label">Rulmanlar</label>
+                                {{ form.rulmanlar }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.demonte_eden.id_for_label }}" class="form-label">Demonte Eden</label>
+                                {{ form.demonte_eden }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.demonte_tarih.id_for_label }}" class="form-label">Demonte Tarih</label>
+                                <input type="date"
+                                       name="demonte_tarih"
+                                       value="{{ form.demonte_tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.monte_eden.id_for_label }}" class="form-label">Monte Eden</label>
+                                {{ form.monte_eden }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.monte_eden_tarih.id_for_label }}" class="form-label">Monte Eden Tarih</label>
+                                <input type="date"
+                                       name="monte_eden_tarih"
+                                       value="{{ form.monte_eden_tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.test_eden.id_for_label }}" class="form-label">Test Eden</label>
+                                {{ form.test_eden }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.test_eden_tarih.id_for_label }}" class="form-label">Test Eden Tarih</label>
+                                <input type="date"
+                                       name="test_eden_tarih"
+                                       value="{{ form.test_eden_tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.izolasyon_degerleri.id_for_label }}" class="form-label">İzolasyon Değerleri</label>
+                                {{ form.izolasyon_degerleri }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.calisma_akimi.id_for_label }}" class="form-label">Çalışma Akımı</label>
+                                {{ form.calisma_akimi }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.calisma_gerilimi.id_for_label }}" class="form-label">Çalışma Gerilimi</label>
+                                {{ form.calisma_gerilimi }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.diger_olcum_degerleri.id_for_label }}"
+                                       class="form-label">Diğer Ölçüm Değerleri</label>
+                                {{ form.diger_olcum_degerleri }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.test_cihazlari.id_for_label }}" class="form-label">Test Cihazları</label>
+                                {{ form.test_cihazlari }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.test_cihazlari.id_for_label }}" class="form-label">Test Cihazları</label>
+                                {{ form.yapilan_islemler }}
+                            </div>
+                            <button type="button"
+                                    class="btn btn-warning mt-5 w-100"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal">Kaydet</button>
+                            <div class="modal fade"
+                                 id="confirmModal"
+                                 tabindex="-1"
+                                 aria-labelledby="confirmModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmModalLabel">Kaydetmek İstediğinize Emin Misiniz?</h5>
+                                            <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">Kaydetmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                            <button type="submit" class="btn btn-primary">Evet, Kaydet</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'dokuman_list' %}" class="btn btn-secondary">Listeye Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

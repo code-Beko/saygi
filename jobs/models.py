@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from datetime import date
 
 
 # CustomUser modeli
@@ -15,7 +16,7 @@ class Dokuman(models.Model):
     motor_ismi = models.CharField(max_length=255)
     is_no = models.CharField(max_length=255)
     musteri_ismi = models.CharField(max_length=255)
-    tarih = models.DateField(default="2025-01-01")
+    tarih = models.DateField(null=True, blank=True, default=date.today)
     cihaz_teslim_alan = models.CharField(max_length=255)
     cihaz_turu = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
@@ -47,13 +48,13 @@ class Dokuman(models.Model):
     rulman_numarasi_on = models.CharField(max_length=255)
     rulman_numarasi_arka = models.CharField(max_length=255)
     demonte_eden = models.CharField(max_length=255)
-    demonte_tarih = models.DateField(default="2025-01-01")
+    demonte_tarih = models.DateField(null=True, blank=True)
     saran_onaran = models.CharField(max_length=255)
-    saran_onaran_tarih = models.DateField(default="2025-01-01")
+    saran_onaran_tarih = models.DateField(null=True, blank=True)
     monte_eden = models.CharField(max_length=255)
-    monte_eden_tarih = models.DateField(default="2025-01-01")
+    monte_eden_tarih = models.DateField(null=True, blank=True)
     test_eden = models.CharField(max_length=255)
-    test_eden_tarih = models.DateField(default="2025-01-01")
+    test_eden_tarih = models.DateField(null=True, blank=True)
     izolasyon_degerleri = models.CharField(max_length=25)
     calisma_akimi = models.CharField(max_length=255)
     calisma_gerilimi = models.CharField(max_length=255)
