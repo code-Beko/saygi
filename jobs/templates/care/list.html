@@ -45,6 +45,8 @@
                     <th>GÜCÜ</th>
                     <th>Tarih</th>
                     <th>Düzenle</th>
+                    <th>Görüntüle</th>
+
                     <th>Sil</th>
                 </tr>
             </thead>
@@ -60,6 +62,9 @@
                         <td>
                             <a href="{% url 'dokuman_duzenle' dokuman.id %}"
                                class="btn btn-warning btn-sm">Düzenle</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'dokuman_goruntule' dokuman.id %}" class="btn btn-info btn-sm">Görüntüle</a>
                         </td>
                         <td>
                             <button type="button"

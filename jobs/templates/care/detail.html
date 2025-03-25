@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-black text-white">
+                        <h5 class="m-3 ms-0">Dökümanı Detayı</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="{{ form.tersane.id_for_label }}" class="form-label">Tersane</label>
+                                <input type="text"
+                                       name="tersane"
+                                       value="{{ dokuman.tersane }}"
+                                       class="form-control" disabled >
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.gemi.id_for_label }}" class="form-label">Gemi</label>
+                                <input type="text"
+                                name="gemi"
+                                value="{{ dokuman.gemi }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.motor_ismi.id_for_label }}" class="form-label">Motor İsmi</label>
+                                <input type="text"
+                                name="motor_ismi"
+                                value="{{ dokuman.motor_ismi }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.is_no.id_for_label }}" class="form-label">İş No</label>
+                               
+                                <input type="text"
+                                name="is_no"
+                                value="{{ dokuman.is_no }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.musteri_ismi.id_for_label }}" class="form-label">Müşteri İsmi</label>
+                           
+                                <input type="text"
+                                name="musteri_ismi"
+                                value="{{ dokuman.musteri_ismi }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.tarih.id_for_label }}" class="form-label">Tarih</label>
+                                <input type="date"
+                                       name="tarih"
+                                       value="{{ form.tarih|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.cihaz_teslim_alan.id_for_label }}" class="form-label">Cihazı Teslim Alan</label>
+                             
+                                <input type="text"
+                                name="cihaz_teslim_alan"
+                                value="{{ dokuman.cihaz_teslim_alan }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.cihaz_turu.id_for_label }}" class="form-label">Cihaz Türü</label>
+                              
+                                <input type="text"
+                                name="cihaz_turu"
+                                value="{{ dokuman.cihaz_turu }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.model.id_for_label }}" class="form-label">Model</label>
+                           
+                                <input type="text"
+                                name="model"
+                                value="{{ dokuman.model }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-8">
+                                <label for="{{ form.cihaz_markasi.id_for_label }}" class="form-label">Cihaz Markası</label>
+                             
+                                <input type="text"
+                                name="cihaz_markasi"
+                                value="{{ dokuman.cihaz_markasi }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.seri_no.id_for_label }}" class="form-label">Seri No</label>
+                            
+                                <input type="text"
+                                name="seri_no"
+                                value="{{ dokuman.seri_no }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.gucu.id_for_label }}" class="form-label">Gücü</label>
+                           
+                                <input type="text"
+                                name="gucu"
+                                value="{{ dokuman.gucu }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.akim.id_for_label }}" class="form-label">Akım</label>
+                            
+                                <input type="text"
+                                name="akim"
+                                value="{{ dokuman.akim }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.voltaj.id_for_label }}" class="form-label">Voltaj</label>
+                               
+                                <input type="text"
+                                name="voltaj"
+                                value="{{ dokuman.voltaj }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.devir.id_for_label }}" class="form-label">Devir</label>
+                             
+                                <input type="text"
+                                name="devir"
+                                value="{{ dokuman.devir }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.ikaz_akimi.id_for_label }}" class="form-label">İkaz Akımı</label>
+                             
+                                <input type="text"
+                                name="ikaz_akimi"
+                                value="{{ dokuman.ikaz_akimi }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.ikaz_voltaji.id_for_label }}" class="form-label">İkaz Voltajı</label>
+                               
+                                <input type="text"
+                                name="ikaz_voltaji"
+                                value="{{ dokuman.ikaz_voltaji }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.gelis_nedeni.id_for_label }}" class="form-label">Geliş Nedeni</label>
+                         
+                                <input type="text"
+                                name="gelis_nedeni"
+                                value="{{ dokuman.gelis_nedeni }}"
+                                class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.monte.id_for_label }}" class="form-label">Monte</label>
+                                <input type="checkbox"
+                                name="monte"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.monte == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.demonte.id_for_label }}" class="form-label">Demonte</label>
+                              
+                                <input type="checkbox"
+                                name="demonte"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.demonte == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="{{ form.parca.id_for_label }}" class="form-label">Parca</label>
+                              
+                                  
+                                <input type="checkbox"
+                                name="parca"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.parca == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.eksik_malzemeler.id_for_label }}" class="form-label">Eksik Malzemeler</label>
+                         
+                                <input type="text"
+                                name="eksik_malzemeler"
+                                value="{{ dokuman.eksik_malzemeler }}"
+                                class="form-control" disabled>
+                                
+                            </div>
+                            <p>KONTROL LİSTESİ -></p>
+                            <div class="col-3">
+                                <label for="{{ form.kasnak_kaplin.id_for_label }}" class="form-label">Kasnak Kaplin</label>
+                             
+                                <input type="checkbox"
+                                name="kasnak_kaplin"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.kasnak_kaplin == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ form.fan_tasi.id_for_label }}" class="form-label">Fan Tasi</label>
+                             
+
+
+                                <input type="checkbox"
+                                name="fan_tasi"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.fan_tasi == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.ayaklar.id_for_label }}" class="form-label">ayaklar</label>
+                         
+
+                                <input type="checkbox"
+                                name="ayaklar"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.ayaklar == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+
+
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.kama.id_for_label }}" class="form-label">Kama</label>
+                      
+                                
+                                <input type="checkbox"
+                                name="kama"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.kama == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.klemens.id_for_label }}" class="form-label">Klemens</label>
+                             
+                                <input type="checkbox"
+                                name="klemens"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.klemens == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ form.fircalar.id_for_label }}" class="form-label">Fircalar</label>
+                           
+                                <input type="checkbox"
+                                name="fircalar"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.fircalar == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-3">
+                                <label for="{{ form.klemens_kapagi_kut.id_for_label }}" class="form-label">Klemens Kapagi Kut</label>
+                               
+
+                                <input type="checkbox"
+                                name="klemens_kapagi_kut"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.klemens_kapagi_kut == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.komurlar.id_for_label }}" class="form-label">Komurlar</label>
+                             
+                                <input type="checkbox"
+                                name="komurlar"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.komurlar == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.arka_kapak.id_for_label }}" class="form-label">Arka Kapak</label>
+                              
+                                <input type="checkbox"
+                                name="arka_kapak"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.arka_kapak == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-2">
+                                <label for="{{ form.fan_pervane.id_for_label }}" class="form-label">Fan Pervane</label>
+                             
+                                <input type="checkbox"
+                                name="fan_pervane"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.fan_pervane == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.rulmanlar.id_for_label }}" class="form-label">Rulmanlar</label>
+                           
+                                <input type="checkbox"
+                                name="rulmanlar"
+                                value="true"
+                                class="form-check-input"
+                                {% if dokuman.rulmanlar == True %}
+                                    checked
+                                {% endif %}
+                                disabled>
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.demonte_eden.id_for_label }}" class="form-label">Demonte Eden</label>
+                                {{ form.demonte_eden }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.demonte_tarih.id_for_label }}" class="form-label">Demonte Tarih</label>
+                                <input type="date"
+                                       name="demonte_tarih"
+                                       value="{{ form.demonte_tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.monte_eden.id_for_label }}" class="form-label">Monte Eden</label>
+                                {{ form.monte_eden }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.monte_eden_tarih.id_for_label }}" class="form-label">Monte Eden Tarih</label>
+                                <input type="date"
+                                       name="monte_eden_tarih"
+                                       value="{{ form.monte_eden_tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.test_eden.id_for_label }}" class="form-label">Test Eden</label>
+                                {{ form.test_eden }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.test_eden_tarih.id_for_label }}" class="form-label">Test Eden Tarih</label>
+                                <input type="date"
+                                       name="test_eden_tarih"
+                                       value="{{ form.test_eden_tarih.value|date:'Y-m-d' }}"
+                                       class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.izolasyon_degerleri.id_for_label }}" class="form-label">İzolasyon Değerleri</label>
+                                {{ form.izolasyon_degerleri }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.calisma_akimi.id_for_label }}" class="form-label">Çalışma Akımı</label>
+                                {{ form.calisma_akimi }}
+                            </div>
+                            <div class="col-6">
+                                <label for="{{ form.calisma_gerilimi.id_for_label }}" class="form-label">Çalışma Gerilimi</label>
+                                {{ form.calisma_gerilimi }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.diger_olcum_degerleri.id_for_label }}"
+                                       class="form-label">Diğer Ölçüm Değerleri</label>
+                                {{ form.diger_olcum_degerleri }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.test_cihazlari.id_for_label }}" class="form-label">Test Cihazları</label>
+                                {{ form.test_cihazlari }}
+                            </div>
+                            <div class="col-12">
+                                <label for="{{ form.test_cihazlari.id_for_label }}" class="form-label">Test Cihazları</label>
+                                {{ form.yapilan_islemler }}
+                            </div>
+                            <button type="button"
+                                    class="btn btn-warning mt-5 w-100"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal">Kaydet</button>
+                            <div class="modal fade"
+                                 id="confirmModal"
+                                 tabindex="-1"
+                                 aria-labelledby="confirmModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmModalLabel">Kaydetmek İstediğinize Emin Misiniz?</h5>
+                                            <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">Kaydetmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                            <button type="submit" class="btn btn-primary">Evet, Kaydet</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'dokuman_list' %}" class="btn btn-secondary">Listeye Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

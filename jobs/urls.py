@@ -10,4 +10,7 @@ urlpatterns = [
     path("care/add/", dokuman_ekle, name="dokuman_ekle"),
     path("care/delete/<int:id>/", dokuman_sil, name="dokuman_sil"),
     path("dokuman/<int:id>/duzenle/", views.dokuman_duzenle, name="dokuman_duzenle"),
+    path(
+        "dokuman-goruntule/<int:id>/", views.dokuman_goruntule, name="dokuman_goruntule"
+    ),  # Yeni view
 ]

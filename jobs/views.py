@@ -88,3 +88,12 @@ def dokuman_duzenle(request, id):
         form = DokumanForm(instance=dokuman)
 
     return render(request, "care/edit.html", {"form": form, "dokuman": dokuman})
+
+
+def dokuman_goruntule(request, id):
+    try:
+        dokuman = Dokuman.objects.get(id=id)
+    except Dokuman.DoesNotExist:
+        raise Http404("Doküman bulunamadı.")
+
+    return render(request, "care/detail.html", {"dokuman": dokuman})
