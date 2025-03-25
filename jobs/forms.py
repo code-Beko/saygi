@@ -18,7 +18,7 @@ class DokumanForm(forms.ModelForm):
 
             # Boolean alanları hariç tutuyoruz
             if not isinstance(field.widget, forms.CheckboxInput):
-                field.widget.attrs["class"] += " form-control"
+                field.widget.attrs["class"] += " form-control mb-3 "
 
             # Placeholder ekliyoruz
             if isinstance(field.widget, forms.TextInput):
@@ -30,7 +30,7 @@ class DokumanForm(forms.ModelForm):
 
             # Boolean alanları için CheckboxInput widget'ı
             if isinstance(field.widget, forms.CheckboxInput):
-                field.widget.attrs["class"] += " form-check-input"
+                field.widget.attrs["class"] += " form-check-input mb-4"
 
             # Tüm alanlar isteğe bağlı (boş bırakılabilir) olacak şekilde ayarlıyoruz
             field.required = False  # Bütün alanları isteğe bağlı yapıyoruz
