@@ -30,7 +30,7 @@
                     <div class="card-body d-flex flex-column text-black">
                         <h5 class="card-title">Dokümanları İncele</h5>
                         <p class="card-text flex-grow-1">Dokümanlarınızı arayın ve görüntüleyin.</p>
-                        <a href="#" class="btn w-100 btn-warning mt-5">Doküman Ara</a>
+                        <a href="{% url 'dokuman_list' %}" class="btn w-100 btn-warning mt-5">Doküman Ara</a>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <div class="card-body d-flex flex-column text-black">
                         <h5 class="card-title">Tüm Dokümanlara Göz Atın</h5>
                         <p class="card-text flex-grow-1">Mevcut tüm dokümanları listeleyip inceleyebilirsiniz.</p>
-                        <a href="#" class="btn w-100 btn-warning mt-5">Hepsini Gör</a>
+                        <a href="{% url 'dokuman_list' %}" class="btn w-100 btn-warning mt-5">Hepsini Gör</a>
                     </div>
                 </div>
             </div>

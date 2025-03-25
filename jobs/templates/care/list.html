@@ -1,9 +1,49 @@
-{% for dokuman in dokumanlar %}
-    <p>
-        {{ dokuman.baslik }} - <a href="{{ dokuman.dosya.url }}" download>İndir</a>
-        <a href="{% url 'dokuman_sil' dokuman.id %}">Sil</a>
-    </p>
-{% empty %}
-    <p>Henüz doküman eklenmemiş.</p>
-{% endfor %}
-<a href="{% url 'dokuman_ekle' %}">Yeni Doküman Ekle</a>
+{% extends "base.html" %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
+{% block content %}
+    <div class="container mt-4">
+        <h3>Doküman Listesi</h3>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Tersane</th>
+                    <th>GEMİ</th>
+                    <th>MOTOR İSMİ</th>
+                    <th>GÜCÜ</th>
+                    <th>Tarih</th>
+                    <th>İndir</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dokuman in dokumanlar %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ dokuman.tersane }}</td>
+                        <td>{{ dokuman.gemi }}</td>
+                        <td>{{ dokuman.motor_ismi }}</td>
+                        <td>{{ dokuman.gucu }}</td>
+                        <td>{{ dokuman.tarih }}</td>
+                        <td>
+                            <a href="{{ dokuman.dosya.url }}"
+                               class="btn btn-success btn-sm"
+                               download>İndir</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'dokuman_sil' dokuman.id %}"
+                               class="btn btn-danger btn-sm">Sil</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center ">Henüz doküman eklenmemiş.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'dokuman_ekle' %}" class="btn btn-warning w-100 my-3">Yeni Doküman Ekle</a>
+    </div>
+{% endblock content %}
