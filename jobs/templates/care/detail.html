@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block header_slider %}
 {% endblock header_slider %}
 {% load static %}
@@ -8,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card border-0 shadow-lg">
                     <div class="card-header bg-black text-white">
-                        <h5 class="m-3 ms-0">Döküman Detayı</h5>
+                        <h5 class="m-3 ms-0">{% trans "Document Details" %}</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -41,7 +42,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-3">
-                    <a href="{% url 'dokuman_list' %}" class="btn btn-warning w-100 my-5">Listeye Dön</a>
+                    <a href="{% url 'dokuman_list' %}" class="btn btn-warning w-100 my-5">{% trans "Return to List" %}</a>
                 </div>
             </div>
         </div>

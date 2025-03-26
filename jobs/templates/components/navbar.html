@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <div class="navbar-height">
 
     <div class="line z-0">
         <img width="auto"
              height="auto"
-             alt="line"
+             alt="{% trans 'line' %}"
              src="{% static 'images/line.png' %}">
     </div>
     <div class="container navbar-text position-relative z-1">
@@ -13,48 +14,48 @@
                  style="font-size:24px;
                         color:#E5E5E5">
                 <p>
-                    Denizcilikte Mükemmelliği
+                    {% trans "Excellence in Maritime" %}
                     <br />
-                    Yakalarken
-                    Yenilik ve Teknoloji ile
+                    {% trans "Yakalarken" %}
+                    {% trans "Yenilik ve Teknoloji ile" %}
                     <br />
-                    Geleceği Şekillendiriyoruz
+                    {% trans "Geleceği Şekillendiriyoruz" %}
                 </p>
             </div>
             <div class="col-6 d-flex flex-wrap justify-content-end ">
                 <p class="rowdies-family" style="font-size:60px;">
-                    Denizcilikte
+                    {% trans "Denizcilikte" %}
                     <br />
-                    Devrim
+                    {% trans "Devrim" %}
                 </p>
                 <p>
-                    Denizlerin geleceği,
+                    {% trans "Denizlerin geleceği," %}
                     <br />
-                    teknoloji ve mühendisliğin
+                    {% trans "teknoloji ve mühendisliğin" %}
                     <br />
-                    kusursuz uyumuyla şekillenirken,
+                    {% trans "kusursuz uyumuyla şekillenirken," %}
                     <br />
-                    güç, yenilik ve sınırları aşan vizyonumuzla
+                    {% trans "güç, yenilik ve sınırları aşan vizyonumuzla" %}
                     <br />
-                    her dalgada yeni bir çağ başlatıyoruz.
+                    {% trans "her dalgada yeni bir çağ başlatıyoruz." %}
                 </p>
             </div>
             <div class="col-6 text-start mt-auto">
-                <button class="btn btn-outline-light diagonal-btn">Daha Fazlasını Gör ></button>
+                <button class="btn btn-outline-light diagonal-btn">{% trans "Daha Fazlasını Gör" %} ></button>
             </div>
             <div class="col-6 double-image ">
                 <div>
                     <img width="auto"
                          height="auto"
-                         alt="line"
+                         alt="{% trans 'ship' %}"
                          src="{% static 'images/ship-1.png' %}">
                     <img width="auto"
                          height="auto"
-                         alt="line"
+                         alt="{% trans 'ship' %}"
                          src="{% static 'images/ship-2.png' %}">
                     <img width="auto"
                          height="auto"
-                         alt="line"
+                         alt="{% trans 'ship' %}"
                          src="{% static 'images/ship-3.png' %}">
                 </div>
             </div>

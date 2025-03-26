@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block header_slider %}
 {% endblock header_slider %}
 {% load static %}
+{% load i18n %}
 {% block content %}
     <div class="container my-5">
-        <h2>SAYGI BAKIM</h2>
+        <h2>{% trans "RESPECT CARE" %}</h2>
         <div class="row g-4">
             <div class="col-4">
                 <div class="card p-0 border-0 h-100">
@@ -12,11 +14,13 @@
                          height="auto"
                          src="{% static 'images/lux-document.jpg' %}"
                          class="card-img-top"
-                         alt="Doküman Ekle">
+                         alt="{% trans "Add Document" %}">
                     <div class="card-body d-flex flex-column text-black">
-                        <h5 class="card-title">Doküman Yükle</h5>
-                        <p class="card-text flex-grow-1">Yeni bir doküman yüklemek için tıklayın. Üyelik gereklidir.</p>
-                        <a  href="{% url 'dokuman_ekle' %}" class="btn w-100 btn-warning mt-5">Şimdi Yükle</a>
+                        <h5 class="card-title">{% trans "Add Document" %}</h5>
+                        <p class="card-text flex-grow-1">
+                            {% blocktrans %}Click to upload a new document. Membership required. {% endblocktrans %}
+                        </p>
+                        <a href="{% url 'dokuman_ekle' %}" class="btn w-100 btn-warning mt-5">{% trans "Install Now" %}</a>
                     </div>
                 </div>
             </div>
@@ -26,11 +30,11 @@
                          height="auto"
                          src="{% static 'images/lux-document-2.jpg' %}"
                          class="card-img-top"
-                         alt="Doküman Görüntüle">
+                         alt="{% trans "View Document" %}">
                     <div class="card-body d-flex flex-column text-black">
-                        <h5 class="card-title">Dokümanları İncele</h5>
-                        <p class="card-text flex-grow-1">Dokümanlarınızı arayın ve görüntüleyin.</p>
-                        <a href="{% url 'dokuman_list' %}" class="btn w-100 btn-warning mt-5">Doküman Ara</a>
+                        <h5 class="card-title">{% trans "Review Documents" %}</h5>
+                        <p class="card-text flex-grow-1">{% blocktrans%}Search and view your documents.{% endblocktrans%}</p>
+                        <a href="{% url 'dokuman_list' %}" class="btn w-100 btn-warning mt-5">{% trans "Search Document" %}</a>
                     </div>
                 </div>
             </div>
@@ -40,11 +44,13 @@
                          height="auto"
                          src="{% static 'images/lux-document-3.jpg' %}"
                          class="card-img-top"
-                         alt="Tüm Dokümanlar">
+                         alt="{% trans "All Documents" %}">
                     <div class="card-body d-flex flex-column text-black">
-                        <h5 class="card-title">Tüm Dokümanlara Göz Atın</h5>
-                        <p class="card-text flex-grow-1">Mevcut tüm dokümanları listeleyip inceleyebilirsiniz.</p>
-                        <a href="{% url 'dokuman_list' %}" class="btn w-100 btn-warning mt-5">Hepsini Gör</a>
+                        <h5 class="card-title">{% trans "Browse All Documents" %}</h5>
+                        <p class="card-text flex-grow-1">
+                            {% blocktrans%}  You can list and review all available documents. {% endblocktrans%}
+                        </p>
+                        <a href="{% url 'dokuman_list' %}" class="btn w-100 btn-warning mt-5">{% trans "See All" %}</a>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block header_slider %}
 {% endblock header_slider %}
 {% load static %}
@@ -8,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card border-0 shadow-lg">
                     <div class="card-header bg-black text-white">
-                        <h5 class="m-3 ms-0">Döküman Düzenle</h5>
+                        <h5 class="m-3 ms-0">{% trans "Edit Document" %}</h5>
                     </div>
                     <div class="card-body">
                         <div>
@@ -36,32 +37,30 @@
                                     <button type="button"
                                             class="btn btn-warning mt-5 w-25"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal">Kaydet</button>
+                                            data-bs-target="#confirmModal">{% trans "Save" %}</button>
                                 </div>
-                                <div class="modal fade"
-                                     id="confirmModal"
-                                     tabindex="-1"
-                                     aria-labelledby="confirmModalLabel"
-                                     aria-hidden="true">
+                                <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="confirmModalLabel">Kaydetmek İstediğinize Emin Misiniz?</h5>
+                                                <h5 class="modal-title" id="confirmModalLabel">{% blocktrans%}Are You Sure You Want to Save?{% endblocktrans%}</h5>
                                                 <button type="button"
                                                         class="btn-close"
                                                         data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">Kaydetmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</div>
+                                            <div class="modal-body">
+                                                {% blocktrans%}Are you sure you want to save? This action cannot be undone.{% endblocktrans%}
+                                            </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                                <button type="submit" class="btn btn-primary">Evet, Kaydet</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                                                <button type="submit" class="btn btn-primary">{% trans "Yes, Save" %}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <a href="{% url 'dokuman_list' %}" class="btn btn-warning w-25 my-5">Listeye Dön</a>
+                                    <a href="{% url 'dokuman_list' %}" class="btn btn-warning w-25 my-5">{% trans "Return to List" %}</a>
                                 </div>
                             </form>
                         </div>

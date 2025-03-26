@@ -4,66 +4,121 @@ from datetime import date
 from django.utils.translation import gettext_lazy as _
 
 
-# CustomUser modeli
+# CustomUser model
 class CustomUser(AbstractUser):
-    phone_number = models.CharField(_("Telefon Numarası"), max_length=15, blank=True, null=True)
-    department = models.CharField(_("Departman"), max_length=100, blank=True, null=True)
+    phone_number = models.CharField(
+        _("Phone Number"), max_length=15, blank=True, null=True
+    )
+    department = models.CharField(
+        _("Department"), max_length=100, blank=True, null=True
+    )
 
 
-# Dokuman modeli
+# Document model
 class Dokuman(models.Model):
-    tersane = models.CharField(_("Tersane"), max_length=255, null=True, blank=True)
-    gemi = models.CharField(_("Gemi"), max_length=255, null=True, blank=True)
-    motor_ismi = models.CharField(_("Motor İsmi"), max_length=255, null=True, blank=True)
-    is_no = models.CharField(_("İş No"), max_length=255, null=True, blank=True)
-    musteri_ismi = models.CharField(_("Müşteri İsmi"), max_length=255, null=True, blank=True)
-    tarih = models.DateField(_("Tarih"), null=True, blank=True, default=date.today)
-    cihaz_teslim_alan = models.CharField(_("Cihaz Teslim Alan"), max_length=255, null=True, blank=True)
-    cihaz_turu = models.CharField(_("Cihaz Türü"), max_length=255, null=True, blank=True)
+    shipyard = models.CharField(
+        _("Shipyard"), max_length=255, null=True, blank=True)
+    boat = models.CharField(_("Boat"), max_length=255, null=True, blank=True)
+    engine_name = models.CharField(
+        _("Engine Name"), max_length=255, null=True, blank=True
+    )
+    job_number = models.CharField(
+        _("Job Number"), max_length=255, null=True, blank=True
+    )
+    customer_name = models.CharField(
+        _("Customer Name"), max_length=255, null=True, blank=True
+    )
+    date = models.DateField(
+        _("Date"), null=True, blank=True, default=date.today)
+    device_receiver = models.CharField(
+        _("Device Receiver"), max_length=255, null=True, blank=True
+    )
+    device_type = models.CharField(
+        _("Device Type"), max_length=255, null=True, blank=True
+    )
     model = models.CharField(_("Model"), max_length=255, null=True, blank=True)
-    cihaz_markasi = models.CharField(_("Cihaz Markası"), max_length=255, null=True, blank=True)
-    seri_no = models.CharField(_("Seri No"), max_length=255, null=True, blank=True)
-    gucu = models.CharField(_("Gücü"), max_length=255, null=True, blank=True)
-    akim = models.CharField(_("Akım"), max_length=255, null=True, blank=True)
-    voltaj = models.CharField(_("Voltaj"), max_length=255, null=True, blank=True)
-    devir = models.CharField(_("Devir"), max_length=255, null=True, blank=True)
-    ikaz_akimi = models.CharField(_("İkaz Akımı"), max_length=255, null=True, blank=True)
-    ikaz_voltaji = models.CharField(_("İkaz Voltajı"), max_length=255, null=True, blank=True)
-    gelis_nedeni = models.CharField(_("Geliş Nedeni"), max_length=255, null=True, blank=True)
-    parca = models.BooleanField(_("Parça"), null=True, blank=True)
-    eksik_malzemeler = models.CharField(_("Eksik Malzemeler"), max_length=255, null=True, blank=True)
-    monte = models.BooleanField(_("Monte"), null=True, blank=True)
-    demonte = models.BooleanField(_("Demonte"), null=True, blank=True)
-    kasnak_kaplin = models.BooleanField(_("Kasnak/Kaplin"), null=True, blank=True)
-    fan_tasi = models.BooleanField(_("Fan Taşı"), null=True, blank=True)
-    ayaklar = models.BooleanField(_("Ayaklar"), null=True, blank=True)
-    kama = models.BooleanField(_("Kama"), null=True, blank=True)
-    klemens = models.BooleanField(_("Klemens"), null=True, blank=True)
-    fircalar = models.BooleanField(_("Fırçalar"), null=True, blank=True)
-    on_kapak = models.BooleanField(_("Ön Kapak"), null=True, blank=True)
-    klemens_kapagi_kut = models.BooleanField(_("Klemens Kapağı/Kut"), null=True, blank=True)
-    komurlar = models.BooleanField(_("Kömürler"), null=True, blank=True)
-    arka_kapak = models.BooleanField(_("Arka Kapak"), null=True, blank=True)
-    fan_pervane = models.BooleanField(_("Fan Pervane"), null=True, blank=True)
-    rulmanlar = models.BooleanField(_("Rulmanlar"), null=True, blank=True)
-    rulman_numarasi_on = models.CharField(_("Rulman Numarası Ön"), max_length=255, null=True, blank=True)
-    rulman_numarasi_arka = models.CharField(_("Rulman Numarası Arka"), max_length=255, null=True, blank=True)
-    demonte_eden = models.CharField(_("Demonte Eden"), max_length=255, null=True, blank=True)
-    demonte_tarih = models.DateField(_("Demonte Tarih"), null=True, blank=True)
-    saran_onaran = models.CharField(_("Saran/Onaran"), max_length=255, null=True, blank=True)
-    saran_onaran_tarih = models.DateField(_("Saran/Onaran Tarih"), null=True, blank=True)
-    monte_eden = models.CharField(_("Monte Eden"), max_length=255, null=True, blank=True)
-    monte_eden_tarih = models.DateField(_("Monte Eden Tarih"), null=True, blank=True)
-    test_eden = models.CharField(_("Test Eden"), max_length=255, null=True, blank=True)
-    test_eden_tarih = models.DateField(_("Test Eden Tarih"), null=True, blank=True)
-    izolasyon_degerleri = models.CharField(_("İzolasyon Değerleri"), max_length=25)
-    calisma_akimi = models.CharField(_("Çalışma Akımı"), max_length=255, null=True, blank=True)
-    calisma_gerilimi = models.CharField(_("Çalışma Gerilimi"), max_length=255, null=True, blank=True)
-    diger_olcum_degerleri = models.CharField(_("Diğer Ölçüm Değerleri"), max_length=255, null=True, blank=True)
-    test_cihazlari = models.CharField(_("Test Cihazları"), max_length=255, null=True, blank=True)
-    yapilan_islemler = models.TextField(_("Yapılan İşlemler"), max_length=255)
+    device_brand = models.CharField(
+        _("Device Brand"), max_length=255, null=True, blank=True
+    )
+    serial_number = models.CharField(
+        _("Serial Number"), max_length=255, null=True, blank=True
+    )
+    power = models.CharField(_("Power"), max_length=255, null=True, blank=True)
+    current = models.CharField(
+        _("Current"), max_length=255, null=True, blank=True)
+    voltage = models.CharField(
+        _("Voltage"), max_length=255, null=True, blank=True)
+    rpm = models.CharField(_("RPM"), max_length=255, null=True, blank=True)
+    warning_current = models.CharField(
+        _("Warning Current"), max_length=255, null=True, blank=True
+    )
+    warning_voltage = models.CharField(
+        _("Warning Voltage"), max_length=255, null=True, blank=True
+    )
+    arrival_reason = models.CharField(
+        _("Arrival Reason"), max_length=255, null=True, blank=True
+    )
+    part = models.BooleanField(_("Part"), null=True, blank=True)
+    missing_materials = models.CharField(
+        _("Missing Materials"), max_length=255, null=True, blank=True
+    )
+    mount = models.BooleanField(_("Mount"), null=True, blank=True)
+    dismount = models.BooleanField(_("Dismount"), null=True, blank=True)
+    pulley_coupling = models.BooleanField(
+        _("Pulley/Coupling"), null=True, blank=True)
+    fan_carrier = models.BooleanField(_("Fan Carrier"), null=True, blank=True)
+    feet = models.BooleanField(_("Feet"), null=True, blank=True)
+    key = models.BooleanField(_("Key"), null=True, blank=True)
+    terminal = models.BooleanField(_("Terminal"), null=True, blank=True)
+    brushes = models.BooleanField(_("Brushes"), null=True, blank=True)
+    front_cover = models.BooleanField(_("Front Cover"), null=True, blank=True)
+    terminal_cover_box = models.BooleanField(
+        _("Terminal Cover/Box"), null=True, blank=True
+    )
+    carbon_brushes = models.BooleanField(
+        _("Carbon Brushes"), null=True, blank=True)
+    back_cover = models.BooleanField(_("Back Cover"), null=True, blank=True)
+    fan_blade = models.BooleanField(_("Fan Blade"), null=True, blank=True)
+    bearings = models.BooleanField(_("Bearings"), null=True, blank=True)
+    front_bearing_number = models.CharField(
+        _("Front Bearing Number"), max_length=255, null=True, blank=True
+    )
+    back_bearing_number = models.CharField(
+        _("Back Bearing Number"), max_length=255, null=True, blank=True
+    )
+    dismounted_by = models.CharField(
+        _("Dismounted By"), max_length=255, null=True, blank=True
+    )
+    dismount_date = models.DateField(_("Dismount Date"), null=True, blank=True)
+    wrapped_repaired_by = models.CharField(
+        _("Wrapped/Repaired By"), max_length=255, null=True, blank=True
+    )
+    wrap_repair_date = models.DateField(
+        _("Wrap/Repair Date"), null=True, blank=True)
+    mounted_by = models.CharField(
+        _("Mounted By"), max_length=255, null=True, blank=True
+    )
+    mount_date = models.DateField(_("Mount Date"), null=True, blank=True)
+    tested_by = models.CharField(
+        _("Tested By"), max_length=255, null=True, blank=True)
+    test_date = models.DateField(_("Test Date"), null=True, blank=True)
+    insulation_values = models.CharField(_("Insulation Values"), max_length=25)
+    operating_current = models.CharField(
+        _("Operating Current"), max_length=255, null=True, blank=True
+    )
+    operating_voltage = models.CharField(
+        _("Operating Voltage"), max_length=255, null=True, blank=True
+    )
+    other_measurement_values = models.CharField(
+        _("Other Measurement Values"), max_length=255, null=True, blank=True
+    )
+    test_devices = models.CharField(
+        _("Test Devices"), max_length=255, null=True, blank=True
+    )
+    performed_operations = models.TextField(
+        _("Performed Operations"), max_length=255)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.tersane + " - " + self.gemi
+        return self.shipyard + " - " + self.boat
