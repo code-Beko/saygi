@@ -11,7 +11,7 @@
                         <h5 class="m-3 ms-0">Döküman Detayı</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div>
                             <form class="row" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {% for field in fields %}

@@ -54,27 +54,6 @@ def dokuman_list(request):
     )
 
 
-def dokuman_ekle(request):
-    if request.method == "POST":
-        form = DokumanForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("dokuman_list")
-    else:
-        form = DokumanForm()
-
-    # Burada get_dokuman_fields fonksiyonu ile alanları alıyoruz.
-    fields = get_dokuman_fields(
-        form.instance
-    )  # Eğer formdan gelen veriler varsa, instance'ı kullan
-
-    return render(
-        request,
-        "care/add.html",
-        {"form": form, "fields": fields, "error": "Form hatalı!"},
-    )
-
-
 def dokuman_sil(request, id):
     try:
         dokuman = Dokuman.objects.get(id=id)
@@ -90,6 +69,8 @@ def dokuman_duzenle(request, id):
     except Dokuman.DoesNotExist:
         raise Http404("Doküman bulunamadı.")
 
+    fields = get_dokuman_fields(dokuman)
+
     if request.method == "POST":
         form = DokumanForm(request.POST, request.FILES, instance=dokuman)
         if form.is_valid():
@@ -98,18 +79,41 @@ def dokuman_duzenle(request, id):
     else:
         form = DokumanForm(instance=dokuman)
 
-    return render(request, "care/edit.html", {"form": form, "dokuman": dokuman})
+        fields = get_dokuman_fields(form.instance)
+
+    context = {
+        "form": form,
+        "dokuman": dokuman,
+        "fields": fields,
+    }
+    return render(request, "care/edit.html", context)
 
 
-def dokuman_view(request, id):  # 'id' parametresi alacak şekilde tanımlayın
-    dokuman = Dokuman.objects.get(id=id)  # ID'ye göre dokümanı al
-    fields = get_dokuman_fields(
-        dokuman
-    )  # Eğer özel alanlarınız varsa bu fonksiyonu kullanabilirsiniz
+def dokuman_ekle(request):
+    if request.method == "POST":
+        form = DokumanForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("dokuman_list")
+    else:
+        form = DokumanForm()
+
+    fields = get_dokuman_fields(form.instance)
+
+    return render(
+        request,
+        "care/add.html",
+        {"form": form, "fields": fields, "error": "Form hatalı!"},
+    )
+
+
+def dokuman_view(request, id):
+    dokuman = Dokuman.objects.get(id=id)
+    fields = get_dokuman_fields(dokuman)
 
     context = {
         "dokuman": dokuman,
-        "fields": fields,  # Bu, alanlarınızı context'e ekler
+        "fields": fields,
     }
 
     return render(request, "care/detail.html", context)
