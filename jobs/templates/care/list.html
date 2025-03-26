@@ -73,31 +73,6 @@
                                     data-bs-target="#silModal{{ dokuman.id }}">Sil</button>
                         </td>
                     </tr>
-                    <!-- Modal -->
-                    <div class="modal fade"
-                         id="silModal{{ dokuman.id }}"
-                         tabindex="-1"
-                         aria-labelledby="silModalLabel{{ dokuman.id }}"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="silModalLabel{{ dokuman.id }}">Silme Onayı</h5>
-                                    <button type="button"
-                                            class="btn-close"
-                                            data-bs-dismiss="modal"
-                                            aria-label="Kapat"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Bu dokümanı silmek istediğinize emin misiniz?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                    <a href="{% url 'dokuman_sil' dokuman.id %}" class="btn btn-danger">Sil</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 {% empty %}
                     <tr>
                         <td colspan="9" class="text-center ">Henüz doküman eklenmemiş.</td>
@@ -135,7 +110,30 @@
         </nav>
         <a href="{% url 'dokuman_ekle' %}" class="btn btn-warning w-100 my-3">Yeni Doküman Ekle</a>
     </div>
+    {% for dokuman in dokumanlar %}
+        <div class="modal fade"
+             id="silModal{{ dokuman.id }}"
+             tabindex="-1"
+             aria-labelledby="silModalLabel{{ dokuman.id }}"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="silModalLabel{{ dokuman.id }}">Silme Onayı</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Kapat"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bu dokümanı silmek istediğinize emin misiniz?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <a href="{% url 'dokuman_sil' dokuman.id %}" class="btn btn-danger">Sil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock content %}
-{% block js %}
-<script src="{% static 'js/care/table.js' %}"></script>
-{% endblock js %}

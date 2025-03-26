@@ -27,19 +27,17 @@
                                             <div class="col-md-{{ field.field.widget.attrs.size }} mb-3">
                                                 <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
                                                 {{ field }}
-                                                {% if field.errors %}
-                                                    <div class="invalid-feedback d-block">
-                                                        {{ field.errors }}
-                                                    </div>
-                                                {% endif %}
+                                                {% if field.errors %}<div class="invalid-feedback d-block">{{ field.errors }}</div>{% endif %}
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <button type="button"
-                                        class="btn btn-warning mt-5 w-100"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#confirmModal">Kaydet</button>
+                                <div class="d-flex justify-content-center">
+                                    <button type="button"
+                                            class="btn btn-warning mt-5 w-25"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal">Kaydet</button>
+                                </div>
                                 <div class="modal fade"
                                      id="confirmModal"
                                      tabindex="-1"
@@ -62,12 +60,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="text-center mt-3">
+                                    <a href="{% url 'dokuman_list' %}" class="btn btn-warning w-25 my-5">Listeye Dön</a>
+                                </div>
                             </form>
                         </div>
                     </div>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'dokuman_list' %}" class="btn btn-warning w-100 my-5">Listeye Dön</a>
-                    </div>
+                   
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Dokuman
 from .fields import get_dokuman_fields
+from django.utils.translation import gettext as _
 
 
 class DokumanForm(forms.ModelForm):
