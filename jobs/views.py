@@ -5,6 +5,7 @@ from .forms import DokumanForm
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
+from .fields import get_dokuman_fields
 
 
 def home(request):
@@ -90,10 +91,13 @@ def dokuman_duzenle(request, id):
     return render(request, "care/edit.html", {"form": form, "dokuman": dokuman})
 
 
-def dokuman_goruntule(request, id):
-    try:
-        dokuman = Dokuman.objects.get(id=id)
-    except Dokuman.DoesNotExist:
-        raise Http404("Doküman bulunamadı.")
+def dokuman_view(request, id):  # 'id' parametresi alacak şekilde tanımlayın
+    dokuman = Dokuman.objects.get(id=id)  # ID'ye göre dokümanı al
+    fields = get_dokuman_fields(dokuman)  # Eğer özel alanlarınız varsa bu fonksiyonu kullanabilirsiniz
 
-    return render(request, "care/detail.html", {"dokuman": dokuman})
+    context = {
+        'dokuman': dokuman,
+        'fields': fields,  # Bu, alanlarınızı context'e ekler
+    }
+
+    return render(request, 'care/detail.html', context)

@@ -46,13 +46,12 @@
                     <th>Tarih</th>
                     <th>Düzenle</th>
                     <th>Görüntüle</th>
-
                     <th>Sil</th>
                 </tr>
             </thead>
             <tbody>
                 {% for dokuman in dokumanlar %}
-                    <tr>
+                    <tr id="table-{{ dokuman.id }}"  class="clickable-row cursor-pointer">
                         <td>{{ forloop.counter }}</td>
                         <td>{{ dokuman.tersane }}</td>
                         <td>{{ dokuman.gemi }}</td>
@@ -64,7 +63,8 @@
                                class="btn btn-warning btn-sm">Düzenle</a>
                         </td>
                         <td>
-                            <a href="{% url 'dokuman_goruntule' dokuman.id %}" class="btn btn-info btn-sm">Görüntüle</a>
+                            <a href="{% url 'dokuman_view' dokuman.id %}"
+                               class="btn btn-info btn-sm">Görüntüle</a>
                         </td>
                         <td>
                             <button type="button"
@@ -136,3 +136,6 @@
         <a href="{% url 'dokuman_ekle' %}" class="btn btn-warning w-100 my-3">Yeni Doküman Ekle</a>
     </div>
 {% endblock content %}
+{% block js %}
+<script src="{% static 'js/care/table.js' %}"></script>
+{% endblock js %}

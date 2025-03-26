@@ -11,6 +11,7 @@ urlpatterns = [
     path("care/delete/<int:id>/", dokuman_sil, name="dokuman_sil"),
     path("dokuman/<int:id>/duzenle/", views.dokuman_duzenle, name="dokuman_duzenle"),
     path(
-        "dokuman-goruntule/<int:id>/", views.dokuman_goruntule, name="dokuman_goruntule"
+        "dokuman-goruntule/<int:id>/", views.dokuman_view, name="dokuman_view"
     ),  # Yeni view
 ]
+#
