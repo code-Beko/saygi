@@ -47,27 +47,27 @@
                 </tr>
             </thead>
             <tbody>
-                {% for document in dokumanlar %}
+                {% for document in documents %}
                     <tr id="table-{{ document.id }}"  class="clickable-row cursor-pointer">
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ document.tersane }}</td>
-                        <td>{{ document.gemi }}</td>
-                        <td>{{ document.motor_ismi }}</td>
-                        <td>{{ document.gucu }}</td>
-                        <td>{{ document.tarih|date:"d M Y" }}</td>
+                        <td>{{ document.shipyard }}</td>
+                        <td>{{ document.boat }}</td>
+                        <td>{{ document.engine_name }}</td>
+                        <td>{{ document.power }}</td>
+                        <td>{{ document.date|date:"d M Y" }}</td>
                         <td>
-                            <a href="{% url 'dokuman_duzenle' document.id %}"
+                            <a href="{% url 'document_edit' document.id %}"
                                class="btn btn-warning btn-sm">{% trans "Edit" %}</a>
                         </td>
                         <td>
-                            <a href="{% url 'dokuman_view' document.id %}"
+                            <a href="{% url 'document_view' document.id %}"
                                class="btn btn-info btn-sm">{% trans "View" %}</a>
                         </td>
                         <td>
                             <button type="button"
                                     class="btn btn-danger btn-sm"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#silModal{{ dokuman.id }}">{% trans "Delete" %}</button>
+                                    data-bs-target="#deleteModal{{ document.id }}">{% trans "Delete" %}</button>
                         </td>
                     </tr>
                 {% empty %}
@@ -79,42 +79,42 @@
         </table>
         <nav aria-label="pagination">
             <ul class="pagination justify-content-center mt-4">
-                {% if dokumanlar.has_previous %}
+                {% if documents.has_previous %}
                     <li class="page-item">
                         <a class="page-link"
                            href="?page=1&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "First" %}</a>
                     </li>
                     <li class="page-item">
                         <a class="page-link"
-                           href="?page={{ dokumanlar.previous_page_number }}&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "Former" %}</a>
+                           href="?page={{ documents.previous_page_number }}&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "Former" %}</a>
                     </li>
                 {% endif %}
                 <li class="page-item disabled">
-                    <a class="page-link">{% trans "Page" %} {{ dokumanlar.number }} / {{ dokumanlar.paginator.num_pages }}</a>
+                    <a class="page-link">{% trans "Page" %} {{ documents.number }} / {{ documents.paginator.num_pages }}</a>
                 </li>
-                {% if dokumanlar.has_next %}
+                {% if documents.has_next %}
                     <li class="page-item">
                         <a class="page-link"
-                           href="?page={{ dokumanlar.next_page_number }}&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "Next" %}</a>
+                           href="?page={{ documents.next_page_number }}&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "Next" %}</a>
                     </li>
                     <li class="page-item">
                         <a class="page-link"
-                           href="?page={{ dokumanlar.paginator.num_pages }}&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "Last" %}</a>
+                           href="?page={{ documents.paginator.num_pages }}&q={{ query }}&start_date={{ start_date }}&end_date={{ end_date }}">{% trans "Last" %}</a>
                     </li>
                 {% endif %}
             </ul>
         </nav>
-        <a href="{% url 'dokuman_ekle' %}" class="btn btn-warning w-100 my-3">{% blocktrans%}Add New Document{% endblocktrans%}</a>
+        <a href="{% url 'document_add' %}" class="btn btn-warning w-100 my-3">{% blocktrans%}Add New Document{% endblocktrans%}</a>
     </div>
-    {% for dokuman in dokumanlar %}
+    {% for document in documents %}
         <div class="modal fade"
-             id="silModal{{ dokuman.id }}"
+             id="deleteModal{{ document.id }}"
              tabindex="-1"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="silModalLabel{{ dokuman.id }}">{% trans "Deletion Confirmation" %}</h5>
+                        <h5 class="modal-title" id="deleteModalLabel{{ document.id }}">{% trans "Deletion Confirmation" %}</h5>
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
@@ -125,7 +125,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
-                        <a href="{% url 'dokuman_sil' dokuman.id %}" class="btn btn-danger">{% trans "Delete" %}</a>
+                        <a href="{% url 'document_delete' document.id %}" class="btn btn-danger">{% trans "Delete" %}</a>
                     </div>
                 </div>
             </div>

@@ -1,28 +1,40 @@
 from django import forms
-from .models import Dokuman
-from .fields import get_dokuman_fields
-from django.utils.translation import gettext as _
+from .models import Document
+from .fields import get_document_fields
 
 
-class DokumanForm(forms.ModelForm):
+class DocumentForm(forms.ModelForm):
     class Meta:
-        model = Dokuman
+        model = Document
         fields = "__all__"
         widgets = {
-            'tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-            'demonte_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-            'saran_onaran_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-            'monte_eden_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-            'test_eden_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+            "date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
+            "dismount_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
+            "wrap_repair_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
+            "mount_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
+            "test_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
         }
 
     def __init__(self, *args, **kwargs):
-        super(DokumanForm, self).__init__(*args, **kwargs)
+        super(DocumentForm, self).__init__(*args, **kwargs)
 
-        fields_info = get_dokuman_fields(self.instance)
-        
-        # Form alanlarını fields_info sırasına göre yeniden düzenle
-        self.fields = {field_info["name"]: self.fields[field_info["name"]] for field_info in fields_info if field_info["name"] in self.fields}
+        fields_info = get_document_fields(self.instance)
+
+        self.fields = {
+            field_info["name"]: self.fields[field_info["name"]]
+            for field_info in fields_info
+            if field_info["name"] in self.fields
+        }
 
         for field_info in fields_info:
             field_name = field_info["name"]
@@ -32,7 +44,7 @@ class DokumanForm(forms.ModelForm):
                 field_type = field_info["type"]
 
                 self.fields[field_name].widget.attrs["size"] = field_size
-                self.fields[field_name].required = False  # Tüm alanları opsiyonel yap
+                self.fields[field_name].required = False
 
                 if field_type == "checkbox":
                     self.fields[field_name].widget = forms.CheckboxInput(
@@ -49,10 +61,12 @@ class DokumanForm(forms.ModelForm):
                             "class": "form-control",
                             "size": field_size,
                         },
-                        format='%Y-%m-%d'
+                        format="%Y-%m-%d",
                     )
                     if self.instance and getattr(self.instance, field_name):
-                        self.fields[field_name].initial = getattr(self.instance, field_name).strftime('%Y-%m-%d')
+                        self.fields[field_name].initial = getattr(
+                            self.instance, field_name
+                        ).strftime("%Y-%m-%d")
                 else:
                     self.fields[field_name].widget.attrs["class"] = "form-control"
 

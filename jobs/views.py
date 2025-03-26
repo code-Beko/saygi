@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import Dokuman
-from .forms import DokumanForm
+from .models import Document
+from .forms import DocumentForm
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
-from .fields import get_dokuman_fields
+from .fields import get_document_fields
 
 
 def home(request):
@@ -16,29 +16,29 @@ def care(request):
     return render(request, "care.html")
 
 
-def dokuman_list(request):
+def document_list(request):
     query = request.GET.get("q", "")
     start_date = request.GET.get("start_date", "")
     end_date = request.GET.get("end_date", "")
 
-    dokumanlar = Dokuman.objects.all().order_by("-created_at")
+    documents = Document.objects.all().order_by("-created_at")
 
     if query:
-        dokumanlar = dokumanlar.filter(
-            Q(tersane__icontains=query)
-            | Q(gemi__icontains=query)
-            | Q(motor_ismi__icontains=query)
+        documents = documents.filter(
+            Q(shipyard__icontains=query)
+            | Q(boat__icontains=query)
+            | Q(engine_name__icontains=query)
         )
 
     if start_date and end_date:
         try:
             start_date = datetime.strptime(start_date, "%Y-%m-%d")
             end_date = datetime.strptime(end_date, "%Y-%m-%d")
-            dokumanlar = dokumanlar.filter(tarih__range=[start_date, end_date])
+            documents = documents.filter(date__range=[start_date, end_date])
         except ValueError:
             pass
 
-    paginator = Paginator(dokumanlar, 50)
+    paginator = Paginator(documents, 50)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -46,7 +46,7 @@ def dokuman_list(request):
         request,
         "care/list.html",
         {
-            "dokumanlar": page_obj,
+            "documents": page_obj,
             "query": query,
             "start_date": start_date,
             "end_date": end_date,
@@ -54,60 +54,60 @@ def dokuman_list(request):
     )
 
 
-def dokuman_sil(request, id):
+def document_delete(request, id):
     try:
-        dokuman = Dokuman.objects.get(id=id)
-        dokuman.delete()
-    except Dokuman.DoesNotExist:
-        raise Http404("Doküman bulunamadı.")
-    return redirect("dokuman_list")
+        document = Document.objects.get(id=id)
+        document.delete()
+    except Document.DoesNotExist:
+        raise Http404("Document not found.")
+    return redirect("document_list")
 
 
-def dokuman_duzenle(request, id):
+def document_edit(request, id):
     try:
-        dokuman = Dokuman.objects.get(id=id)
-    except Dokuman.DoesNotExist:
-        raise Http404("Doküman bulunamadı.")
+        document = Document.objects.get(id=id)
+    except Document.DoesNotExist:
+        raise Http404("Document not found.")
 
     if request.method == "POST":
-        form = DokumanForm(request.POST, request.FILES, instance=dokuman)
+        form = DocumentForm(request.POST, request.FILES, instance=document)
         if form.is_valid():
             form.save()
-            return redirect("dokuman_list")
+            return redirect("document_list")
     else:
-        form = DokumanForm(instance=dokuman)
+        form = DocumentForm(instance=document)
 
     context = {
         "form": form,
-        "dokuman": dokuman,
+        "document": document,
     }
     return render(request, "care/edit.html", context)
 
 
-def dokuman_ekle(request):
+def document_add(request):
     if request.method == "POST":
-        form = DokumanForm(request.POST, request.FILES)
+        form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("dokuman_list")
+            return redirect("document_list")
     else:
-        form = DokumanForm()
+        form = DocumentForm()
 
-    fields = get_dokuman_fields(form.instance)
+    fields = get_document_fields(form.instance)
 
     return render(
         request,
         "care/add.html",
-        {"form": form, "fields": fields, "error": "Form hatalı!"},
+        {"form": form, "fields": fields, "error": "Form is invalid!"},
     )
 
 
-def dokuman_view(request, id):
-    dokuman = Dokuman.objects.get(id=id)
-    fields = get_dokuman_fields(dokuman)
+def document_view(request, id):
+    document = Document.objects.get(id=id)
+    fields = get_document_fields(document)
 
     context = {
-        "dokuman": dokuman,
+        "document": document,
         "fields": fields,
     }
 

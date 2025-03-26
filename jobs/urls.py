@@ -1,17 +1,17 @@
 from django.urls import path
 from . import views
-from .views import dokuman_list, dokuman_ekle, dokuman_sil
+from .views import document_list, document_add, document_delete
 
 
 urlpatterns = [
     path("", views.home, name="index"),
     path("care/", views.care, name="care"),
-    path("care/list/", dokuman_list, name="dokuman_list"),
-    path("care/add/", dokuman_ekle, name="dokuman_ekle"),
-    path("care/delete/<int:id>/", dokuman_sil, name="dokuman_sil"),
-    path("dokuman/<int:id>/duzenle/", views.dokuman_duzenle, name="dokuman_duzenle"),
+    path("care/list/", document_list, name="document_list"),
+    path("care/add/", document_add, name="document_add"),
+    path("care/delete/<int:id>/", document_delete, name="document_delete"),
+    path("document/<int:id>/edit/", views.document_edit, name="document_edit"),
     path(
-        "dokuman-goruntule/<int:id>/", views.dokuman_view, name="dokuman_view"
-    ),  # Yeni view
+        "document-view/<int:id>/", views.document_view, name="document_view"
+    ),
 ]
 #

@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
 
 
 # Document model
-class Dokuman(models.Model):
+class Document(models.Model):
     shipyard = models.CharField(
         _("Shipyard"), max_length=255, null=True, blank=True)
     boat = models.CharField(_("Boat"), max_length=255, null=True, blank=True)
