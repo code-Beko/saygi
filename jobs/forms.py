@@ -1,46 +1,62 @@
 from django import forms
 from .models import Dokuman
+from .fields import get_dokuman_fields
 
 
 class DokumanForm(forms.ModelForm):
     class Meta:
         model = Dokuman
         fields = "__all__"
+        widgets = {
+            'tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+            'demonte_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+            'saran_onaran_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+            'monte_eden_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+            'test_eden_tarih': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super(DokumanForm, self).__init__(*args, **kwargs)
 
-        for field in self.fields.values():
+        fields_info = get_dokuman_fields(self.instance)
+        
+        # Form alanlarını fields_info sırasına göre yeniden düzenle
+        self.fields = {field_info["name"]: self.fields[field_info["name"]] for field_info in fields_info if field_info["name"] in self.fields}
 
-            if "class" not in field.widget.attrs:
-                field.widget.attrs["class"] = ""
+        for field_info in fields_info:
+            field_name = field_info["name"]
 
-            if not isinstance(field.widget, forms.CheckboxInput):
-                field.widget.attrs["class"] += " form-control mb-3 "
+            if field_name in self.fields:
+                field_size = field_info["size"]
+                field_type = field_info["type"]
 
-            if isinstance(field.widget, forms.TextInput):
-                field.widget.attrs["placeholder"] = f" {field.label}"
+                self.fields[field_name].widget.attrs["size"] = field_size
+                self.fields[field_name].required = False  # Tüm alanları opsiyonel yap
 
-            if isinstance(field.widget, forms.DateInput):
-                field.widget.attrs["placeholder"] = "YYYY-MM-DD"
+                if field_type == "checkbox":
+                    self.fields[field_name].widget = forms.CheckboxInput(
+                        attrs={
+                            "class": "form-check-input",
+                            "type": "checkbox",
+                            "size": field_size,
+                        }
+                    )
+                elif field_type == "date":
+                    self.fields[field_name].widget = forms.DateInput(
+                        attrs={
+                            "type": "date",
+                            "class": "form-control",
+                            "size": field_size,
+                        },
+                        format='%Y-%m-%d'
+                    )
+                    if self.instance and getattr(self.instance, field_name):
+                        self.fields[field_name].initial = getattr(self.instance, field_name).strftime('%Y-%m-%d')
+                else:
+                    self.fields[field_name].widget.attrs["class"] = "form-control"
 
-            if isinstance(field.widget, forms.CheckboxInput):
-                field.widget.attrs["class"] += " form-check-input mb-4"
-
-            field.required = False
-
-        self.fields["tersane"].required = True
-        self.fields["gemi"].required = True
-        self.fields["motor_ismi"].required = True
-        self.fields["gucu"].required = True
-        date_fields = [
-            "tarih",
-            "demonte_tarih",
-            "saran_onaran_tarih",
-            "monte_eden_tarih",
-            "test_eden_tarih",
+        self.fields_order = [
+            field_info["name"]
+            for field_info in fields_info
+            if field_info["name"] in self.fields
         ]
-        for field_name in date_fields:
-            self.fields[field_name].widget = forms.DateInput(
-                attrs={"type": "date", "class": "form-control"}
-            )

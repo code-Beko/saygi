@@ -69,8 +69,6 @@ def dokuman_duzenle(request, id):
     except Dokuman.DoesNotExist:
         raise Http404("Doküman bulunamadı.")
 
-    fields = get_dokuman_fields(dokuman)
-
     if request.method == "POST":
         form = DokumanForm(request.POST, request.FILES, instance=dokuman)
         if form.is_valid():
@@ -79,12 +77,9 @@ def dokuman_duzenle(request, id):
     else:
         form = DokumanForm(instance=dokuman)
 
-        fields = get_dokuman_fields(form.instance)
-
     context = {
         "form": form,
         "dokuman": dokuman,
-        "fields": fields,
     }
     return render(request, "care/edit.html", context)
 

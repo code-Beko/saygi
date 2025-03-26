@@ -127,6 +127,13 @@ def get_dokuman_fields(dokuman):
             "size": 12,
         },
         {
+            "name": "parca",
+            "value": dokuman.parca,
+            "label": "Parca",
+            "type": "checkbox",
+            "size": 4,
+        },
+        {
             "name": "monte",
             "value": dokuman.monte,
             "label": "Monte",
@@ -137,13 +144,6 @@ def get_dokuman_fields(dokuman):
             "name": "demonte",
             "value": dokuman.demonte,
             "label": "Demonte",
-            "type": "checkbox",
-            "size": 4,
-        },
-        {
-            "name": "parca",
-            "value": dokuman.parca,
-            "label": "Parca",
             "type": "checkbox",
             "size": 4,
         },
@@ -232,6 +232,20 @@ def get_dokuman_fields(dokuman):
             "size": 12,
         },
         {
+            "name": "rulman_numarasi_on",
+            "value": dokuman.rulman_numarasi_on,
+            "label": "Rulman Numarası Ön",
+            "type": "text",
+            "size": 6,
+        },
+        {
+            "name": "rulman_numarasi_arka",
+            "value": dokuman.rulman_numarasi_arka,
+            "label": "Rulman Numarası Arka",
+            "type": "text",
+            "size": 6,
+        },
+        {
             "name": "demonte_eden",
             "value": dokuman.demonte_eden,
             "label": "Demonte Eden",
@@ -240,8 +254,22 @@ def get_dokuman_fields(dokuman):
         },
         {
             "name": "demonte_tarih",
-            "value": dokuman.tarih,
+            "value": dokuman.demonte_tarih,
             "label": "Demonte Tarih",
+            "type": "date",
+            "size": 6,
+        },
+        {
+            "name": "saran_onaran",
+            "value": dokuman.saran_onaran,
+            "label": "Saran Onaran",
+            "type": "text",
+            "size": 6,
+        },
+        {
+            "name": "saran_onaran_tarih",
+            "value": dokuman.saran_onaran_tarih,
+            "label": "Saran Onaran Tarih",
             "type": "date",
             "size": 6,
         },
@@ -314,5 +342,5 @@ def get_dokuman_fields(dokuman):
             "label": "Yapılan İşlemler",
             "type": "text",
             "size": 12,
-        },
+        }
     ]
