@@ -1,6 +1,5 @@
 def get_dokuman_fields(dokuman):
     return [
-    
         {
             "name": "tersane",
             "value": dokuman.tersane,
@@ -241,7 +240,7 @@ def get_dokuman_fields(dokuman):
         },
         {
             "name": "demonte_tarih",
-            "value": "{{ dokuman.demonte_tarih|date:'Y-m-d' }}",
+            "value": dokuman.tarih,
             "label": "Demonte Tarih",
             "type": "date",
             "size": 6,
@@ -255,7 +254,7 @@ def get_dokuman_fields(dokuman):
         },
         {
             "name": "monte_eden_tarih",
-            "value": "{{ dokuman.monte_eden_tarih|date:'Y-m-d' }}",
+            "value": dokuman.monte_eden_tarih,
             "label": "Monte Eden Tarih",
             "type": "date",
             "size": 6,
@@ -269,7 +268,7 @@ def get_dokuman_fields(dokuman):
         },
         {
             "name": "test_eden_tarih",
-            "value": "{{ dokuman.test_eden_tarih|date:'Y-m-d' }}",
+            "value": dokuman.test_eden_tarih,
             "label": "Test Eden Tarih",
             "type": "date",
             "size": 6,

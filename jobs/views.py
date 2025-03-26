@@ -62,7 +62,17 @@ def dokuman_ekle(request):
             return redirect("dokuman_list")
     else:
         form = DokumanForm()
-    return render(request, "care/add.html", {"form": form, "error": "Form hatalı!"})
+
+    # Burada get_dokuman_fields fonksiyonu ile alanları alıyoruz.
+    fields = get_dokuman_fields(
+        form.instance
+    )  # Eğer formdan gelen veriler varsa, instance'ı kullan
+
+    return render(
+        request,
+        "care/add.html",
+        {"form": form, "fields": fields, "error": "Form hatalı!"},
+    )
 
 
 def dokuman_sil(request, id):
@@ -93,11 +103,13 @@ def dokuman_duzenle(request, id):
 
 def dokuman_view(request, id):  # 'id' parametresi alacak şekilde tanımlayın
     dokuman = Dokuman.objects.get(id=id)  # ID'ye göre dokümanı al
-    fields = get_dokuman_fields(dokuman)  # Eğer özel alanlarınız varsa bu fonksiyonu kullanabilirsiniz
+    fields = get_dokuman_fields(
+        dokuman
+    )  # Eğer özel alanlarınız varsa bu fonksiyonu kullanabilirsiniz
 
     context = {
-        'dokuman': dokuman,
-        'fields': fields,  # Bu, alanlarınızı context'e ekler
+        "dokuman": dokuman,
+        "fields": fields,  # Bu, alanlarınızı context'e ekler
     }
 
-    return render(request, 'care/detail.html', context)
+    return render(request, "care/detail.html", context)
