@@ -1,61 +1,64 @@
 {% load static %}
 {% load i18n %}
 <div class="navbar-height">
-
     <div class="line z-0">
         <img width="auto"
              height="auto"
-             alt="{% trans 'line' %}"
+             alt="line"
              src="{% static 'images/line.png' %}">
     </div>
     <div class="container navbar-text position-relative z-1">
         <div class="row">
-            <div class="col-6 text-start fw-bold"
-                 style="font-size:24px;
-                        color:#E5E5E5">
+            <div class="col-6 text-start fw-bold fs-24" style=" color:#E5E5E5">
                 <p>
                     {% trans "Excellence in Maritime" %}
                     <br />
-                    {% trans "Yakalarken" %}
-                    {% trans "Yenilik ve Teknoloji ile" %}
+                    {% blocktrans %}
+                    Catching Up with <br /> Innovation and Technology {% endblocktrans %}
                     <br />
-                    {% trans "Geleceği Şekillendiriyoruz" %}
+                    {% trans "We Shape the Future" %}
                 </p>
             </div>
             <div class="col-6 d-flex flex-wrap justify-content-end ">
-                <p class="rowdies-family" style="font-size:60px;">
-                    {% trans "Denizcilikte" %}
+                <p class="rowdies-family fs-60">
+                    {% trans "in maritime" %}
                     <br />
-                    {% trans "Devrim" %}
+                    {% trans "Revolution" %}
                 </p>
                 <p>
-                    {% trans "Denizlerin geleceği," %}
+                    {% blocktrans %}
+                    future of the seas
+
                     <br />
-                    {% trans "teknoloji ve mühendisliğin" %}
+                    technology and engineering
                     <br />
-                    {% trans "kusursuz uyumuyla şekillenirken," %}
+                    while taking shape in perfect harmony,
                     <br />
-                    {% trans "güç, yenilik ve sınırları aşan vizyonumuzla" %}
+                    with our power, innovation and 
                     <br />
-                    {% trans "her dalgada yeni bir çağ başlatıyoruz." %}
+                    vision that goes beyond borders
+                    <br />
+                    With every wave we begin a new era.
+
+                    {% endblocktrans %}
                 </p>
             </div>
             <div class="col-6 text-start mt-auto">
-                <button class="btn btn-outline-light diagonal-btn">{% trans "Daha Fazlasını Gör" %} ></button>
+                <button class="btn btn-outline-light diagonal-btn">{% trans "See More" %} ></button>
             </div>
             <div class="col-6 double-image ">
                 <div>
                     <img width="auto"
                          height="auto"
-                         alt="{% trans 'ship' %}"
+                         alt="{% trans "ship" %}"
                          src="{% static 'images/ship-1.png' %}">
                     <img width="auto"
                          height="auto"
-                         alt="{% trans 'ship' %}"
+                         alt="{% trans "ship" %}"
                          src="{% static 'images/ship-2.png' %}">
                     <img width="auto"
                          height="auto"
-                         alt="{% trans 'ship' %}"
+                         alt="{% trans "ship" %}"
                          src="{% static 'images/ship-3.png' %}">
                 </div>
             </div>

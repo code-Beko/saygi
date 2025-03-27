@@ -3,15 +3,17 @@
 {% load i18n %}
 <div class="bg-black">
     <div class="container py-5">
-        <p class="m-0 fs-14" style="color:#E89E49">Hakkımızda</p>
+        <p class="m-0 fs-14" style="color:#E89E49">{% trans "About us" %}</p>
         <div class="row">
             <div class="col-md-6 d-flex flex-column">
                 <div>
-                    <p class="m-0 fw-bold fs-60">Deniz Teknolojisi</p>
+                    <p class="m-0 fw-bold fs-60">{% trans "Marine Technology" %}</p>
                     <p class="lead">
-                        1977 yılından bu yana denizcilik ve elektrik sektöründe öncü bir güç olan Saygı Denizcilik, 30 yılı aşkın deneyimiyle gemi elektriği projelerinde güvenilir çözümler sunmaktadır. Yeni inşa edilen gemiler için donanım sağlanmasından kontrol panolarının üretimine, radar görüntüleme ve yangın alarm sistemlerinden otomasyon ve takip sistemlerine kadar geniş bir yelpazede hizmet vermekteyiz.
+                        {% blocktrans %}
+                        Saygı Marine, a pioneering force in the maritime and electrical sector since 1977, offers reliable solutions in ship electrical projects with over 30 years of experience. We provide a wide range of services from providing equipment for newly built ships to the production of control panels, from radar imaging and fire alarm systems to automation and monitoring systems.
+                        {% endblocktrans %}
                     </p>
-                    <a class="btn btn-light mt-5 p-3 text-black w-25">Not Ekle</a>
+                    <a class="btn btn-light mt-5 p-3 text-black w-25">{% trans "See More" %}</a>
                 </div>
                 <div class="mt-auto d-flex  justify-content-start align-items-center">
                     <p class="fw-bold fs-60"
@@ -20,18 +22,24 @@
                               color: transparent;
                               margin-right: 10px">+44</p>
                     <p class="fs-18">
-                        Denizcilik ve Elektrik
+                        {% trans "Maritime and Electrical" %}
                         <br>
-                        Sektöründe Güçlü Adımlar
+                        {% trans "Strong Steps in the Industry" %}
                     </p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div>
-                    <p class="fw-bold fs-24 mb-3">"Saygı Denizcilik, 1977'den bu yana denizcilik sektöründe liderdir."</p>
+                    <p class="fw-bold fs-24 mb-3">
+                        " {% blocktrans %}
+                        Saygı Marine has been a leader in the maritime industry since 1977.
+                        {% endblocktrans %}  "
+                    </p>
                     <p class="mb-5">
-                        Ayrıca AC ve DC motor, jeneratör ve transformatör sarımı, tamiri ve testleri konusunda uzman ekibimizle sektöre yön veriyoruz. 1994 yılından itibaren ise Loyd kurallarına uygun olarak gemi bakım, elektrik, dekorasyon, makine ve yanaştırma hizmetleriyle denizcilik dünyasında fark yaratmaya devam ediyoruz.
-                        Güç, inovasyon ve mükemmeliyet ilkeleriyle şekillenen Saygı Denizcilik, her dalgada geleceği inşa ediyor.
+                        {% blocktrans %}
+                       We also lead the sector with our expert team in AC and DC motor, generator and transformer winding, repair and testing. Since 1994, we continue to make a difference in the maritime world with ship maintenance, electrical, decoration, machinery and docking services in accordance with Loyd rules.
+
+                       Saygı Marine, shaped by the principles of power, innovation and excellence, builds the future in every wave.{% endblocktrans %}
                     </p>
                 </div>
                 <img width="100%"
