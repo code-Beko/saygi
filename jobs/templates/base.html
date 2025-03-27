@@ -58,9 +58,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Products" %}</a>
                                 </li>
+                                {% if user.is_superuser %}
                                 <li class="nav-item">
-                                    <a href="{% url 'institutional' %}" class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Institutional" %}</a>
+                                    <a href="{% url 'task_list' %}" class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Institutional" %}</a>
                                 </li>
+                                {% endif %}
                                 <li class="nav-item">
                                     <a href="{% url 'care' %}"
                                        class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Care" %}</a>
@@ -114,7 +116,46 @@
         <!-- Bootstrap JS -->
         {% block js %}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-          
+            
+            {% if user.is_authenticated and unread_tasks_count > 0 %}
+                <!-- Bildirim Modal -->
+                <div class="modal fade" id="notificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <h5 class="modal-title" id="notificationModalLabel">
+                                    <i class="bi bi-bell-fill"></i> {% trans "New Task Notification" %}
+                                </h5>
+                            </div>
+                            <div class="modal-body text-center">
+                                <i class="bi bi-bell fs-1 text-warning mb-3"></i>
+                                <h4>{% trans "You have" %} {{ unread_tasks_count }} {% trans "unread task(s)!" %}</h4>
+                                <p class="text-muted">{% trans "Would you like to view your tasks?" %}</p>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <a href="{% url 'notifications' %}" class="btn btn-warning">
+                                    <i class="bi bi-bell"></i> {% trans "View Tasks" %}
+                                </a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    {% trans "Close" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Sayfa yüklendiğinde modalı göster
+                        var notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
+                        
+                        // Sadece okunmamış görev varsa göster
+                        if ({{ unread_tasks_count }} > 0) {
+                            notificationModal.show();
+                        }
+                    });
+                </script>
+            {% endif %}
         {% endblock js %}
     </body>
 </html>

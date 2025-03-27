@@ -14,7 +14,16 @@ from django.urls import reverse_lazy
 
 
 def home(request):
-    return render(request, "index.html")
+    if request.user.is_authenticated:
+        # Sadece okunmamış görevleri say
+        unread_tasks_count = Task.objects.filter(
+            assigned_to=request.user
+        ).exclude(
+            is_read=request.user
+        ).count()
+    else:
+        unread_tasks_count = 0
+    return render(request, "index.html", {'unread_tasks_count': unread_tasks_count})
 
 
 def care(request):
@@ -183,8 +192,13 @@ def profile(request):
 
 @login_required
 def notifications(request):
-    # Sadece kullanıcıya atanan görevleri getir
+    # Kullanıcıya atanan tüm görevleri getir
     tasks = Task.objects.filter(assigned_to=request.user)
+    
+    # Görevleri okundu olarak işaretle
+    for task in tasks:
+        task.is_read.add(request.user)
+    
     return render(request, 'notifications.html', {'tasks': tasks})
 
 
