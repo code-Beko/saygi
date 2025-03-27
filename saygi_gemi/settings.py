@@ -142,3 +142,12 @@ LANGUAGE_CODE = "tr"
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = 'login'
+
+# Login view'ını özelleştir
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Login view'ını özelleştir
+LOGIN_VIEW = 'jobs.views.login_view'

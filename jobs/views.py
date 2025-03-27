@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .models import Document
-from .forms import DocumentForm, CustomUserCreationForm
+from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -9,6 +9,8 @@ from .fields import get_document_fields
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 from django.contrib.auth.models import Group
+from django.contrib.auth import login
+from django.urls import reverse_lazy
 
 
 def home(request):
@@ -182,3 +184,15 @@ def profile(request):
 @login_required
 def notifications(request):
     return render(request, "notifications.html")
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = CustomLoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('document_list')
+    else:
+        form = CustomLoginForm()
+    return render(request, 'registration/login.html', {'form': form})

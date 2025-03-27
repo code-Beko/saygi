@@ -1,8 +1,17 @@
 from django import forms
 from .models import Document
 from .fields import get_document_fields
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
+
+
+class CustomLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
 
 
 class DocumentForm(forms.ModelForm):
@@ -83,45 +92,39 @@ class CustomUserCreationForm(UserCreationForm):
     phone_number = forms.CharField(
         max_length=15,
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-control"}),
+        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     department = forms.ChoiceField(
         choices=CustomUser.DEPARTMAN_CHOICES,
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
     yetki = forms.ChoiceField(
         choices=CustomUser.YETKI_CHOICES,
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = CustomUser
-        fields = (
-            "username",
-            "email",
-            "phone_number",
-            "department",
-            "yetki",
-            "password1",
-            "password2",
-        )
+        fields = ('username', 'email', 'phone_number', 'department', 'yetki', 'password1', 'password2')
         widgets = {
-            "username": forms.TextInput(attrs={"class": "form-control"}),
-            "email": forms.EmailInput(attrs={"class": "form-control"}),
-            "password1": forms.PasswordInput(attrs={"class": "form-control"}),
-            "password2": forms.PasswordInput(attrs={"class": "form-control"}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["username"].help_text = ""
-        self.fields["password1"].help_text = ""
-        self.fields["password2"].help_text = ""
+        self.fields['username'].help_text = ''
+        self.fields['password1'].help_text = ''
+        self.fields['password2'].help_text = ''
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.is_superuser = False  # Yeni kullanıcılar superuser olamaz
-        user.is_staff = True  # Admin paneline erişim için staff olmalı
+        user.is_superuser = False
+        user.is_staff = True
         if commit:
             user.save()
         return user

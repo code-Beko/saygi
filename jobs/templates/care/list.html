@@ -105,6 +105,13 @@
             </ul>
         </nav>
         <a href="{% url 'document_add' %}" class="btn btn-warning w-100 my-3">{% blocktrans%}Add New Document{% endblocktrans%}</a>
+        <div class="col-12 d-flex justify-content-center">
+            <img width="auto"
+                 height="auto"
+                 class="img-fluid my-5 rounded-2 w-25"
+                 src="{% static 'images/logo/logo-tur.jpg' %}"
+                 alt="{% trans "Add Document" %}">
+        </div>
     </div>
     {% for document in documents %}
         <div class="modal fade"

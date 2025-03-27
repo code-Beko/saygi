@@ -1,69 +1,58 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="bi bi-person-circle"></i> My Profile</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <label class="form-label fw-bold">Username:</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ user.username }}</p>
-                        </div>
+    <div class="container my-5">
+        <div class="row d-flex align-items-stretch">
+            <div class="col-6">
+                <img width="auto"
+                     height="auto"
+                     class="img-fluid rounded-2"
+                     src="{% static 'images/logo/logo-tur.jpg' %}"
+                     alt="{% trans "Add Document" %}">
+            </div>
+            <div class="col-6">
+                <div class="card border-0 h-100">
+                    <div class="card-header bg-dark text-white">
+                        <h4 class="mb-0">
+                            <i class="bi bi-person-circle"></i> {{ user.username }}
+                        </h4>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <label class="form-label fw-bold">Email:</label>
+                    <div class="card-body">
+                        <label class="form-label ">
+                            <span class="fw-bold">{% trans "Username" %}:</span> {{ user.username }}
+                        </label>
+                        <br />
+                        <label class="form-label ">
+                            <span class="fw-bold">{% trans "Email" %}:</span> {{ user.email }}
+                        </label>
+                        <br />
+                        <label class="form-label">
+                            <span class="fw-bold">{% trans "Phone Number" %}:</span> {{ user.phone_number|default:"Not provided" }}
+                        </label>
+                        <br />
+                        <label class="form-label">
+                            <span class="fw-bold">{% trans "Department" %}:</span> {{ user.get_department_display }}
+                        </label>
+                        <br />
+                        <label class="form-label">
+                            <span class="fw-bold">{% trans "Permission Level" %}:</span> {{ user.get_yetki_display }}
+                        </label>
+                        <br />
+                        <label class="form-label">
+                            <span class="fw-bold">{% trans "Date Joined" %}:</span> {{ user.date_joined|date:"F j, Y" }}
+                        </label>
+                        <br />
+                        <div class="text-end">
+                            <a href="{% url 'index' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> {% trans "Back to Return" %}
+                            </a>
                         </div>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ user.email }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <label class="form-label fw-bold">Phone Number:</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ user.phone_number|default:"Not provided" }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <label class="form-label fw-bold">Department:</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ user.get_department_display }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <label class="form-label fw-bold">Permission Level:</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ user.get_yetki_display }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <label class="form-label fw-bold">Date Joined:</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="form-control-static">{{ user.date_joined|date:"F j, Y" }}</p>
-                        </div>
-                    </div>
-                    <div class="text-end">
-                        <a href="{% url 'document_list' %}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Back to Dashboard
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %} 
+{% endblock content %}

@@ -1,12 +1,14 @@
 /* static/css/style.css */
 body {
   background:linear-gradient(to right, #161616, #65626c) !important;
+  color: #ffffff !important;
 }
 
 :root {
     --bs-font-sans-serif: 'Poppins', sans-serif !important;
     --bs-emphasis-color-rgb: 255, 255, 255 !important;
     --bs-body-color: #ffffff !important;
+    --bs-secondary-color:rgb(197 197 197 / 75%) !important;
     --bs-secondary-rgb: 243, 188, 43 !important;
     --bs-link-color-rgb: 255, 255, 255;
     --bs-body-bg: #161616 !important;
@@ -20,6 +22,11 @@ body {
     --bs-danger-rgb: 220, 53, 69 !important;
 }
 
+/* Genel metin rengi */
+* {
+    color: #ffffff !important;
+}
+
 /* Bootstrap bileşenlerinin renklerini güncelle */
 .card {
     background-color: #1e1e1e !important;
@@ -30,6 +37,19 @@ body {
 .card-header {
     background-color: #2d2d2d !important;
     border-bottom-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
+
+.card-body {
+    color: #ffffff !important;
+}
+
+.card-title {
+    color: #ffffff !important;
+}
+
+.card-text {
+    color: #ffffff !important;
 }
 
 .dropdown-menu {
@@ -69,10 +89,12 @@ body {
 
 .modal-header {
     border-bottom-color: #2d2d2d !important;
+    color: #ffffff !important;
 }
 
 .modal-footer {
     border-top-color: #2d2d2d !important;
+    color: #ffffff !important;
 }
 
 .form-control {
@@ -96,6 +118,10 @@ body {
 .form-select:focus {
     background-color: #2d2d2d !important;
     border-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
+
+.form-label {
     color: #ffffff !important;
 }
 
@@ -134,6 +160,27 @@ body {
 .badge {
     background-color: #3d3d3d !important;
     color: #ffffff !important;
+}
+
+/* Link renkleri */
+a {
+    color: #ffffff !important;
+}
+
+a:hover {
+    color: #ffffff !important;
+    opacity: 0.8;
+}
+
+/* Buton içindeki metinler */
+.btn {
+    color: #ffffff !important;
+}
+
+/* Form placeholder rengi */
+::placeholder {
+    color: #ffffff !important;
+    opacity: 0.7;
 }
 
 /* Font boyutları */

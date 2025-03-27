@@ -1,9 +1,22 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load static %}
 {% block title %}
-    Ana Sayfa
+    {% trans "Home Page" %}
 {% endblock title %}
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/components/carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/navbar.css' %}">
+{% endblock css %}
 {% block content %}
     {% load static %}
     {% include "includes/slider.html" %}
     {% include "includes/make.html" %}
+    {% include "includes/carousel.html" %}
 {% endblock content %}
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'js/owl-carousel/carousel.js' %}"></script>
+{% endblock js %}
