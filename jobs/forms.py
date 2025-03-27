@@ -1,6 +1,8 @@
 from django import forms
 from .models import Document
 from .fields import get_document_fields
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
 
 
 class DocumentForm(forms.ModelForm):
@@ -75,3 +77,51 @@ class DocumentForm(forms.ModelForm):
             for field_info in fields_info
             if field_info["name"] in self.fields
         ]
+
+
+class CustomUserCreationForm(UserCreationForm):
+    phone_number = forms.CharField(
+        max_length=15,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    department = forms.ChoiceField(
+        choices=CustomUser.DEPARTMAN_CHOICES,
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    yetki = forms.ChoiceField(
+        choices=CustomUser.YETKI_CHOICES,
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = (
+            "username",
+            "email",
+            "phone_number",
+            "department",
+            "yetki",
+            "password1",
+            "password2",
+        )
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "password1": forms.PasswordInput(attrs={"class": "form-control"}),
+            "password2": forms.PasswordInput(attrs={"class": "form-control"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].help_text = ""
+        self.fields["password1"].help_text = ""
+        self.fields["password2"].help_text = ""
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_superuser = False  # Yeni kullanıcılar superuser olamaz
+        user.is_staff = True  # Admin paneline erişim için staff olmalı
+        if commit:
+            user.save()
+        return user

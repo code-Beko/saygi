@@ -1,75 +1,162 @@
 /* static/css/style.css */
 body {
   background:linear-gradient(to right, #161616, #65626c) !important;
-  }
+}
+
 :root {
     --bs-font-sans-serif: 'Poppins', sans-serif !important;
     --bs-emphasis-color-rgb: 255, 255, 255 !important;
-    --bs-body-color:#ffffff !important;
+    --bs-body-color: #ffffff !important;
     --bs-secondary-rgb: 243, 188, 43 !important;
     --bs-link-color-rgb: 255, 255, 255;
-  }
-.roboto-family{
-    font-family: "Roboto", sans-serif;
-  }
-.rowdies-family{
-  font-family: "rowdies", sans-serif;
+    --bs-body-bg: #161616 !important;
+    --bs-dark-rgb: 22, 22, 22 !important;
+    --bs-light-rgb: 255, 255, 255 !important;
+    --bs-primary-rgb: 13, 110, 253 !important;
+    --bs-secondary-rgb: 243, 188, 43 !important;
+    --bs-success-rgb: 25, 135, 84 !important;
+    --bs-info-rgb: 13, 202, 240 !important;
+    --bs-warning-rgb: 255, 193, 7 !important;
+    --bs-danger-rgb: 220, 53, 69 !important;
 }
-  .fs-10 {
-    font-size: 10px;
-  }
-  .fs-11 {
-    font-size: 11px;
-  }
-  .fs-12 {
-    font-size: 12px;
-  }
-  .fs-13 {
-    font-size: 13px;
-  }
-  .fs-14 {
-    font-size: 14px;
-  }
-  .fs-15 {
-    font-size: 15px;
-  }
-  .fs-16 {
-    font-size: 16px;
-  }
-  .fs-17 {
-    font-size: 17px;
-  }
-  .fs-18 {
-    font-size: 18px;
-  }
-  .fs-19 {
-    font-size: 19px;
-  }
-  .fs-20 {
-    font-size: 20px;
-  }
-  .fs-24{
-    font-size:24px
-  }
-  .fs-30{
-    font-size:30px;
-  }
-  .fs-40{
-    font-size: 40px;
-  }
-  .fs-60{
-    font-size: 60px;
-  }
+
+/* Bootstrap bileşenlerinin renklerini güncelle */
+.card {
+    background-color: #1e1e1e !important;
+    border-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+.card-header {
+    background-color: #2d2d2d !important;
+    border-bottom-color: #3d3d3d !important;
+}
+
+.dropdown-menu {
+    background-color: #1e1e1e !important;
+    border-color: #2d2d2d !important;
+}
+
+.dropdown-item {
+    color: #ffffff !important;
+}
+
+.dropdown-item:hover {
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+.dropdown-divider {
+    border-top-color: #2d2d2d !important;
+}
+
+.list-group-item {
+    background-color: #1e1e1e !important;
+    border-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+.list-group-item-action:hover {
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+.modal-content {
+    background-color: #1e1e1e !important;
+    border-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+.modal-header {
+    border-bottom-color: #2d2d2d !important;
+}
+
+.modal-footer {
+    border-top-color: #2d2d2d !important;
+}
+
+.form-control {
+    background-color: #2d2d2d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
 
 .form-control:focus {
-  color: black !important;
+    background-color: #2d2d2d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
 }
-.form-control{
-  color: black !important;
+
+.form-select {
+    background-color: #2d2d2d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
 }
-.card{
-  color: black !important;
+
+.form-select:focus {
+    background-color: #2d2d2d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
 }
-.modal-content{
-  color: black !important;
+
+.table {
+    color: #ffffff !important;
 }
+
+.table-dark {
+    background-color: #1e1e1e !important;
+}
+
+.table-dark td, .table-dark th {
+    background-color: #1e1e1e !important;
+    border-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+.pagination .page-link {
+    background-color: #2d2d2d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #3d3d3d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
+
+.alert {
+    background-color: #2d2d2d !important;
+    border-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
+
+.badge {
+    background-color: #3d3d3d !important;
+    color: #ffffff !important;
+}
+
+/* Font boyutları */
+.roboto-family {
+    font-family: "Roboto", sans-serif;
+}
+
+.rowdies-family {
+    font-family: "rowdies", sans-serif;
+}
+
+.fs-10 { font-size: 10px; }
+.fs-11 { font-size: 11px; }
+.fs-12 { font-size: 12px; }
+.fs-13 { font-size: 13px; }
+.fs-14 { font-size: 14px; }
+.fs-15 { font-size: 15px; }
+.fs-16 { font-size: 16px; }
+.fs-17 { font-size: 17px; }
+.fs-18 { font-size: 18px; }
+.fs-19 { font-size: 19px; }
+.fs-20 { font-size: 20px; }
+.fs-24 { font-size: 24px; }
+.fs-30 { font-size: 30px; }
+.fs-40 { font-size: 40px; }
+.fs-60 { font-size: 60px; }

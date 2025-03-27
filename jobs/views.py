@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .models import Document
-from .forms import DocumentForm
+from .forms import DocumentForm, CustomUserCreationForm
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
 from .fields import get_document_fields
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib import messages
+from django.contrib.auth.models import Group
 
 
 def home(request):
@@ -21,7 +24,29 @@ def document_list(request):
     start_date = request.GET.get("start_date", "")
     end_date = request.GET.get("end_date", "")
 
-    documents = Document.objects.all().order_by("-created_at")
+    if request.user.is_superuser:
+        documents = Document.objects.all()
+    else:
+
+        if request.user.department == "otomasyon":
+            if request.user.yetki == "yetki1":
+                documents = Document.objects.all()
+            elif request.user.yetki == "yetki2":
+                documents = Document.objects.filter(device_type__icontains="otomasyon")
+            elif request.user.yetki == "yetki3":
+                documents = Document.objects.filter(
+                    device_type__icontains="otomasyon",
+                    created_at__gte=datetime.now().date() - datetime.timedelta(days=30),
+                )
+            elif request.user.yetki == "yetki4":
+                documents = Document.objects.filter(
+                    device_type__icontains="otomasyon",
+                    created_at__gte=datetime.now().date() - datetime.timedelta(days=7),
+                )
+            else:  # yetki5
+                documents = Document.objects.none()
+        else:
+            documents = Document.objects.none()
 
     if query:
         documents = documents.filter(
@@ -112,3 +137,48 @@ def document_view(request, id):
     }
 
     return render(request, "care/detail.html", context)
+
+
+def is_superuser(user):
+    return user.is_superuser
+
+
+@user_passes_test(is_superuser)
+def signup(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Grupları oluştur
+            group_names = {
+                "otomasyon": "Otomasyon",
+                "yeni_insa": "Yeni İnşa",
+                "bakim": "Bakım",
+                "kalite": "Kalite",
+                "diger": "Diğer",
+            }
+
+            # Kullanıcının departmanına göre grubu oluştur veya al
+            group_name = group_names.get(user.department, "Diğer")
+            group, created = Group.objects.get_or_create(name=group_name)
+
+            # Kullanıcıyı gruba ekle
+            user.groups.add(group)
+
+            messages.success(request, "Kullanıcı başarıyla oluşturuldu.")
+            return redirect("document_list")
+        else:
+            messages.error(request, "Kullanıcı oluşturulurken bir hata oluştu.")
+    else:
+        form = CustomUserCreationForm()
+    return render(request, "registration/signup.html", {"form": form})
+
+
+@login_required
+def profile(request):
+    return render(request, "profile.html")
+
+
+@login_required
+def notifications(request):
+    return render(request, "notifications.html")

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-person-circle"></i> My Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label class="form-label fw-bold">Username:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ user.username }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label class="form-label fw-bold">Email:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label class="form-label fw-bold">Phone Number:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ user.phone_number|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label class="form-label fw-bold">Department:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ user.get_department_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label class="form-label fw-bold">Permission Level:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ user.get_yetki_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label class="form-label fw-bold">Date Joined:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ user.date_joined|date:"F j, Y" }}</p>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <a href="{% url 'document_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

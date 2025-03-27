@@ -6,18 +6,60 @@ from django.utils.translation import gettext_lazy as _
 
 # CustomUser model
 class CustomUser(AbstractUser):
+    DEPARTMAN_CHOICES = [
+        ('otomasyon', 'Otomasyon'),
+        ('yeni_insa', 'Yeni İnşa'),
+        ('bakim', 'Bakım'),
+        ('kalite', 'Kalite'),
+        ('diger', 'Diğer'),
+    ]
+
+    YETKI_CHOICES = [
+        ('yetki1', 'Tam Yetki'),
+        ('yetki2', 'Yüksek Yetki'),
+        ('yetki3', 'Orta Yetki'),
+        ('yetki4', 'Düşük Yetki'),
+        ('yetki5', 'Sınırlı Yetki'),
+    ]
+
     phone_number = models.CharField(
-        _("Phone Number"), max_length=15, blank=True, null=True
+        _("Telefon Numarası"), max_length=15, blank=True, null=True
     )
     department = models.CharField(
-        _("Department"), max_length=100, blank=True, null=True
+        _("Departman"), max_length=20, choices=DEPARTMAN_CHOICES, default='diger'
     )
+    yetki = models.CharField(
+        _("Yetki Seviyesi"), max_length=10, choices=YETKI_CHOICES, default='yetki5'
+    )
+
+    def has_full_access(self):
+        return self.yetki == 'yetki1'
+
+    def has_high_access(self):
+        return self.yetki in ['yetki1', 'yetki2']
+
+    def has_medium_access(self):
+        return self.yetki in ['yetki1', 'yetki2', 'yetki3']
+
+    def has_low_access(self):
+        return self.yetki in ['yetki1', 'yetki2', 'yetki3', 'yetki4']
+
+    def is_automation_department(self):
+        return self.department == 'otomasyon'
+
+    def is_new_construction_department(self):
+        return self.department == 'yeni_insa'
+
+    def is_maintenance_department(self):
+        return self.department == 'bakim'
+
+    def is_quality_department(self):
+        return self.department == 'kalite'
 
 
 # Document model
 class Document(models.Model):
-    shipyard = models.CharField(
-        _("Shipyard"), max_length=255, null=True, blank=True)
+    shipyard = models.CharField(_("Shipyard"), max_length=255, null=True, blank=True)
     boat = models.CharField(_("Boat"), max_length=255, null=True, blank=True)
     engine_name = models.CharField(
         _("Engine Name"), max_length=255, null=True, blank=True
@@ -28,8 +70,7 @@ class Document(models.Model):
     customer_name = models.CharField(
         _("Customer Name"), max_length=255, null=True, blank=True
     )
-    date = models.DateField(
-        _("Date"), null=True, blank=True, default=date.today)
+    date = models.DateField(_("Date"), null=True, blank=True, default=date.today)
     device_receiver = models.CharField(
         _("Device Receiver"), max_length=255, null=True, blank=True
     )
@@ -44,10 +85,8 @@ class Document(models.Model):
         _("Serial Number"), max_length=255, null=True, blank=True
     )
     power = models.CharField(_("Power"), max_length=255, null=True, blank=True)
-    current = models.CharField(
-        _("Current"), max_length=255, null=True, blank=True)
-    voltage = models.CharField(
-        _("Voltage"), max_length=255, null=True, blank=True)
+    current = models.CharField(_("Current"), max_length=255, null=True, blank=True)
+    voltage = models.CharField(_("Voltage"), max_length=255, null=True, blank=True)
     rpm = models.CharField(_("RPM"), max_length=255, null=True, blank=True)
     warning_current = models.CharField(
         _("Warning Current"), max_length=255, null=True, blank=True
@@ -64,8 +103,7 @@ class Document(models.Model):
     )
     mount = models.BooleanField(_("Mount"), null=True, blank=True)
     dismount = models.BooleanField(_("Dismount"), null=True, blank=True)
-    pulley_coupling = models.BooleanField(
-        _("Pulley/Coupling"), null=True, blank=True)
+    pulley_coupling = models.BooleanField(_("Pulley/Coupling"), null=True, blank=True)
     fan_carrier = models.BooleanField(_("Fan Carrier"), null=True, blank=True)
     feet = models.BooleanField(_("Feet"), null=True, blank=True)
     key = models.BooleanField(_("Key"), null=True, blank=True)
@@ -75,8 +113,7 @@ class Document(models.Model):
     terminal_cover_box = models.BooleanField(
         _("Terminal Cover/Box"), null=True, blank=True
     )
-    carbon_brushes = models.BooleanField(
-        _("Carbon Brushes"), null=True, blank=True)
+    carbon_brushes = models.BooleanField(_("Carbon Brushes"), null=True, blank=True)
     back_cover = models.BooleanField(_("Back Cover"), null=True, blank=True)
     fan_blade = models.BooleanField(_("Fan Blade"), null=True, blank=True)
     bearings = models.BooleanField(_("Bearings"), null=True, blank=True)
@@ -93,14 +130,12 @@ class Document(models.Model):
     wrapped_repaired_by = models.CharField(
         _("Wrapped/Repaired By"), max_length=255, null=True, blank=True
     )
-    wrap_repair_date = models.DateField(
-        _("Wrap/Repair Date"), null=True, blank=True)
+    wrap_repair_date = models.DateField(_("Wrap/Repair Date"), null=True, blank=True)
     mounted_by = models.CharField(
         _("Mounted By"), max_length=255, null=True, blank=True
     )
     mount_date = models.DateField(_("Mount Date"), null=True, blank=True)
-    tested_by = models.CharField(
-        _("Tested By"), max_length=255, null=True, blank=True)
+    tested_by = models.CharField(_("Tested By"), max_length=255, null=True, blank=True)
     test_date = models.DateField(_("Test Date"), null=True, blank=True)
     insulation_values = models.CharField(_("Insulation Values"), max_length=25)
     operating_current = models.CharField(
@@ -115,8 +150,7 @@ class Document(models.Model):
     test_devices = models.CharField(
         _("Test Devices"), max_length=255, null=True, blank=True
     )
-    performed_operations = models.TextField(
-        _("Performed Operations"), max_length=255)
+    performed_operations = models.TextField(_("Performed Operations"), max_length=255)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

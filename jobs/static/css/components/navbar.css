@@ -26,4 +26,9 @@
 .double-image img{
     margin-right: 1rem;
 }
-
+.dropdown-item.active, .dropdown-item:active{
+    background-color: #33383c !important;
+}
+.dropdown-item:focus, .dropdown-item:hover{
+    background-color: #33383c !important;
+}
