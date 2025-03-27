@@ -1,5 +1,5 @@
 from django import forms
-from .models import Document
+from .models import Document, Task
 from .fields import get_document_fields
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
@@ -128,3 +128,17 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['project_name', 'description', 'date', 'status', 'department', 'assigned_to']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'project_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'department': forms.Select(attrs={'class': 'form-control'}),
+            'assigned_to': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }

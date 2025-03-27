@@ -8,39 +8,49 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <div class="card">
-                    <div class="card-header  text-white d-flex justify-content-between align-items-center">
+                    <div class="card-header text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">
-                            <i class="bi bi-bell"></i> Notifications
+                            <i class="bi bi-bell"></i> {% trans "My Tasks" %}
                         </h4>
-                        <span class="badge bg-light text-primary">3</span>
+                        <span class="badge bg-light text-primary">{{ tasks|length }}</span>
                     </div>
                     <div class="card-body">
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">New Document Added</h5>
-                                    <small class="text-muted">3 days ago</small>
+                            {% for task in tasks %}
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ task.project_name }}</h5>
+                                        <small class="text-muted">{{ task.created_at|timesince }} ago</small>
+                                    </div>
+                                    <p class="mb-1">{{ task.description }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <small class="text-muted me-3">
+                                                <i class="bi bi-building"></i> {{ task.get_department_display }}
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="bi bi-calendar"></i> {{ task.date }}
+                                            </small>
+                                        </div>
+                                        <span class="badge {% if task.status == 'beklemede' %}bg-warning
+                                                         {% elif task.status == 'devam_ediyor' %}bg-info
+                                                         {% elif task.status == 'tamamlandi' %}bg-success
+                                                         {% elif task.status == 'iptal' %}bg-danger
+                                                         {% else %}bg-secondary{% endif %}">
+                                            {{ task.get_status_display }}
+                                        </span>
+                                    </div>
+                                </a>
+                            {% empty %}
+                                <div class="text-center py-4">
+                                    <i class="bi bi-bell-slash fs-1 text-muted"></i>
+                                    <p class="mt-2">{% trans "You don't have any tasks assigned to you." %}</p>
                                 </div>
-                                <p class="mb-1">A new document has been added to your department.</p>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Document Updated</h5>
-                                    <small class="text-muted">1 week ago</small>
-                                </div>
-                                <p class="mb-1">A document in your department has been updated.</p>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">System Maintenance</h5>
-                                    <small class="text-muted">2 weeks ago</small>
-                                </div>
-                                <p class="mb-1">System will be under maintenance this weekend.</p>
-                            </a>
+                            {% endfor %}
                         </div>
                         <div class="text-end mt-3">
                             <a href="{% url 'document_list' %}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to Dashboard
+                                <i class="bi bi-arrow-left"></i> {% trans "Back to Dashboard" %}
                             </a>
                         </div>
                     </div>

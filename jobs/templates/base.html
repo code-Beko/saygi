@@ -14,6 +14,7 @@
         {% load static %}
         <!-- Owl Carousel CSS -->
         {% block css %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
             <link rel="stylesheet"
                   href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
             <link rel="stylesheet"
@@ -58,7 +59,7 @@
                                     <a class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Products" %}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Institutional" %}</a>
+                                    <a href="{% url 'institutional' %}" class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Institutional" %}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{% url 'care' %}"

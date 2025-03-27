@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import Document
-from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm
+from .models import Document, Task
+from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm, TaskForm
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -183,7 +183,9 @@ def profile(request):
 
 @login_required
 def notifications(request):
-    return render(request, "notifications.html")
+    # Sadece kullanıcıya atanan görevleri getir
+    tasks = Task.objects.filter(assigned_to=request.user)
+    return render(request, 'notifications.html', {'tasks': tasks})
 
 
 def login_view(request):
@@ -196,3 +198,31 @@ def login_view(request):
     else:
         form = CustomLoginForm()
     return render(request, 'registration/login.html', {'form': form})
+
+
+def institutional(request):
+    return render(request, 'institutional.html')
+
+
+@login_required
+def task_list(request):
+    if request.user.is_superuser:
+        tasks = Task.objects.all()
+    else:
+        tasks = Task.objects.filter(assigned_to=request.user)
+    return render(request, 'tasks/list.html', {'tasks': tasks})
+
+
+@login_required
+def task_add(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.created_by = request.user
+            task.save()
+            form.save_m2m()  # Many-to-many ilişkileri kaydet
+            return redirect('task_list')
+    else:
+        form = TaskForm()
+    return render(request, 'tasks/add.html', {'form': form})

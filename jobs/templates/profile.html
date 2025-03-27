@@ -21,27 +21,27 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <label class="form-label ">
+                        <label class="form-label text-white">
                             <span class="fw-bold">{% trans "Username" %}:</span> {{ user.username }}
                         </label>
                         <br />
-                        <label class="form-label ">
+                        <label class="form-label text-white">
                             <span class="fw-bold">{% trans "Email" %}:</span> {{ user.email }}
                         </label>
                         <br />
-                        <label class="form-label">
+                        <label class="form-label text-white">
                             <span class="fw-bold">{% trans "Phone Number" %}:</span> {{ user.phone_number|default:"Not provided" }}
                         </label>
                         <br />
-                        <label class="form-label">
+                        <label class="form-label text-white">
                             <span class="fw-bold">{% trans "Department" %}:</span> {{ user.get_department_display }}
                         </label>
                         <br />
-                        <label class="form-label">
+                        <label class="form-label text-white">
                             <span class="fw-bold">{% trans "Permission Level" %}:</span> {{ user.get_yetki_display }}
                         </label>
                         <br />
-                        <label class="form-label">
+                        <label class="form-label text-white">
                             <span class="fw-bold">{% trans "Date Joined" %}:</span> {{ user.date_joined|date:"F j, Y" }}
                         </label>
                         <br />
