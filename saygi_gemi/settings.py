@@ -151,3 +151,13 @@ AUTHENTICATION_BACKENDS = [
 
 # Login view'ını özelleştir
 LOGIN_VIEW = 'jobs.views.login_view'
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'outlook.office365.com'  # Alternatif sunucu adresi
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'noreply@saygielectric.com'
+EMAIL_HOST_PASSWORD = 'Wsx!!2596+//'
+DEFAULT_FROM_EMAIL = 'noreply@saygielectric.com'

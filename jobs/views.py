@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import Document, Task
+from .models import Document, Task, CustomUser
 from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm, TaskForm
 from datetime import datetime
 from django.core.paginator import Paginator
@@ -11,6 +11,9 @@ from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth import login
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 def home(request):
@@ -220,11 +223,44 @@ def institutional(request):
 
 @login_required
 def task_list(request):
+    # Filtreleme parametrelerini al
+    department = request.GET.get('department', '')
+    status = request.GET.get('status', '')
+    assigned_to = request.GET.get('assigned_to', '')
+
+    # Temel sorguyu oluştur
     if request.user.is_superuser:
         tasks = Task.objects.all()
     else:
         tasks = Task.objects.filter(assigned_to=request.user)
-    return render(request, 'tasks/list.html', {'tasks': tasks})
+
+    # Departman filtresi
+    if department:
+        tasks = tasks.filter(department=department)
+
+    # Durum filtresi
+    if status:
+        tasks = tasks.filter(status=status)
+
+    # Atanan kişi filtresi
+    if assigned_to:
+        tasks = tasks.filter(assigned_to__id=assigned_to)
+
+    # Kullanıcı listesini al (filtre için)
+    users = CustomUser.objects.all()
+
+    # Form nesnesini oluştur
+    form = TaskForm()
+
+    context = {
+        'tasks': tasks,
+        'users': users,
+        'selected_department': department,
+        'selected_status': status,
+        'selected_assigned_to': assigned_to,
+        'form': form,  # Form nesnesini context'e ekle
+    }
+    return render(request, 'tasks/list.html', context)
 
 
 @login_required
@@ -236,7 +272,56 @@ def task_add(request):
             task.created_by = request.user
             task.save()
             form.save_m2m()  # Many-to-many ilişkileri kaydet
+
+            # Görev atanan kişilere mail gönder
+            for assigned_user in task.assigned_to.all():
+                # Mail içeriğini hazırla
+                subject = f'Yeni Görev Atandı: {task.project_name}'
+                html_message = render_to_string('tasks/email/task_assigned.html', {
+                    'task': task,
+                    'assigned_user': assigned_user,
+                    'created_by': request.user
+                })
+                plain_message = strip_tags(html_message)
+
+                # Maili gönder
+                send_mail(
+                    subject=subject,
+                    message=plain_message,
+                    from_email='noreply@saygielectric.com',
+                    recipient_list=[assigned_user.email],
+                    html_message=html_message,
+                    fail_silently=False,
+                )
+
             return redirect('task_list')
     else:
         form = TaskForm()
     return render(request, 'tasks/add.html', {'form': form})
+
+
+@login_required
+def task_edit(request, id):
+    try:
+        task = Task.objects.get(id=id)
+    except Task.DoesNotExist:
+        raise Http404("Task not found.")
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+    else:
+        form = TaskForm(instance=task)
+    return render(request, 'tasks/edit.html', {'form': form, 'task': task})
+
+
+@login_required
+def task_delete(request, id):
+    try:
+        task = Task.objects.get(id=id)
+        task.delete()
+    except Task.DoesNotExist:
+        raise Http404("Task not found.")
+    return redirect('task_list')
