@@ -1,22 +1,25 @@
 {% load static %}
-<div class="d-flex justify-content-center align-items-center" style="background:linear-gradient(to bottom, #000000, #484848);height:350px">
-
-<div class="container">
-    <div class="text-center">
-        <p class="fs-30 mb-3 fw-bold rowdies-family text-secondary">Saygı Denizcilik: Sektördeki Lider Vizyonumuz
-
-        </p>
+{% load i18n %}
+<div class="d-flex justify-content-center align-items-center"
+     style="background:linear-gradient(to bottom, #000000, #484848);
+            height:350px">
+    <div class="container">
+        <div class="text-center">
+            <p class="fs-30 mb-3 fw-bold rowdies-family text-secondary">
+                {% blocktrans %}
+            Saygı Marine: Our Vision as a Leader in the Industry
+            {% endblocktrans %}
+            </p>
+        </div>
+        <div class="text-center">
+            <p class="fs-19">
+                {% blocktrans %}
+            As Saygı Marine, we aim to develop and produce innovative products in the maritime sector, especially in the ship industry. This initiative, consisting of a strong team with extensive experience in the sector, has been shaped by a passionate, enthusiastic and determined vision. The founder of our company and his close colleagues,
+            {% endblocktrans %}
+                <span class="text-secondary">{% trans "year 44" %}</span>
+                {% blocktrans %}The experience they have gained over the years continues to lead the sector.
+            {% endblocktrans %}
+            </p>
+        </div>
     </div>
-    <div class="text-center">
-        <p class="fs-19">
-            Saygı Denizcilik olarak, denizcilik sektöründe, özellikle de gemi endüstrisinde yenilikçi ürünler geliştirmeyi
-            ve üretmeyi hedefliyoruz. Sektördeki geniş deneyimiyle güçlü bir ekipten oluşan bu girişim, tutkulu, hevesli ve
-            kararlı bir vizyonla şekillenmiştir. Şirketimizin kurucusu ve yakın çalışma arkadaşları, gemi endüstrisinde <span class="text-secondary">
-                44 yılı
-            </span> 
-            aşkın bir süredir edindikleri deneyimle, sektöre öncülük etmeye devam etmektedir.
-        </p>
-    </div>
-</div>
-
 </div>
