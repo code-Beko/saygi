@@ -7,54 +7,54 @@ from django.utils.translation import gettext_lazy as _
 # CustomUser model
 class CustomUser(AbstractUser):
     DEPARTMAN_CHOICES = [
-        ('otomasyon', 'Otomasyon'),
-        ('yeni_insa', 'Yeni İnşa'),
-        ('bakim', 'Bakım'),
-        ('kalite', 'Kalite'),
-        ('diger', 'Diğer'),
+        ("otomasyon", "Otomasyon"),
+        ("yeni_insa", "Yeni İnşa"),
+        ("bakim", "Bakım"),
+        ("kalite", "Kalite"),
+        ("diger", "Diğer"),
     ]
 
     YETKI_CHOICES = [
-        ('yetki1', 'Tam Yetki'),
-        ('yetki2', 'Yüksek Yetki'),
-        ('yetki3', 'Orta Yetki'),
-        ('yetki4', 'Düşük Yetki'),
-        ('yetki5', 'Sınırlı Yetki'),
+        ("yetki1", "Tam Yetki"),
+        ("yetki2", "Yüksek Yetki"),
+        ("yetki3", "Orta Yetki"),
+        ("yetki4", "Düşük Yetki"),
+        ("yetki5", "Sınırlı Yetki"),
     ]
 
     phone_number = models.CharField(
         _("Telefon Numarası"), max_length=15, blank=True, null=True
     )
     department = models.CharField(
-        _("Departman"), max_length=20, choices=DEPARTMAN_CHOICES, default='diger'
+        _("Departman"), max_length=20, choices=DEPARTMAN_CHOICES, default="diger"
     )
     yetki = models.CharField(
-        _("Yetki Seviyesi"), max_length=10, choices=YETKI_CHOICES, default='yetki5'
+        _("Yetki Seviyesi"), max_length=10, choices=YETKI_CHOICES, default="yetki5"
     )
 
     def has_full_access(self):
-        return self.yetki == 'yetki1'
+        return self.yetki == "yetki1"
 
     def has_high_access(self):
-        return self.yetki in ['yetki1', 'yetki2']
+        return self.yetki in ["yetki1", "yetki2"]
 
     def has_medium_access(self):
-        return self.yetki in ['yetki1', 'yetki2', 'yetki3']
+        return self.yetki in ["yetki1", "yetki2", "yetki3"]
 
     def has_low_access(self):
-        return self.yetki in ['yetki1', 'yetki2', 'yetki3', 'yetki4']
+        return self.yetki in ["yetki1", "yetki2", "yetki3", "yetki4"]
 
     def is_automation_department(self):
-        return self.department == 'otomasyon'
+        return self.department == "otomasyon"
 
     def is_new_construction_department(self):
-        return self.department == 'yeni_insa'
+        return self.department == "yeni_insa"
 
     def is_maintenance_department(self):
-        return self.department == 'bakim'
+        return self.department == "bakim"
 
     def is_quality_department(self):
-        return self.department == 'kalite'
+        return self.department == "kalite"
 
 
 # Document model
@@ -151,7 +151,13 @@ class Document(models.Model):
         _("Test Devices"), max_length=255, null=True, blank=True
     )
     performed_operations = models.TextField(_("Performed Operations"), max_length=255)
-    assigned_to = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_documents')
+    assigned_to = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="assigned_documents",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -160,22 +166,28 @@ class Document(models.Model):
 
 class Task(models.Model):
     STATUS_CHOICES = [
-        ('beklemede', 'Beklemede'),
-        ('devam_ediyor', 'Devam Ediyor'),
-        ('tamamlandi', 'Tamamlandı'),
-        ('iptal', 'İptal'),
-        ('ertelendi', 'Ertelendi'),
+        ("beklemede", "Beklemede"),
+        ("devam_ediyor", "Devam Ediyor"),
+        ("tamamlandi", "Tamamlandı"),
+        ("iptal", "İptal"),
+        ("ertelendi", "Ertelendi"),
     ]
 
     project_name = models.CharField(_("Proje Adı"), max_length=255)
     description = models.TextField(_("Açıklama"))
     date = models.DateField(_("Tarih"), default=date.today)
-    status = models.CharField(_("Durum"), max_length=20, choices=STATUS_CHOICES, default='beklemede')
-    department = models.CharField(_("Departman"), max_length=20, choices=CustomUser.DEPARTMAN_CHOICES)
-    assigned_to = models.ManyToManyField(CustomUser, related_name='assigned_tasks')
+    status = models.CharField(
+        _("Durum"), max_length=20, choices=STATUS_CHOICES, default="beklemede"
+    )
+    department = models.CharField(
+        _("Departman"), max_length=20, choices=CustomUser.DEPARTMAN_CHOICES
+    )
+    assigned_to = models.ManyToManyField(CustomUser, related_name="assigned_tasks")
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_tasks')
-    is_read = models.ManyToManyField(CustomUser, related_name='read_tasks', blank=True)
+    created_by = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="created_tasks"
+    )
+    is_read = models.ManyToManyField(CustomUser, related_name="read_tasks", blank=True)
 
     def __str__(self):
         return self.project_name

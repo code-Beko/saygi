@@ -17,7 +17,6 @@ from .views import (
 urlpatterns = [
     path("", views.home, name="index"),
     path("care/", views.care, name="care"),
-    path("institutional/", views.institutional, name="institutional"),
     path("tasks/", views.task_list, name="task_list"),
     path("tasks/add/", views.task_add, name="task_add"),
     path("tasks/<int:id>/edit/", views.task_edit, name="task_edit"),

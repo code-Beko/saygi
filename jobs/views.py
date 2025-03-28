@@ -19,9 +19,8 @@ from django.utils.html import strip_tags
 def home(request):
     if request.user.is_authenticated:
         # Sadece okunmamış görevleri say
-        unread_tasks = (
-            Task.objects.filter(assigned_to=request.user)
-            .exclude(is_read=request.user)
+        unread_tasks = Task.objects.filter(assigned_to=request.user).exclude(
+            is_read=request.user
         )
         unread_tasks_count = unread_tasks.count()
     else:
@@ -43,34 +42,7 @@ def document_list(request):
     query = request.GET.get("q", "")
     start_date = request.GET.get("start_date", "")
     end_date = request.GET.get("end_date", "")
-
-    if request.user.is_superuser:
-        documents = Document.objects.all()
-    else:
-        if request.user.department == "bakim":
-            if request.user.yetki in ["yetki1", "yetki2", "yetki3"]:  # Tam yetki, Yüksek yetki ve Orta yetki
-                documents = Document.objects.all()
-            else:  # Düşük yetki ve Sınırlı yetki
-                documents = Document.objects.none()
-        elif request.user.department == "otomasyon":
-            if request.user.yetki == "yetki1":
-                documents = Document.objects.all()
-            elif request.user.yetki == "yetki2":
-                documents = Document.objects.filter(device_type__icontains="otomasyon")
-            elif request.user.yetki == "yetki3":
-                documents = Document.objects.filter(
-                    device_type__icontains="otomasyon",
-                    created_at__gte=datetime.now().date() - datetime.timedelta(days=30),
-                )
-            elif request.user.yetki == "yetki4":
-                documents = Document.objects.filter(
-                    device_type__icontains="otomasyon",
-                    created_at__gte=datetime.now().date() - datetime.timedelta(days=7),
-                )
-            else:  # yetki5
-                documents = Document.objects.none()
-        else:
-            documents = Document.objects.none()
+    documents = Document.objects.all()
 
     if query:
         documents = documents.filter(
@@ -99,16 +71,13 @@ def document_list(request):
             "query": query,
             "start_date": start_date,
             "end_date": end_date,
-            "can_edit": request.user.is_superuser or (request.user.department == "bakim" and request.user.yetki in ["yetki1", "yetki2", "yetki3"]),
+            "can_edit": request.user.is_superuser,
         },
     )
 
 
 def document_delete(request, id):
-    if not (request.user.is_superuser or (request.user.department == "bakim" and request.user.yetki in ["yetki1", "yetki2", "yetki3"])):
-        messages.error(request, "Bu işlem için yetkiniz bulunmamaktadır.")
-        return redirect("document_list")
-        
+
     try:
         document = Document.objects.get(id=id)
         document.delete()
@@ -118,9 +87,6 @@ def document_delete(request, id):
 
 
 def document_edit(request, id):
-    if not (request.user.is_superuser or (request.user.department == "bakim" and request.user.yetki in ["yetki1", "yetki2", "yetki3"])):
-        messages.error(request, "Bu işlem için yetkiniz bulunmamaktadır.")
-        return redirect("document_list")
 
     try:
         document = Document.objects.get(id=id)
@@ -152,62 +118,23 @@ def document_add(request):
                 document.created_by = request.user
                 document.save()
 
-                # Eğer bir kullanıcıya atandıysa bildirim gönder
-                if document.assigned_to:
-                    try:
-                        subject = f"Yeni Döküman Atandı: {document.shipyard} - {document.boat}"
-                        html_message = render_to_string(
-                            "tasks/email/document_assigned.html",
-                            {
-                                "document": document,
-                                "assigned_user": document.assigned_to,
-                                "created_by": request.user,
-                                "request": request,
-                            },
-                        )
-                        plain_message = strip_tags(html_message)
-
-                        send_mail(
-                            subject=subject,
-                            message=plain_message,
-                            from_email="noreply@saygielectric.com",
-                            recipient_list=[document.assigned_to.email],
-                            html_message=html_message,
-                            fail_silently=False,
-                        )
-                        messages.success(request, "Döküman başarıyla oluşturuldu ve bildirim gönderildi.")
-                    except Exception as e:
-                        messages.warning(request, f"Döküman oluşturuldu ancak bildirim gönderilemedi: {str(e)}")
-                else:
-                    messages.success(request, "Döküman başarıyla oluşturuldu.")
-
-                return redirect("document_list")
             except Exception as e:
-                messages.error(request, f"Döküman oluşturulurken bir hata oluştu: {str(e)}")
+                messages.error(
+                    request, f"Döküman oluşturulurken bir hata oluştu: {str(e)}"
+                )
         else:
             messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
     else:
         form = DocumentForm()
-    
+
     fields = get_document_fields(form.instance)
     return render(request, "care/add.html", {"form": form, "fields": fields})
 
 
 def document_view(request, id):
-    if not (request.user.is_superuser or request.user.department == "bakim" or (request.user.department == "diger" and request.user.yetki == "yetki5")):
-        messages.error(request, "Bu işlem için yetkiniz bulunmamaktadır.")
-        return redirect("document_list")
 
     document = Document.objects.get(id=id)
-    
-    # Eğer kullanıcı "diğer" departmanındaysa ve sınırlı yetkiye sahipse, sadece kendisine atanan dökümanları görebilir
-    if request.user.department == "diger" and request.user.yetki == "yetki5":
-        if document.assigned_to != request.user:
-            messages.error(request, "Bu dökümanı görüntüleme yetkiniz bulunmamaktadır.")
-            return redirect("document_list")
-
     fields = get_document_fields(document)
-
     context = {
         "document": document,
         "fields": fields,
@@ -260,19 +187,19 @@ def profile(request):
 def notifications(request):
     # Kullanıcıya atanan tüm görevleri getir
     tasks = Task.objects.filter(assigned_to=request.user)
-    
+
     # Okunmamış görevleri kontrol et
     unread_tasks = tasks.exclude(is_read=request.user)
-    
+
     # Görevleri okundu olarak işaretle
     for task in tasks:
         task.is_read.add(request.user)
-    
+
     context = {
-        'tasks': tasks,
-        'unread_count': unread_tasks.count(),
+        "tasks": tasks,
+        "unread_count": unread_tasks.count(),
     }
-    return render(request, 'notifications.html', context)
+    return render(request, "notifications.html", context)
 
 
 def login_view(request):
@@ -285,10 +212,6 @@ def login_view(request):
     else:
         form = CustomLoginForm()
     return render(request, "registration/login.html", {"form": form})
-
-
-def institutional(request):
-    return render(request, "institutional.html")
 
 
 @login_required
@@ -323,12 +246,12 @@ def task_list(request):
     form = TaskForm()
 
     context = {
-        'tasks': tasks,
-        'users': users,
-        'selected_department': department,
-        'selected_status': status,
-        'selected_assigned_to': assigned_to,
-        'form': form,  # Form nesnesini context'e ekle
+        "tasks": tasks,
+        "users": users,
+        "selected_department": department,
+        "selected_status": status,
+        "selected_assigned_to": assigned_to,
+        "form": form,  # Form nesnesini context'e ekle
     }
     return render(request, "tasks/list.html", context)
 
@@ -364,14 +287,20 @@ def task_add(request):
                         send_mail(
                             subject=subject,
                             message=plain_message,
-                            from_email='noreply@saygielectric.com',
+                            from_email="noreply@saygielectric.com",
                             recipient_list=[assigned_user.email],
                             html_message=html_message,
                             fail_silently=False,
                         )
-                        messages.success(request, f"{assigned_user.username} kullanıcısına bildirim gönderildi.")
+                        messages.success(
+                            request,
+                            f"{assigned_user.username} kullanıcısına bildirim gönderildi.",
+                        )
                     except Exception as e:
-                        messages.warning(request, f"{assigned_user.username} kullanıcısına bildirim gönderilemedi: {str(e)}")
+                        messages.warning(
+                            request,
+                            f"{assigned_user.username} kullanıcısına bildirim gönderilemedi: {str(e)}",
+                        )
 
                 # Sınırlı yetkili kullanıcıya bildirim gönder
                 if task.assigned_to_limited:
@@ -391,19 +320,27 @@ def task_add(request):
                         send_mail(
                             subject=subject,
                             message=plain_message,
-                            from_email='noreply@saygielectric.com',
+                            from_email="noreply@saygielectric.com",
                             recipient_list=[task.assigned_to_limited.email],
                             html_message=html_message,
                             fail_silently=False,
                         )
-                        messages.success(request, f"{task.assigned_to_limited.username} kullanıcısına bildirim gönderildi.")
+                        messages.success(
+                            request,
+                            f"{task.assigned_to_limited.username} kullanıcısına bildirim gönderildi.",
+                        )
                     except Exception as e:
-                        messages.warning(request, f"{task.assigned_to_limited.username} kullanıcısına bildirim gönderilemedi: {str(e)}")
+                        messages.warning(
+                            request,
+                            f"{task.assigned_to_limited.username} kullanıcısına bildirim gönderilemedi: {str(e)}",
+                        )
 
                 messages.success(request, "Görev başarıyla oluşturuldu.")
-                return redirect('task_list')
+                return redirect("task_list")
             except Exception as e:
-                messages.error(request, f"Görev oluşturulurken bir hata oluştu: {str(e)}")
+                messages.error(
+                    request, f"Görev oluşturulurken bir hata oluştu: {str(e)}"
+                )
         else:
             messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
     else:
@@ -419,17 +356,20 @@ def task_edit(request, id):
         raise Http404("Task not found.")
 
     # Kullanıcı göreve atanmış mı kontrol et
-    is_assigned_user = request.user in task.assigned_to.all() or request.user == task.assigned_to_limited
+    is_assigned_user = (
+        request.user in task.assigned_to.all()
+        or request.user == task.assigned_to_limited
+    )
 
     if request.method == "POST":
         if is_assigned_user:
             # Atanan kullanıcı sadece status'ü değiştirebilir
-            new_status = request.POST.get('status')
+            new_status = request.POST.get("status")
             if new_status:
                 task.status = new_status
                 task.save()
                 messages.success(request, "Görev durumu başarıyla güncellendi.")
-                return redirect('task_list')
+                return redirect("task_list")
             else:
                 messages.error(request, "Durum alanı boş bırakılamaz.")
         else:
@@ -438,17 +378,15 @@ def task_edit(request, id):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Görev başarıyla güncellendi.")
-                return redirect('task_list')
+                return redirect("task_list")
             else:
-                messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
+                messages.error(
+                    request, "Form geçersiz. Lütfen tüm alanları kontrol edin."
+                )
     else:
         form = TaskForm(instance=task)
 
-    context = {
-        'form': form,
-        'task': task,
-        'is_assigned_user': is_assigned_user
-    }
+    context = {"form": form, "task": task, "is_assigned_user": is_assigned_user}
     return render(request, "tasks/edit.html", context)
 
 
@@ -459,7 +397,7 @@ def task_delete(request, id):
         task.delete()
     except Task.DoesNotExist:
         raise Http404("Task not found.")
-    return redirect('task_list')
+    return redirect("task_list")
 
 
 @user_passes_test(is_superuser)
