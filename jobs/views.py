@@ -180,7 +180,7 @@ def signup(request):
             user.groups.add(group)
 
             messages.success(request, "Kullanıcı başarıyla oluşturuldu.")
-            return redirect("document_list")
+            return redirect("index")
         else:
             messages.error(request, "Kullanıcı oluşturulurken bir hata oluştu.")
     else:
