@@ -15,11 +15,13 @@
                         <form method="post">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="{{ form.project_name.id_for_label }}" class="form-label text-black">{% trans "Project Name" %}</label>
+                                <label for="{{ form.project_name.id_for_label }}"
+                                       class="form-label text-black">{% trans "Project Name" %}</label>
                                 {{ form.project_name }}
                             </div>
                             <div class="mb-3">
-                                <label for="{{ form.description.id_for_label }}" class="form-label text-black">{% trans "Description" %}</label>
+                                <label for="{{ form.description.id_for_label }}"
+                                       class="form-label text-black">{% trans "Description" %}</label>
                                 {{ form.description }}
                             </div>
                             <div class="mb-3">
@@ -31,11 +33,13 @@
                                 {{ form.status }}
                             </div>
                             <div class="mb-3">
-                                <label for="{{ form.department.id_for_label }}" class="form-label text-black">{% trans "Department" %}</label>
+                                <label for="{{ form.department.id_for_label }}"
+                                       class="form-label text-black">{% trans "Department" %}</label>
                                 {{ form.department }}
                             </div>
                             <div class="mb-3">
-                                <label for="{{ form.assigned_to.id_for_label }}" class="form-label text-black">{% trans "Assign To" %}</label>
+                                <label for="{{ form.assigned_to.id_for_label }}"
+                                       class="form-label text-black">{% trans "Assign To" %}</label>
                                 {{ form.assigned_to }}
                             </div>
                             <div class="d-flex justify-content-between">

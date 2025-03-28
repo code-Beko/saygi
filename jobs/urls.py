@@ -8,6 +8,9 @@ from .views import (
     profile,
     notifications,
     login_view,
+    user_list,
+    user_edit,
+    user_delete,
 )
 
 
@@ -28,5 +31,8 @@ urlpatterns = [
     path("profile/", profile, name="profile"),
     path("notifications/", notifications, name="notifications"),
     path("login/", login_view, name="login"),
+    path("users/", user_list, name="user_list"),
+    path("users/<int:id>/edit/", user_edit, name="user_edit"),
+    path("users/<int:id>/delete/", user_delete, name="user_delete"),
 ]
 #

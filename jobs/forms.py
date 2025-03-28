@@ -34,12 +34,54 @@ class DocumentForm(forms.ModelForm):
             "test_date": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
             ),
+            "assigned_to": forms.Select(attrs={"class": "form-control"}),
+            "shipyard": forms.TextInput(attrs={"class": "form-control"}),
+            "boat": forms.TextInput(attrs={"class": "form-control"}),
+            "engine_name": forms.TextInput(attrs={"class": "form-control"}),
+            "job_number": forms.TextInput(attrs={"class": "form-control"}),
+            "customer_name": forms.TextInput(attrs={"class": "form-control"}),
+            "device_receiver": forms.TextInput(attrs={"class": "form-control"}),
+            "device_type": forms.TextInput(attrs={"class": "form-control"}),
+            "model": forms.TextInput(attrs={"class": "form-control"}),
+            "device_brand": forms.TextInput(attrs={"class": "form-control"}),
+            "serial_number": forms.TextInput(attrs={"class": "form-control"}),
+            "power": forms.TextInput(attrs={"class": "form-control"}),
+            "current": forms.TextInput(attrs={"class": "form-control"}),
+            "voltage": forms.TextInput(attrs={"class": "form-control"}),
+            "rpm": forms.TextInput(attrs={"class": "form-control"}),
+            "warning_current": forms.TextInput(attrs={"class": "form-control"}),
+            "warning_voltage": forms.TextInput(attrs={"class": "form-control"}),
+            "arrival_reason": forms.TextInput(attrs={"class": "form-control"}),
+            "missing_materials": forms.TextInput(attrs={"class": "form-control"}),
+            "front_bearing_number": forms.TextInput(attrs={"class": "form-control"}),
+            "back_bearing_number": forms.TextInput(attrs={"class": "form-control"}),
+            "dismounted_by": forms.TextInput(attrs={"class": "form-control"}),
+            "wrapped_repaired_by": forms.TextInput(attrs={"class": "form-control"}),
+            "mounted_by": forms.TextInput(attrs={"class": "form-control"}),
+            "tested_by": forms.TextInput(attrs={"class": "form-control"}),
+            "insulation_values": forms.TextInput(attrs={"class": "form-control"}),
+            "operating_current": forms.TextInput(attrs={"class": "form-control"}),
+            "operating_voltage": forms.TextInput(attrs={"class": "form-control"}),
+            "other_measurement_values": forms.TextInput(attrs={"class": "form-control"}),
+            "test_devices": forms.TextInput(attrs={"class": "form-control"}),
+            "performed_operations": forms.TextInput(attrs={"class": "form-control"}),
         }
 
     def __init__(self, *args, **kwargs):
         super(DocumentForm, self).__init__(*args, **kwargs)
+        
+        # Sadece "diğer" departmanındaki sınırlı yetkili kullanıcıları göster
+        self.fields['assigned_to'].queryset = CustomUser.objects.filter(
+            department='diger',
+            yetki='yetki5'
+        )
 
         fields_info = get_document_fields(self.instance)
+
+        # assigned_to alanını en sona ekle
+        if 'assigned_to' in self.fields:
+            assigned_to_field = self.fields.pop('assigned_to')
+            self.fields['assigned_to'] = assigned_to_field
 
         self.fields = {
             field_info["name"]: self.fields[field_info["name"]]
@@ -142,3 +184,5 @@ class TaskForm(forms.ModelForm):
             'department': forms.Select(attrs={'class': 'form-control'}),
             'assigned_to': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
+
+    
