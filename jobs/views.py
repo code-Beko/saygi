@@ -368,7 +368,7 @@ def task_edit(request, id):
 
 
 @login_required
-def task_delete(id):
+def task_delete(request, id):  # request eklenmeli
     try:
         task = Task.objects.get(id=id)
         task.delete()
