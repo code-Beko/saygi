@@ -151,13 +151,6 @@ class Document(models.Model):
         _("Test Devices"), max_length=255, null=True, blank=True
     )
     performed_operations = models.TextField(_("Performed Operations"), max_length=255)
-    assigned_to = models.ForeignKey(
-        CustomUser,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="assigned_documents",
-    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

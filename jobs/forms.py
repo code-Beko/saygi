@@ -6,11 +6,9 @@ from .models import CustomUser
 
 
 class CustomLoginForm(AuthenticationForm):
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+        widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
 
 
@@ -34,7 +32,6 @@ class DocumentForm(forms.ModelForm):
             "test_date": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
             ),
-            "assigned_to": forms.Select(attrs={"class": "form-control"}),
             "shipyard": forms.TextInput(attrs={"class": "form-control"}),
             "boat": forms.TextInput(attrs={"class": "form-control"}),
             "engine_name": forms.TextInput(attrs={"class": "form-control"}),
@@ -62,26 +59,17 @@ class DocumentForm(forms.ModelForm):
             "insulation_values": forms.TextInput(attrs={"class": "form-control"}),
             "operating_current": forms.TextInput(attrs={"class": "form-control"}),
             "operating_voltage": forms.TextInput(attrs={"class": "form-control"}),
-            "other_measurement_values": forms.TextInput(attrs={"class": "form-control"}),
+            "other_measurement_values": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
             "test_devices": forms.TextInput(attrs={"class": "form-control"}),
             "performed_operations": forms.TextInput(attrs={"class": "form-control"}),
         }
 
     def __init__(self, *args, **kwargs):
         super(DocumentForm, self).__init__(*args, **kwargs)
-        
-        # Sadece "diğer" departmanındaki sınırlı yetkili kullanıcıları göster
-        self.fields['assigned_to'].queryset = CustomUser.objects.filter(
-            department='diger',
-            yetki='yetki5'
-        )
 
         fields_info = get_document_fields(self.instance)
-
-        # assigned_to alanını en sona ekle
-        if 'assigned_to' in self.fields:
-            assigned_to_field = self.fields.pop('assigned_to')
-            self.fields['assigned_to'] = assigned_to_field
 
         self.fields = {
             field_info["name"]: self.fields[field_info["name"]]
@@ -134,34 +122,42 @@ class CustomUserCreationForm(UserCreationForm):
     phone_number = forms.CharField(
         max_length=15,
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control'})
+        widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     department = forms.ChoiceField(
         choices=CustomUser.DEPARTMAN_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={"class": "form-control"}),
     )
     yetki = forms.ChoiceField(
         choices=CustomUser.YETKI_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'phone_number', 'department', 'yetki', 'password1', 'password2')
+        fields = (
+            "username",
+            "email",
+            "phone_number",
+            "department",
+            "yetki",
+            "password1",
+            "password2",
+        )
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "password1": forms.PasswordInput(attrs={"class": "form-control"}),
+            "password2": forms.PasswordInput(attrs={"class": "form-control"}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].help_text = ''
-        self.fields['password1'].help_text = ''
-        self.fields['password2'].help_text = ''
-        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+        self.fields["username"].help_text = ""
+        self.fields["password1"].help_text = ""
+        self.fields["password2"].help_text = ""
+        self.fields["password1"].widget.attrs.update({"class": "form-control"})
+        self.fields["password2"].widget.attrs.update({"class": "form-control"})
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -175,14 +171,19 @@ class CustomUserCreationForm(UserCreationForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['project_name', 'description', 'date', 'status', 'department', 'assigned_to']
+        fields = [
+            "project_name",
+            "description",
+            "date",
+            "status",
+            "department",
+            "assigned_to",
+        ]
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'project_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
-            'department': forms.Select(attrs={'class': 'form-control'}),
-            'assigned_to': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            "project_name": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+            "status": forms.Select(attrs={"class": "form-control"}),
+            "department": forms.Select(attrs={"class": "form-control"}),
+            "assigned_to": forms.SelectMultiple(attrs={"class": "form-control"}),
         }
-
-    

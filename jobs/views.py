@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth import login
-from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -18,7 +17,7 @@ from django.utils.html import strip_tags
 
 def home(request):
     if request.user.is_authenticated:
-        # Sadece okunmamış görevleri say
+
         unread_tasks = Task.objects.filter(assigned_to=request.user).exclude(
             is_read=request.user
         )
@@ -76,7 +75,7 @@ def document_list(request):
     )
 
 
-def document_delete(request, id):
+def document_delete(id):
 
     try:
         document = Document.objects.get(id=id)
@@ -117,7 +116,7 @@ def document_add(request):
                 document = form.save(commit=False)
                 document.created_by = request.user
                 document.save()
-
+                return redirect("document_list")
             except Exception as e:
                 messages.error(
                     request, f"Döküman oluşturulurken bir hata oluştu: {str(e)}"
@@ -153,7 +152,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # Grupları oluştur
+
             group_names = {
                 "otomasyon": "Otomasyon",
                 "yeni_insa": "Yeni İnşa",
@@ -185,13 +184,11 @@ def profile(request):
 
 @login_required
 def notifications(request):
-    # Kullanıcıya atanan tüm görevleri getir
+
     tasks = Task.objects.filter(assigned_to=request.user)
 
-    # Okunmamış görevleri kontrol et
     unread_tasks = tasks.exclude(is_read=request.user)
 
-    # Görevleri okundu olarak işaretle
     for task in tasks:
         task.is_read.add(request.user)
 
@@ -278,7 +275,7 @@ def task_add(request):
                                 "task": task,
                                 "assigned_user": assigned_user,
                                 "created_by": request.user,
-                                "request": request,  # URL'ler için request nesnesini ekle
+                                "request": request,
                             },
                         )
                         plain_message = strip_tags(html_message)
@@ -302,53 +299,21 @@ def task_add(request):
                             f"{assigned_user.username} kullanıcısına bildirim gönderilemedi: {str(e)}",
                         )
 
-                # Sınırlı yetkili kullanıcıya bildirim gönder
-                if task.assigned_to_limited:
-                    try:
-                        subject = f"Yeni Görev Atandı: {task.project_name}"
-                        html_message = render_to_string(
-                            "tasks/email/task_assigned.html",
-                            {
-                                "task": task,
-                                "assigned_user": task.assigned_to_limited,
-                                "created_by": request.user,
-                                "request": request,  # URL'ler için request nesnesini ekle
-                            },
-                        )
-                        plain_message = strip_tags(html_message)
-
-                        send_mail(
-                            subject=subject,
-                            message=plain_message,
-                            from_email="noreply@saygielectric.com",
-                            recipient_list=[task.assigned_to_limited.email],
-                            html_message=html_message,
-                            fail_silently=False,
-                        )
-                        messages.success(
-                            request,
-                            f"{task.assigned_to_limited.username} kullanıcısına bildirim gönderildi.",
-                        )
-                    except Exception as e:
-                        messages.warning(
-                            request,
-                            f"{task.assigned_to_limited.username} kullanıcısına bildirim gönderilemedi: {str(e)}",
-                        )
-
                 messages.success(request, "Görev başarıyla oluşturuldu.")
                 return redirect("task_list")
             except Exception as e:
                 messages.error(
                     request, f"Görev oluşturulurken bir hata oluştu: {str(e)}"
                 )
+                return redirect("task_list")
         else:
             messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
+            return redirect("task_list")
     else:
         form = TaskForm()
     return render(request, "tasks/add.html", {"form": form})
 
 
-@login_required
 def task_edit(request, id):
     try:
         task = Task.objects.get(id=id)
@@ -356,10 +321,16 @@ def task_edit(request, id):
         raise Http404("Task not found.")
 
     # Kullanıcı göreve atanmış mı kontrol et
-    is_assigned_user = (
-        request.user in task.assigned_to.all()
-        or request.user == task.assigned_to_limited
-    )
+    is_assigned_user = request.user in task.assigned_to.all()
+
+    # Kullanıcı giriş yapmamışsa sadece görüntüleme yetkisi ver
+    if request.user.is_authenticated:
+        if not is_assigned_user and request.user != task.created_by:
+            messages.error(request, "Bu görevi düzenleme izniniz yok.")
+            return redirect("task_list")
+    else:
+        # Üye girişi yapmamış kullanıcıya formu readonly yap
+        is_assigned_user = False  # Her durumda atanmış kullanıcı olarak kabul edilmesin
 
     if request.method == "POST":
         if is_assigned_user:
@@ -385,13 +356,19 @@ def task_edit(request, id):
                 )
     else:
         form = TaskForm(instance=task)
+        if not is_assigned_user:
+            # Atanmamış kullanıcı ise formu sadece okuma modunda göster
+            for field in form.fields.values():
+                field.disabled = (
+                    True  # Formu readonly yapmak için tüm alanları devre dışı bırak
+                )
 
     context = {"form": form, "task": task, "is_assigned_user": is_assigned_user}
     return render(request, "tasks/edit.html", context)
 
 
 @login_required
-def task_delete(request, id):
+def task_delete(id):
     try:
         task = Task.objects.get(id=id)
         task.delete()

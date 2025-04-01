@@ -346,11 +346,4 @@ def get_document_fields(document):
             "type": "text",
             "size": 12,
         },
-        {
-            "name": "assigned_to",
-            "value": document.assigned_to,
-            "label": _("Assign To"),
-            "type": "select",
-            "size": 12,
-        },
     ]

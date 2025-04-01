@@ -25,7 +25,8 @@
                                     <select name="department" id="department" class="form-select">
                                         <option value="">{% trans "All Departments" %}</option>
                                         {% for value, label in form.department.field.choices %}
-                                            <option value="{{ value }}" {% if selected_department == value %}selected{% endif %}>
+                                            <option value="{{ value }}"
+                                                    {% if selected_department == value %}selected{% endif %}>
                                                 {{ label }}
                                             </option>
                                         {% endfor %}
@@ -36,19 +37,9 @@
                                     <select name="status" id="status" class="form-select">
                                         <option value="">{% trans "All Statuses" %}</option>
                                         {% for value, label in form.status.field.choices %}
-                                            <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>
+                                            <option value="{{ value }}"
+                                                    {% if selected_status == value %}selected{% endif %}>
                                                 {{ label }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="assigned_to" class="form-label">{% trans "Assigned To" %}</label>
-                                    <select name="assigned_to" id="assigned_to" class="form-select">
-                                        <option value="">{% trans "All Users" %}</option>
-                                        {% for user in users %}
-                                            <option value="{{ user.id }}" {% if selected_assigned_to == user.id|stringformat:"s" %}selected{% endif %}>
-                                                {{ user.username }}
                                             </option>
                                         {% endfor %}
                                     </select>
@@ -86,18 +77,12 @@
                                             <td>{{ task.get_department_display }}</td>
                                             <td>{{ task.date }}</td>
                                             <td>
-                                                <span class="badge {% if task.status == 'beklemede' %}bg-warning
-                                                                 {% elif task.status == 'devam_ediyor' %}bg-info
-                                                                 {% elif task.status == 'tamamlandi' %}bg-success
-                                                                 {% elif task.status == 'iptal' %}bg-danger
-                                                                 {% else %}bg-secondary{% endif %}">
+                                                <span class="badge {% if task.status == 'beklemede' %}bg-warning {% elif task.status == 'devam_ediyor' %}bg-info {% elif task.status == 'tamamlandi' %}bg-success {% elif task.status == 'iptal' %}bg-danger {% else %}bg-secondary{% endif %}">
                                                     {{ task.get_status_display }}
                                                 </span>
                                             </td>
                                             <td>
-                                                {% for user in task.assigned_to.all %}
-                                                    <span class="badge bg-primary me-1">{{ user.username }}</span>
-                                                {% endfor %}
+                                                {% for user in task.assigned_to.all %}<span class="badge bg-primary me-1">{{ user.username }}</span>{% endfor %}
                                             </td>
                                             {% if user.is_superuser %}
                                                 <td>
@@ -105,9 +90,9 @@
                                                         <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-primary">
                                                             <i class="bi bi-pencil"></i>
                                                         </a>
-                                                        <button type="button" 
-                                                                class="btn btn-sm btn-danger" 
-                                                                data-bs-toggle="modal" 
+                                                        <button type="button"
+                                                                class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="modal"
                                                                 data-bs-target="#deleteModal{{ task.id }}">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
@@ -116,12 +101,18 @@
                                             {% endif %}
                                         </tr>
                                         <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ task.id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal fade"
+                                             id="deleteModal{{ task.id }}"
+                                             tabindex="-1"
+                                             aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-danger text-white">
                                                         <h5 class="modal-title">{% trans "Delete Task" %}</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <button type="button"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>{% trans "Are you sure you want to delete this task?" %}</p>
@@ -136,7 +127,8 @@
                                         </div>
                                     {% empty %}
                                         <tr>
-                                            <td colspan="{% if user.is_superuser %}7{% else %}6{% endif %}" class="text-center">
+                                            <td colspan="{% if user.is_superuser %}7{% else %}6{% endif %}"
+                                                class="text-center">
                                                 <div class="py-4">
                                                     <i class="bi bi-clipboard-check fs-1 text-muted"></i>
                                                     <p class="mt-2">{% trans "No tasks found." %}</p>
@@ -157,4 +149,4 @@
             </div>
         </div>
     </div>
-{% endblock content %} 
+{% endblock content %}
