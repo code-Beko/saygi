@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name=_("Departman")
+        verbose_name=_("Departman"),
     )
     yetki = models.CharField(
         _("Yetki Seviyesi"), max_length=10, choices=YETKI_CHOICES, default="yetki5"
@@ -39,18 +39,6 @@ class CustomUser(AbstractUser):
 
     def has_low_access(self):
         return self.yetki in ["yetki1", "yetki2", "yetki3", "yetki4"]
-
-    def is_automation_department(self):
-        return self.department and self.department.code == "otomasyon"
-
-    def is_new_construction_department(self):
-        return self.department and self.department.code == "yeni_insa"
-
-    def is_maintenance_department(self):
-        return self.department and self.department.code == "bakim"
-
-    def is_quality_department(self):
-        return self.department and self.department.code == "kalite"
 
 
 # Document model
@@ -165,7 +153,7 @@ class Department(models.Model):
     class Meta:
         verbose_name = _("Departman")
         verbose_name_plural = _("Departmanlar")
-        ordering = ['name']
+        ordering = ["name"]
 
 
 class Task(models.Model):
@@ -176,10 +164,15 @@ class Task(models.Model):
         ("iptal", "İptal"),
         ("ertelendi", "Ertelendi"),
     ]
-
-    project_name = models.CharField(_("Proje Adı"), max_length=255)
-    description = models.TextField(_("Açıklama"))
-    date = models.DateField(_("Tarih"), default=date.today)
+    company_name = models.CharField(_("Company Name"), max_length=255)
+    ship_name = models.CharField(_("Ship Name"), max_length=255)
+    company_representative = models.CharField(
+        _("Company Representative"), max_length=255
+    )
+    project_name = models.CharField(_("Project Name"), max_length=255)
+    description = models.TextField(_("Description"))
+    date = models.DateField(_("Date"))
+    finished_date = models.DateField(_("Finished Date"))
     status = models.CharField(
         _("Durum"), max_length=20, choices=STATUS_CHOICES, default="beklemede"
     )
@@ -188,9 +181,11 @@ class Task(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name=_("Departman")
+        verbose_name=_("Departman"),
     )
     assigned_to = models.ManyToManyField(CustomUser, related_name="assigned_tasks")
+    transactions_made = models.TextField(_("Transactions Made"))
+
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="created_tasks"

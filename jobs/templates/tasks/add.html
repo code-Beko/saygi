@@ -12,8 +12,22 @@
                         <h4 class="mb-0">{% trans "Assign New Task" %}</h4>
                     </div>
                     <div class="card-body bg-white">
-                        <form method="post">
+                        <form method="post" class="row">
                             {% csrf_token %}
+                            <div class="mb-3 col-4">
+                                <label for="{{ form.company_name.id_for_label }}"
+                                       class="form-label text-black">{% trans "Company Name" %}</label>
+                                {{ form.company_name }}
+                            </div>
+                            <div class="mb-3 col-4">
+                                <label for="{{ form.ship_name.id_for_label }}" class="form-label text-black">{% trans "Ship Name" %}</label>
+                                {{ form.ship_name }}
+                            </div>
+                            <div class="mb-3 col-4">
+                                <label for="{{ form.company_representative.id_for_label }}"
+                                       class="form-label text-black">{% trans "Company Representative" %}</label>
+                                {{ form.company_representative }}
+                            </div>
                             <div class="mb-3">
                                 <label for="{{ form.project_name.id_for_label }}"
                                        class="form-label text-black">{% trans "Project Name" %}</label>
@@ -24,13 +38,14 @@
                                        class="form-label text-black">{% trans "Description" %}</label>
                                 {{ form.description }}
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 col-6">
                                 <label for="{{ form.date.id_for_label }}" class="form-label text-black">{% trans "Date" %}</label>
                                 {{ form.date }}
                             </div>
-                            <div class="mb-3">
-                                <label for="{{ form.status.id_for_label }}" class="form-label text-black">{% trans "Status" %}</label>
-                                {{ form.status }}
+                            <div class="mb-3 col-6">
+                                <label for="{{ form.finished_date.id_for_label }}"
+                                       class="form-label text-black">{% trans "Finished Date" %}</label>
+                                {{ form.finished_date }}
                             </div>
                             <div class="mb-3">
                                 <label for="{{ form.department.id_for_label }}"
@@ -41,6 +56,15 @@
                                 <label for="{{ form.assigned_to.id_for_label }}"
                                        class="form-label text-black">{% trans "Assign To" %}</label>
                                 {{ form.assigned_to }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.status.id_for_label }}" class="form-label text-black">{% trans "Status" %}</label>
+                                {{ form.status }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.transactions_made.id_for_label }}"
+                                       class="form-label text-black">{% trans "Transactions Made" %}</label>
+                                {{ form.transactions_made }}
                             </div>
                             <div class="d-flex justify-content-between">
                                 <a href="{% url 'task_list' %}" class="btn btn-secondary">

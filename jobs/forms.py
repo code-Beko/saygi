@@ -173,17 +173,31 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [
+            "company_name",
+            "ship_name",
+            "company_representative",
             "project_name",
             "description",
             "date",
+            "finished_date",
             "status",
             "department",
             "assigned_to",
+            "transactions_made",
         ]
         widgets = {
+            "company_representative": forms.TextInput(attrs={"class": "form-control"}),
+            "ship_name": forms.TextInput(attrs={"class": "form-control"}),
+            "company_name": forms.TextInput(attrs={"class": "form-control"}),
             "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            "finished_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}
+            ),
             "project_name": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+            "transactions_made": forms.Textarea(
+                attrs={"class": "form-control", "rows": 4}
+            ),
             "status": forms.Select(attrs={"class": "form-control"}),
             "department": forms.Select(attrs={"class": "form-control"}),
             "assigned_to": forms.SelectMultiple(attrs={"class": "form-control"}),
@@ -193,8 +207,8 @@ class TaskForm(forms.ModelForm):
 class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
-        fields = ['name', 'code']
+        fields = ["name", "code"]
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'code': forms.TextInput(attrs={'class': 'form-control'}),
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "code": forms.TextInput(attrs={"class": "form-control"}),
         }

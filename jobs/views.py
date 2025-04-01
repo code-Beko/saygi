@@ -1,7 +1,13 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .models import Document, Task, CustomUser, Department
-from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm, TaskForm, DepartmentForm
+from .forms import (
+    DocumentForm,
+    CustomUserCreationForm,
+    CustomLoginForm,
+    TaskForm,
+    DepartmentForm,
+)
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -152,12 +158,12 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
+
             # Kullanıcının departmanına göre grubu oluştur veya al
             if user.department:
                 group, created = Group.objects.get_or_create(name=user.department.name)
                 user.groups.add(group)
-            
+
             messages.success(request, "Kullanıcı başarıyla oluşturuldu.")
             return redirect("user_list")
         else:
@@ -457,7 +463,9 @@ def department_add(request):
                 messages.success(request, "Departman başarıyla oluşturuldu.")
                 return redirect("department_list")
             except Exception as e:
-                messages.error(request, f"Departman oluşturulurken bir hata oluştu: {str(e)}")
+                messages.error(
+                    request, f"Departman oluşturulurken bir hata oluştu: {str(e)}"
+                )
         else:
             messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
     else:
@@ -486,12 +494,16 @@ def department_edit(request, id):
                 messages.success(request, "Departman başarıyla güncellendi.")
                 return redirect("department_list")
             except Exception as e:
-                messages.error(request, f"Departman güncellenirken bir hata oluştu: {str(e)}")
+                messages.error(
+                    request, f"Departman güncellenirken bir hata oluştu: {str(e)}"
+                )
         else:
             messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
     else:
         form = DepartmentForm(instance=department)
-    return render(request, "departments/edit.html", {"form": form, "department": department})
+    return render(
+        request, "departments/edit.html", {"form": form, "department": department}
+    )
 
 
 @user_passes_test(is_superuser)
