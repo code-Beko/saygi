@@ -87,7 +87,10 @@
                                             {% if user.is_superuser %}
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-primary">
+                                                        <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info me-1">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
+                                                        <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-primary me-1">
                                                             <i class="bi bi-pencil"></i>
                                                         </a>
                                                         <button type="button"
@@ -97,6 +100,12 @@
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
+                                                </td>
+                                            {% else %}
+                                                <td>
+                                                    <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
                                                 </td>
                                             {% endif %}
                                         </tr>

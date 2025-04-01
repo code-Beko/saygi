@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-black text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{% trans "Task Details" %}</h4>
+                        <div>
+                            <a href="{% url 'task_edit' task.id %}" class="btn btn-warning me-2">
+                                <i class="bi bi-pencil"></i> {% trans "Edit" %}
+                            </a>
+                            <a href="{% url 'task_list' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> {% trans "Back" %}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Project Name" %}:</div>
+                            <div class="col-md-8">{{ task.project_name }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Description" %}:</div>
+                            <div class="col-md-8">{{ task.description }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Date" %}:</div>
+                            <div class="col-md-8">{{ task.date }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Department" %}:</div>
+                            <div class="col-md-8">{{ task.get_department_display }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Status" %}:</div>
+                            <div class="col-md-8">
+                                <span class="badge {% if task.status == 'beklemede' %}bg-warning {% elif task.status == 'devam_ediyor' %}bg-info {% elif task.status == 'tamamlandi' %}bg-success {% elif task.status == 'iptal' %}bg-danger {% else %}bg-secondary{% endif %}">
+                                    {{ task.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Assigned To" %}:</div>
+                            <div class="col-md-8">
+                                {% for user in task.assigned_to.all %}
+                                    <span class="badge bg-primary me-1">{{ user.username }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Created By" %}:</div>
+                            <div class="col-md-8">{{ task.created_by.username }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">{% trans "Created At" %}:</div>
+                            <div class="col-md-8">{{ task.created_at }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %} 

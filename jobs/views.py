@@ -320,18 +320,6 @@ def task_edit(request, id):
     except Task.DoesNotExist:
         raise Http404("Task not found.")
 
-    # Kullanıcı göreve atanmış mı kontrol et
-    is_assigned_user = request.user in task.assigned_to.all()
-
-    # Kullanıcı giriş yapmamışsa sadece görüntüleme yetkisi ver
-    if request.user.is_authenticated:
-        if not is_assigned_user and request.user != task.created_by:
-            messages.error(request, "Bu görevi düzenleme izniniz yok.")
-            return redirect("task_list")
-    else:
-        # Üye girişi yapmamış kullanıcıya formu readonly yap
-        is_assigned_user = False  # Her durumda atanmış kullanıcı olarak kabul edilmesin
-
     if request.method == "POST":
         if is_assigned_user:
             # Atanan kullanıcı sadece status'ü değiştirebilir
@@ -412,3 +400,15 @@ def user_delete(request, id):
     except CustomUser.DoesNotExist:
         raise Http404("User not found.")
     return redirect("user_list")
+
+
+def task_view(request, id):
+    try:
+        task = Task.objects.get(id=id)
+    except Task.DoesNotExist:
+        raise Http404("Task not found.")
+
+    context = {
+        "task": task,
+    }
+    return render(request, "tasks/view.html", context)
