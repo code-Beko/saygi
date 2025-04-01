@@ -7,11 +7,54 @@
 {% block css %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/components/carousel.css' %}">
-    
     <link rel="stylesheet" href="{% static 'css/components/navbar.css' %}">
 {% endblock css %}
 {% block content %}
     {% load static %}
+    {% if unread_tasks %}
+        <!-- Bildirim Modal -->
+        <div class="modal fade"
+             id="notificationModal"
+             tabindex="-1"
+             aria-labelledby="notificationModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title" id="notificationModalLabel">
+                            <i class="bi bi-bell-fill"></i> {% trans "Yeni Bildirimler" %}
+                        </h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            {% trans "Sizin için" %} {{ unread_tasks_count }} {% trans "okunmamış bildirim bulunmaktadır." %}
+                        </div>
+                        <div class="list-group">
+                            {% for task in unread_tasks %}
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ task.project_name }}</h6>
+                                        <small>{{ task.date|date:"d.m.Y" }}</small>
+                                    </div>
+                                    <p class="mb-1 small">{{ task.description|truncatechars:100 }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'notifications' %}" class="btn btn-primary">
+                            <i class="bi bi-bell"></i> {% trans "Tüm Bildirimleri Görüntüle" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     {% include "includes/slider.html" %}
     {% include "includes/make.html" %}
     {% include "includes/carousel.html" %}
@@ -19,4 +62,12 @@
 {% block js %}
     {{ block.super }}
     <script src="{% static 'js/owl-carousel/carousel.js' %}"></script>
+    {% if unread_tasks %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
+                notificationModal.show();
+            });
+        </script>
+    {% endif %}
 {% endblock js %}

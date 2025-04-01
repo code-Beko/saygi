@@ -23,18 +23,23 @@ from django.utils.html import strip_tags
 
 def home(request):
     if request.user.is_authenticated:
-
+        # Kullanıcıya atanan ve okunmamış görevleri al
         unread_tasks = Task.objects.filter(assigned_to=request.user).exclude(
             is_read=request.user
         )
         unread_tasks_count = unread_tasks.count()
+        
+        # Tüm görevleri al (bildirimler sayfası için)
+        all_tasks = Task.objects.filter(assigned_to=request.user)
     else:
         unread_tasks = []
         unread_tasks_count = 0
+        all_tasks = []
 
     context = {
         "unread_tasks_count": unread_tasks_count,
         "unread_tasks": unread_tasks,
+        "all_tasks": all_tasks,  # Tüm görevleri context'e ekle
     }
     return render(request, "index.html", context)
 
@@ -260,7 +265,7 @@ def task_add(request):
                 task.save()
                 form.save_m2m()  # Many-to-many ilişkileri kaydet
 
-                # Görev atanan kişilere mail gönder
+                # Görev atanan kişilere mail gönder ve bildirim oluştur
                 for assigned_user in task.assigned_to.all():
                     try:
                         # Mail içeriğini hazırla
@@ -285,6 +290,9 @@ def task_add(request):
                             html_message=html_message,
                             fail_silently=False,
                         )
+
+                        # Bildirim oluştur
+                        task.is_read.remove(assigned_user)  # Kullanıcının okunmamış bildirimlerine ekle
                         messages.success(
                             request,
                             f"{assigned_user.username} kullanıcısına bildirim gönderildi.",

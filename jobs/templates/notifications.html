@@ -24,7 +24,7 @@
                                         </div>
                                         <p class="mb-1">{{ task.description }}</p>
                                         <small>
-                                            {% trans "Departman" %}: {{ task.get_department_display }}<br>
+                                            {% trans "Departman" %}: {{ task.department.name }}<br>
                                             {% trans "Durum" %}: {{ task.get_status_display }}<br>
                                             {% trans "Oluşturan" %}: {{ task.created_by.username }}
                                         </small>
