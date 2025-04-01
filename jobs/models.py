@@ -6,14 +6,6 @@ from django.utils.translation import gettext_lazy as _
 
 # CustomUser model
 class CustomUser(AbstractUser):
-    DEPARTMAN_CHOICES = [
-        ("otomasyon", "Otomasyon"),
-        ("yeni_insa", "Yeni İnşa"),
-        ("bakim", "Bakım"),
-        ("kalite", "Kalite"),
-        ("diger", "Diğer"),
-    ]
-
     YETKI_CHOICES = [
         ("yetki1", "Tam Yetki"),
         ("yetki2", "Yüksek Yetki"),

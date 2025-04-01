@@ -124,8 +124,9 @@ class CustomUserCreationForm(UserCreationForm):
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
-    department = forms.ChoiceField(
-        choices=CustomUser.DEPARTMAN_CHOICES,
+    department = forms.ModelChoiceField(
+        queryset=Department.objects.all(),
+        empty_label="Departman Seçiniz",
         widget=forms.Select(attrs={"class": "form-control"}),
     )
     yetki = forms.ChoiceField(
