@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-black text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{% trans "Departman Listesi" %}</h4>
+                        <a href="{% url 'department_add' %}" class="btn btn-warning">
+                            <i class="bi bi-plus-circle"></i> {% trans "Yeni Departman Ekle" %}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>{% trans "Departman Adı" %}</th>
+                                        <th>{% trans "Departman Kodu" %}</th>
+                                        <th>{% trans "Oluşturulma Tarihi" %}</th>
+                                        <th>{% trans "İşlemler" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for department in departments %}
+                                        <tr>
+                                            <td>{{ department.name }}</td>
+                                            <td>{{ department.code }}</td>
+                                            <td>{{ department.created_at|date:"d.m.Y H:i" }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{% url 'department_edit' department.id %}" class="btn btn-sm btn-primary me-1">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-danger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal{{ department.id }}">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade"
+                                             id="deleteModal{{ department.id }}"
+                                             tabindex="-1"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger text-white">
+                                                        <h5 class="modal-title">{% trans "Departman Sil" %}</h5>
+                                                        <button type="button"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{% trans "Bu departmanı silmek istediğinizden emin misiniz?" %}</p>
+                                                        <p class="text-muted">{{ department.name }}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "İptal" %}</button>
+                                                        <a href="{% url 'department_delete' department.id %}" class="btn btn-danger">{% trans "Sil" %}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <div class="py-4">
+                                                    <i class="bi bi-building fs-1 text-muted"></i>
+                                                    <p class="mt-2">{% trans "Henüz departman eklenmemiş." %}</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %} 

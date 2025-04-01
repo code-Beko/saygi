@@ -25,8 +25,12 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(
         _("Telefon Numarası"), max_length=15, blank=True, null=True
     )
-    department = models.CharField(
-        _("Departman"), max_length=20, choices=DEPARTMAN_CHOICES, default="diger"
+    department = models.ForeignKey(
+        "Department",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_("Departman")
     )
     yetki = models.CharField(
         _("Yetki Seviyesi"), max_length=10, choices=YETKI_CHOICES, default="yetki5"
@@ -45,16 +49,16 @@ class CustomUser(AbstractUser):
         return self.yetki in ["yetki1", "yetki2", "yetki3", "yetki4"]
 
     def is_automation_department(self):
-        return self.department == "otomasyon"
+        return self.department and self.department.code == "otomasyon"
 
     def is_new_construction_department(self):
-        return self.department == "yeni_insa"
+        return self.department and self.department.code == "yeni_insa"
 
     def is_maintenance_department(self):
-        return self.department == "bakim"
+        return self.department and self.department.code == "bakim"
 
     def is_quality_department(self):
-        return self.department == "kalite"
+        return self.department and self.department.code == "kalite"
 
 
 # Document model
@@ -157,6 +161,21 @@ class Document(models.Model):
         return self.shipyard + " - " + self.boat
 
 
+class Department(models.Model):
+    name = models.CharField(_("Departman Adı"), max_length=50, unique=True)
+    code = models.CharField(_("Departman Kodu"), max_length=20, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("Departman")
+        verbose_name_plural = _("Departmanlar")
+        ordering = ['name']
+
+
 class Task(models.Model):
     STATUS_CHOICES = [
         ("beklemede", "Beklemede"),
@@ -172,8 +191,12 @@ class Task(models.Model):
     status = models.CharField(
         _("Durum"), max_length=20, choices=STATUS_CHOICES, default="beklemede"
     )
-    department = models.CharField(
-        _("Departman"), max_length=20, choices=CustomUser.DEPARTMAN_CHOICES
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_("Departman")
     )
     assigned_to = models.ManyToManyField(CustomUser, related_name="assigned_tasks")
     created_at = models.DateTimeField(auto_now_add=True)

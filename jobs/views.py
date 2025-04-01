@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import Document, Task, CustomUser
-from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm, TaskForm
+from .models import Document, Task, CustomUser, Department
+from .forms import DocumentForm, CustomUserCreationForm, CustomLoginForm, TaskForm, DepartmentForm
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -152,22 +152,12 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            group_names = {
-                "otomasyon": "Otomasyon",
-                "yeni_insa": "Yeni İnşa",
-                "bakim": "Bakım",
-                "kalite": "Kalite",
-                "diger": "Diğer",
-            }
-
+            
             # Kullanıcının departmanına göre grubu oluştur veya al
-            group_name = group_names.get(user.department, "Diğer")
-            group, created = Group.objects.get_or_create(name=group_name)
-
-            # Kullanıcıyı gruba ekle
-            user.groups.add(group)
-
+            if user.department:
+                group, created = Group.objects.get_or_create(name=user.department.name)
+                user.groups.add(group)
+            
             messages.success(request, "Kullanıcı başarıyla oluşturuldu.")
             return redirect("user_list")
         else:
@@ -347,7 +337,9 @@ def task_edit(request, id):
                 messages.success(request, "Görev başarıyla güncellendi.")
                 return redirect("task_list")
             else:
-                messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
+                messages.error(
+                    request, "Form geçersiz. Lütfen tüm alanları kontrol edin."
+                )
         else:
             # Orta yetki sadece status'ü değiştirebilir
             new_status = request.POST.get("status")
@@ -367,21 +359,34 @@ def task_edit(request, id):
             # Sadece status alanını aktif et
             form.fields["status"].disabled = False
 
-    context = {
-        "form": form, 
-        "task": task, 
-        "can_edit_all": can_edit_all
-    }
+    context = {"form": form, "task": task, "can_edit_all": can_edit_all}
     return render(request, "tasks/edit.html", context)
 
 
 @login_required
-def task_delete(request, id):  # request eklenmeli
+def task_delete(request, id):
     try:
         task = Task.objects.get(id=id)
-        task.delete()
+
+        # Süper admin kontrolü
+        if request.user.is_superuser:
+            can_delete = True
+        else:
+            # Yetki seviyesi kontrolü
+            if request.user.yetki in ["yetki1", "yetki2"]:  # Tam yetki ve yüksek yetki
+                can_delete = True
+            else:  # Orta, düşük ve sınırlı yetki
+                can_delete = False
+
+        if can_delete:
+            task.delete()
+            messages.success(request, "Görev başarıyla silindi.")
+        else:
+            messages.error(request, "Bu görevi silme yetkiniz bulunmamaktadır.")
+
     except Task.DoesNotExist:
         raise Http404("Task not found.")
+
     return redirect("task_list")
 
 
@@ -432,3 +437,73 @@ def task_view(request, id):
         "task": task,
     }
     return render(request, "tasks/view.html", context)
+
+
+@user_passes_test(is_superuser)
+def department_list(request):
+    departments = Department.objects.all()
+    return render(request, "departments/list.html", {"departments": departments})
+
+
+@user_passes_test(is_superuser)
+def department_add(request):
+    if request.method == "POST":
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            try:
+                department = form.save()
+                # Departman için grup oluştur
+                group, created = Group.objects.get_or_create(name=department.name)
+                messages.success(request, "Departman başarıyla oluşturuldu.")
+                return redirect("department_list")
+            except Exception as e:
+                messages.error(request, f"Departman oluşturulurken bir hata oluştu: {str(e)}")
+        else:
+            messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
+    else:
+        form = DepartmentForm()
+    return render(request, "departments/add.html", {"form": form})
+
+
+@user_passes_test(is_superuser)
+def department_edit(request, id):
+    try:
+        department = Department.objects.get(id=id)
+    except Department.DoesNotExist:
+        raise Http404("Departman bulunamadı.")
+
+    if request.method == "POST":
+        form = DepartmentForm(request.POST, instance=department)
+        if form.is_valid():
+            try:
+                old_name = department.name
+                department = form.save()
+                # Grup adını güncelle
+                group = Group.objects.filter(name=old_name).first()
+                if group:
+                    group.name = department.name
+                    group.save()
+                messages.success(request, "Departman başarıyla güncellendi.")
+                return redirect("department_list")
+            except Exception as e:
+                messages.error(request, f"Departman güncellenirken bir hata oluştu: {str(e)}")
+        else:
+            messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
+    else:
+        form = DepartmentForm(instance=department)
+    return render(request, "departments/edit.html", {"form": form, "department": department})
+
+
+@user_passes_test(is_superuser)
+def department_delete(request, id):
+    try:
+        department = Department.objects.get(id=id)
+        # Departman grubunu sil
+        group = Group.objects.filter(name=department.name).first()
+        if group:
+            group.delete()
+        department.delete()
+        messages.success(request, "Departman başarıyla silindi.")
+    except Department.DoesNotExist:
+        raise Http404("Departman bulunamadı.")
+    return redirect("department_list")

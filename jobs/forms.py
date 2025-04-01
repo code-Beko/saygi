@@ -1,5 +1,5 @@
 from django import forms
-from .models import Document, Task
+from .models import Document, Task, Department
 from .fields import get_document_fields
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
@@ -186,4 +186,14 @@ class TaskForm(forms.ModelForm):
             "status": forms.Select(attrs={"class": "form-control"}),
             "department": forms.Select(attrs={"class": "form-control"}),
             "assigned_to": forms.SelectMultiple(attrs={"class": "form-control"}),
+        }
+
+
+class DepartmentForm(forms.ModelForm):
+    class Meta:
+        model = Department
+        fields = ['name', 'code']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'code': forms.TextInput(attrs={'class': 'form-control'}),
         }
