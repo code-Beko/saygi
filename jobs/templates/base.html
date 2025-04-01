@@ -53,7 +53,8 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ms-auto gap-5">
                                 <li class="nav-item">
-                                    <a class="nav-link roboto-family fs-14 text-white fw-light">{% trans "About us" %}</a>
+                                    <a href="{% url 'department_list' %}"
+                                       class="nav-link roboto-family fs-14 text-white fw-light">{% trans "About us" %}</a>
                                 </li>
                                 {% if user.is_superuser %}
                                     <li class="nav-item">
@@ -111,13 +112,13 @@
                             <a href="{% url 'login' %}"
                                class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Sing in" %}</a>
                         {% endif %}
-                            </ul>
-                        </div>
-                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 {% endblock navbar %}
 {% block header_slider %}
     {% include "components/navbar.html" %}
@@ -162,8 +163,12 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
-                var unreadCount = {{ unread_tasks_count }};
-                
+                var unreadCount = {
+                    {
+                        unread_tasks_count
+                    }
+                };
+
                 if (unreadCount > 0) {
                     notificationModal.show();
                 }
