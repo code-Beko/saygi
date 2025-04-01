@@ -84,30 +84,28 @@
                                             <td>
                                                 {% for user in task.assigned_to.all %}<span class="badge bg-primary me-1">{{ user.username }}</span>{% endfor %}
                                             </td>
-                                            {% if user.is_superuser %}
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info me-1">
-                                                            <i class="bi bi-eye"></i>
-                                                        </a>
-                                                        <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-primary me-1">
-                                                            <i class="bi bi-pencil"></i>
-                                                        </a>
-                                                        <button type="button"
-                                                                class="btn btn-sm btn-danger"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#deleteModal{{ task.id }}">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            {% else %}
-                                                <td>
-                                                    <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info">
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info me-1">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
-                                                </td>
-                                            {% endif %}
+                                                    <a href="{% url 'task_edit' task.id %}"
+                                                       class="btn btn-sm btn-primary me-1">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-danger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal{{ task.id }}">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                         <!-- Delete Modal -->
                                         <div class="modal fade"

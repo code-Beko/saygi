@@ -320,9 +320,36 @@ def task_edit(request, id):
     except Task.DoesNotExist:
         raise Http404("Task not found.")
 
+    # Yetki kontrolü
+    if not request.user.is_authenticated:
+        messages.error(request, "Bu işlem için giriş yapmanız gerekmektedir.")
+        return redirect("login")
+
+    # Süper admin kontrolü
+    if request.user.is_superuser:
+        can_edit_all = True
+    else:
+        # Yetki seviyesi kontrolü
+        if request.user.yetki in ["yetki1", "yetki2"]:  # Tam yetki ve yüksek yetki
+            can_edit_all = True
+        elif request.user.yetki == "yetki3":  # Orta yetki
+            can_edit_all = False
+        else:  # Düşük ve sınırlı yetki
+            messages.error(request, "Bu görevi düzenleme yetkiniz bulunmamaktadır.")
+            return redirect("task_list")
+
     if request.method == "POST":
-        if is_assigned_user:
-            # Atanan kullanıcı sadece status'ü değiştirebilir
+        if can_edit_all:
+            # Tam yetki ve yüksek yetki tüm alanları değiştirebilir
+            form = TaskForm(request.POST, instance=task)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Görev başarıyla güncellendi.")
+                return redirect("task_list")
+            else:
+                messages.error(request, "Form geçersiz. Lütfen tüm alanları kontrol edin.")
+        else:
+            # Orta yetki sadece status'ü değiştirebilir
             new_status = request.POST.get("status")
             if new_status:
                 task.status = new_status
@@ -331,27 +358,20 @@ def task_edit(request, id):
                 return redirect("task_list")
             else:
                 messages.error(request, "Durum alanı boş bırakılamaz.")
-        else:
-            # Normal kullanıcı tüm alanları değiştirebilir
-            form = TaskForm(request.POST, instance=task)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Görev başarıyla güncellendi.")
-                return redirect("task_list")
-            else:
-                messages.error(
-                    request, "Form geçersiz. Lütfen tüm alanları kontrol edin."
-                )
     else:
         form = TaskForm(instance=task)
-        if not is_assigned_user:
-            # Atanmamış kullanıcı ise formu sadece okuma modunda göster
+        if not can_edit_all:
+            # Orta yetki için formu sadece okuma modunda göster
             for field in form.fields.values():
-                field.disabled = (
-                    True  # Formu readonly yapmak için tüm alanları devre dışı bırak
-                )
+                field.disabled = True
+            # Sadece status alanını aktif et
+            form.fields["status"].disabled = False
 
-    context = {"form": form, "task": task, "is_assigned_user": is_assigned_user}
+    context = {
+        "form": form, 
+        "task": task, 
+        "can_edit_all": can_edit_all
+    }
     return render(request, "tasks/edit.html", context)
 
 
