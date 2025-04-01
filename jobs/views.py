@@ -310,6 +310,7 @@ def task_add(request):
     return render(request, "tasks/add.html", {"form": form})
 
 
+@login_required
 def task_edit(request, id):
     try:
         task = Task.objects.get(id=id)
@@ -347,23 +348,31 @@ def task_edit(request, id):
                     request, "Form geçersiz. Lütfen tüm alanları kontrol edin."
                 )
         else:
-            # Orta yetki sadece status'ü değiştirebilir
+            # Orta yetki sadece status ve transactions_made'i değiştirebilir
             new_status = request.POST.get("status")
-            if new_status:
-                task.status = new_status
+            new_transactions = request.POST.get("transactions_made")
+            
+            if new_status or new_transactions:
+                if new_status:
+                    task.status = new_status
+                if new_transactions:
+                    task.transactions_made = new_transactions
                 task.save()
-                messages.success(request, "Görev durumu başarıyla güncellendi.")
+                messages.success(request, "Görev bilgileri başarıyla güncellendi.")
                 return redirect("task_list")
             else:
-                messages.error(request, "Durum alanı boş bırakılamaz.")
+                messages.error(request, "En az bir alanı güncellemeniz gerekmektedir.")
     else:
         form = TaskForm(instance=task)
         if not can_edit_all:
             # Orta yetki için formu sadece okuma modunda göster
-            for field in form.fields.values():
-                field.disabled = True
-            # Sadece status alanını aktif et
-            form.fields["status"].disabled = False
+            for field_name, field in form.fields.items():
+                if field_name not in ["status", "transactions_made"]:
+                    field.disabled = True
+                    field.widget.attrs['readonly'] = True
+                else:
+                    field.disabled = False
+                    field.widget.attrs['readonly'] = False
 
     context = {"form": form, "task": task, "can_edit_all": can_edit_all}
     return render(request, "tasks/edit.html", context)

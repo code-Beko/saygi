@@ -186,18 +186,14 @@ class TaskForm(forms.ModelForm):
             "transactions_made",
         ]
         widgets = {
-            "company_representative": forms.TextInput(attrs={"class": "form-control"}),
-            "ship_name": forms.TextInput(attrs={"class": "form-control"}),
             "company_name": forms.TextInput(attrs={"class": "form-control"}),
-            "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
-            "finished_date": forms.DateInput(
-                attrs={"type": "date", "class": "form-control"}
-            ),
+            "ship_name": forms.TextInput(attrs={"class": "form-control"}),
+            "company_representative": forms.TextInput(attrs={"class": "form-control"}),
             "project_name": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
-            "transactions_made": forms.Textarea(
-                attrs={"class": "form-control", "rows": 4}
-            ),
+            "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            "finished_date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+            "transactions_made": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
             "status": forms.Select(attrs={"class": "form-control"}),
             "department": forms.Select(attrs={"class": "form-control"}),
             "assigned_to": forms.SelectMultiple(attrs={"class": "form-control"}),

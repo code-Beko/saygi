@@ -164,32 +164,19 @@ class Task(models.Model):
         ("iptal", "İptal"),
         ("ertelendi", "Ertelendi"),
     ]
-    company_name = models.CharField(_("Company Name"), max_length=255)
-    ship_name = models.CharField(_("Ship Name"), max_length=255)
-    company_representative = models.CharField(
-        _("Company Representative"), max_length=255
-    )
-    project_name = models.CharField(_("Project Name"), max_length=255)
-    description = models.TextField(_("Description"))
-    date = models.DateField(_("Date"))
-    finished_date = models.DateField(_("Finished Date"))
-    status = models.CharField(
-        _("Durum"), max_length=20, choices=STATUS_CHOICES, default="beklemede"
-    )
-    department = models.ForeignKey(
-        Department,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name=_("Departman"),
-    )
+    company_name = models.CharField(_("Şirket Adı"), max_length=255, null=True, blank=True)
+    ship_name = models.CharField(_("Gemi Adı"), max_length=255, null=True, blank=True)
+    company_representative = models.CharField(_("Şirket Temsilcisi"), max_length=255, null=True, blank=True)
+    project_name = models.CharField(_("Proje Adı"), max_length=255)
+    description = models.TextField(_("Açıklama"))
+    date = models.DateField(_("Tarih"))
+    finished_date = models.DateField(_("Bitiş Tarihi"))
+    status = models.CharField(_("Durum"), max_length=20, choices=STATUS_CHOICES, default="beklemede")
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Departman"))
     assigned_to = models.ManyToManyField(CustomUser, related_name="assigned_tasks")
-    transactions_made = models.TextField(_("Transactions Made"))
-
+    transactions_made = models.TextField(_("Yapılan İşlemler"), null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="created_tasks"
-    )
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="created_tasks")
     is_read = models.ManyToManyField(CustomUser, related_name="read_tasks", blank=True)
 
     def __str__(self):

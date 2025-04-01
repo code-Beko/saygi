@@ -58,6 +58,8 @@
                             <table class="table table-hover">
                                 <thead class="table-dark">
                                     <tr>
+                                        <th>{% trans "Company Name" %}</th>
+                                        <th>{% trans "Ship Name" %}</th>
                                         <th>{% trans "Project Name" %}</th>
                                         <th>{% trans "Description" %}</th>
                                         <th>{% trans "Department" %}</th>
@@ -72,9 +74,11 @@
                                 <tbody>
                                     {% for task in tasks %}
                                         <tr>
+                                            <td>{{ task.company_name }}</td>
+                                            <td>{{ task.ship_name }}</td>
                                             <td>{{ task.project_name }}</td>
                                             <td>{{ task.description|truncatewords:20 }}</td>
-                                            <td>{{ task.get_department_display }}</td>
+                                            <td>{{ task.department.name }}</td>
                                             <td>{{ task.date }}</td>
                                             <td>
                                                 <span class="badge {% if task.status == 'beklemede' %}bg-warning {% elif task.status == 'devam_ediyor' %}bg-info {% elif task.status == 'tamamlandi' %}bg-success {% elif task.status == 'iptal' %}bg-danger {% else %}bg-secondary{% endif %}">
@@ -101,11 +105,6 @@
                                                         </button>
                                                     {% endif %}
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <a href="{% url 'task_view' task.id %}" class="btn btn-sm btn-info">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
                                             </td>
                                         </tr>
                                         <!-- Delete Modal -->
@@ -135,7 +134,7 @@
                                         </div>
                                     {% empty %}
                                         <tr>
-                                            <td colspan="{% if user.is_superuser %}7{% else %}6{% endif %}"
+                                            <td colspan="{% if user.is_superuser %}9{% else %}8{% endif %}"
                                                 class="text-center">
                                                 <div class="py-4">
                                                     <i class="bi bi-clipboard-check fs-1 text-muted"></i>
