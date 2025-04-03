@@ -346,7 +346,7 @@ def task_edit(request, id):
     if request.method == "POST":
         if can_edit_all:
             # Tam yetki ve yüksek yetki tüm alanları değiştirebilir
-            form = TaskForm(request.POST, instance=task)
+            form = TaskForm(request.POST, instance=task, user=request.user)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Görev başarıyla güncellendi.")

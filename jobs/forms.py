@@ -170,6 +170,21 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class TaskForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+
+        if self.user and not self.user.is_superuser:
+            # Kullanıcının departmanını al
+            department = self.user.department
+            if department:
+                # Sadece kullanıcının departmanındaki kullanıcıları göster
+                self.fields["assigned_to"].queryset = CustomUser.objects.filter(
+                    department=department
+                )
+                # Departman alanını devre dışı bırak
+                self.fields["department"].disabled = True
+
     class Meta:
         model = Task
         fields = [
@@ -192,8 +207,12 @@ class TaskForm(forms.ModelForm):
             "project_name": forms.TextInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
             "date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
-            "finished_date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
-            "transactions_made": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+            "finished_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}
+            ),
+            "transactions_made": forms.Textarea(
+                attrs={"class": "form-control", "rows": 4}
+            ),
             "status": forms.Select(attrs={"class": "form-control"}),
             "department": forms.Select(attrs={"class": "form-control"}),
             "assigned_to": forms.SelectMultiple(attrs={"class": "form-control"}),
