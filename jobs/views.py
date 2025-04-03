@@ -28,7 +28,7 @@ def home(request):
             is_read=request.user
         )
         unread_tasks_count = unread_tasks.count()
-        
+
         # Tüm görevleri al (bildirimler sayfası için)
         all_tasks = Task.objects.filter(assigned_to=request.user)
     else:
@@ -292,7 +292,9 @@ def task_add(request):
                         )
 
                         # Bildirim oluştur
-                        task.is_read.remove(assigned_user)  # Kullanıcının okunmamış bildirimlerine ekle
+                        task.is_read.remove(
+                            assigned_user
+                        )  # Kullanıcının okunmamış bildirimlerine ekle
                         messages.success(
                             request,
                             f"{assigned_user.username} kullanıcısına bildirim gönderildi.",
@@ -359,7 +361,7 @@ def task_edit(request, id):
             # Orta yetki sadece status ve transactions_made'i değiştirebilir
             new_status = request.POST.get("status")
             new_transactions = request.POST.get("transactions_made")
-            
+
             if new_status or new_transactions:
                 if new_status:
                     task.status = new_status
@@ -377,10 +379,10 @@ def task_edit(request, id):
             for field_name, field in form.fields.items():
                 if field_name not in ["status", "transactions_made"]:
                     field.disabled = True
-                    field.widget.attrs['readonly'] = True
+                    field.widget.attrs["readonly"] = True
                 else:
                     field.disabled = False
-                    field.widget.attrs['readonly'] = False
+                    field.widget.attrs["readonly"] = False
 
     context = {"form": form, "task": task, "can_edit_all": can_edit_all}
     return render(request, "tasks/edit.html", context)
