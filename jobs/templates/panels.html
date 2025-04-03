@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block header_slider %}
+{% endblock header_slider %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+    <div class="container my-5">
+        <h2>{% trans "Panels" %}</h2>
+        <div class="row g-4">
+            <div class="col-3">
+                <div class="card p-0 border-0 h-100">
+                    <img width="auto"
+                         height="auto"
+                         src="{% static 'images/panels/department.jpg' %}"
+                         class="card-img-top"
+                         alt="{% trans "Departmans" %}">
+                    <div class="card-body d-flex flex-column text-black bg-white">
+                        <h5 class="card-title text-black">{% trans "Add Departmans" %}</h5>
+                        <p class="card-text flex-grow-1 text-black">
+                            {% blocktrans %}Add a new department, build a strong team!{% endblocktrans %}
+                        </p>
+                        <a href="{% url 'department_list' %}" class="btn w-100 btn-warning mt-5">{% trans "Add Departmans" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card p-0 border-0 h-100">
+                    <img width="auto"
+                         height="auto"
+                         src="{% static 'images/panels/members.jpg' %}"
+                         class="card-img-top"
+                         alt="{% trans "View Document" %}">
+                    <div class="card-body d-flex flex-column text-black bg-white">
+                        <h5 class="card-title text-black">{% trans "Members" %}</h5>
+                        <p class="card-text flex-grow-1 text-black">{% blocktrans%}Search and view your Members.{% endblocktrans%}</p>
+                        <a href="{% url 'user_list' %}" class="btn w-100 btn-warning mt-5">{% trans "List Members" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card p-0 border-0 h-100">
+                    <img width="auto"
+                         height="auto"
+                         src="{% static 'images/panels/care-list.jpg' %}"
+                         class="card-img-top"
+                         alt="{% trans "All Documents" %}">
+                    <div class="card-body d-flex flex-column text-black bg-white">
+                        <h5 class="card-title text-black">{% trans "Care List" %}</h5>
+                        <p class="card-text flex-grow-1 text-black">
+                            {% blocktrans%}  You can list and review all available Care. {% endblocktrans%}
+                        </p>
+                        <a href="{% url 'document_list' %}" class="btn w-100 btn-warning mt-5">{% trans "See All" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card p-0 border-0 h-100">
+                    <img width="auto"
+                         height="auto"
+                         src="{% static 'images/panels/institutional.jpg' %}"
+                         class="card-img-top"
+                         alt="{% trans "All Documents" %}">
+                    <div class="card-body d-flex flex-column text-black bg-white">
+                        <h5 class="card-title text-black">{% trans "Institutional" %}</h5>
+                        <p class="card-text flex-grow-1 text-black">
+                            {% blocktrans%}  You can list and review all available Institutional. {% endblocktrans%}
+                        </p>
+                        <a href="{% url 'task_list' %}" class="btn w-100 btn-warning mt-5">{% trans "See All" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-black text-white">
+                        <h4 class="mb-0">
+                            <i class="bi bi-bell"></i> {% trans "Bildirimler" %}
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        {% if tasks %}
+                            <div class="list-group">
+                                {% for task in tasks %}
+                                    <div class="list-group-item list-group-item-action {% if not task.is_read.all %}list-group-item-warning{% endif %}">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ task.project_name }}</h5>
+                                            <small>{{ task.date|date:"d.m.Y" }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ task.description }}</p>
+                                        <small>
+                                            {% trans "Departman" %}: {{ task.department.name }}<br>
+                                            {% trans "Durum" %}: {{ task.get_status_display }}<br>
+                                            {% trans "Oluşturan" %}: {{ task.created_by.username }}
+                                        </small>
+                                        <div class="mt-2">
+                                            <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-eye"></i> {% trans "Görüntüle" %}
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <i class="bi bi-bell-slash fs-1 text-muted"></i>
+                                <p class="mt-3">{% trans "Henüz bildiriminiz bulunmamaktadır." %}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

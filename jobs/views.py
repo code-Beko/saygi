@@ -48,6 +48,24 @@ def care(request):
     return render(request, "care.html")
 
 
+def panels(request):
+    tasks = Task.objects.filter(assigned_to=request.user)
+
+    # Okunmamış görevleri filtrele
+    unread_tasks = tasks.filter(is_read__isnull=True) | tasks.exclude(
+        is_read=request.user
+    )
+
+    # Bildirimleri panelde gösterebilmek için context'e ekleyelim
+    context = {
+        "tasks": tasks,
+        "unread_tasks": unread_tasks,
+        "unread_count": unread_tasks.count(),
+    }
+
+    return render(request, "panels.html", context)
+
+
 def document_list(request):
     query = request.GET.get("q", "")
     start_date = request.GET.get("start_date", "")
@@ -459,7 +477,9 @@ def task_view(request, id):
         raise Http404("Task not found.")
 
     # Aynı şirket adına sahip tüm task'leri getir
-    related_tasks = Task.objects.filter(company_name=task.company_name).order_by("-date")
+    related_tasks = Task.objects.filter(company_name=task.company_name).order_by(
+        "-date"
+    )
 
     context = {
         "task": task,

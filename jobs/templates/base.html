@@ -52,8 +52,14 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ms-auto gap-5">
+                                {% if user.is_superuser %}
                                 <li class="nav-item">
-                                    {% if user.is_superuser %}
+                                    <a href="{% url 'panels' %}"
+                                       class="nav-link roboto-family fs-14 text-white fw-light">{% trans "PANELS" %}</a>
+                                </li>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                <li class="nav-item">
                                     <a href="{% url 'department_list' %}"
                                        class="nav-link roboto-family fs-14 text-white fw-light">{% trans "Departmans" %}</a>
                                 </li>
