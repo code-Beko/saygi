@@ -458,8 +458,12 @@ def task_view(request, id):
     except Task.DoesNotExist:
         raise Http404("Task not found.")
 
+    # Aynı şirket adına sahip tüm task'leri getir
+    related_tasks = Task.objects.filter(company_name=task.company_name).order_by("-date")
+
     context = {
         "task": task,
+        "related_tasks": related_tasks,  # Benzer task'leri şablona gönderiyoruz
     }
     return render(request, "tasks/view.html", context)
 

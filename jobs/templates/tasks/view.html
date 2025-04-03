@@ -6,17 +6,33 @@
 {% block content %}
     <div class="container my-5">
         <div class="row">
-            <div class="col-md-8 mx-auto">
+            <div class="col-4" style="height:607px ; overflow-y:scroll">
+                {% if related_tasks|length > 1 %}
+                    {% for related_task in related_tasks %}
+                        <div class="card mb-5 p-0">
+                            <div class="card-header">{{ related_task.company_name }} - {{ related_task.date }}</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related_task.project_name }}</h5>
+                                <p class="card-text">{{ related_task.description }}</p>
+                                <a class="btn btn-primary" href="{% url 'task_view' related_task.id %}">{% trans "Status Details" %}</a>
+                            </div>
+                            <!-- Aynı şirket adına sahip diğer görevler -->
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-8 mx-auto">
                 <div class="card border-0 shadow-lg">
                     <div class="card-header bg-black text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">{% trans "Task Details" %}</h4>
-                        <div>{% if user.is_authenticated %}
-                            <a href="{% url 'task_edit' task.id %}" class="btn btn-warning me-2">
-                                <i class="bi bi-pencil"></i> {% trans "Edit" %}
-                            </a>
-                            <a href="{% url 'task_list' %}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> {% trans "Back" %}
-                            </a>
+                        <div>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'task_edit' task.id %}" class="btn btn-warning me-2">
+                                    <i class="bi bi-pencil"></i> {% trans "Edit" %}
+                                </a>
+                                <a href="{% url 'task_list' %}" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> {% trans "Back" %}
+                                </a>
                             {% endif %}
                         </div>
                     </div>
@@ -64,9 +80,7 @@
                         <div class="row mb-3">
                             <div class="col-md-4 fw-bold">{% trans "Assigned To" %}:</div>
                             <div class="col-md-8">
-                                {% for user in task.assigned_to.all %}
-                                    <span class="badge bg-primary me-1">{{ user.username }}</span>
-                                {% endfor %}
+                                {% for user in task.assigned_to.all %}<span class="badge bg-primary me-1">{{ user.username }}</span>{% endfor %}
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -86,4 +100,4 @@
             </div>
         </div>
     </div>
-{% endblock content %} 
+{% endblock content %}
