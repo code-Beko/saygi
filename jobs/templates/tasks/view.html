@@ -6,8 +6,9 @@
 {% block content %}
     <div class="container my-5">
         <div class="row">
+            {% if related_tasks|length > 1 %}
             <div class="col-4" style="height:607px ; overflow-y:scroll">
-                {% if related_tasks|length > 1 %}
+               
                     {% for related_task in related_tasks %}
                         <div class="card mb-5 p-0">
                             <div class="card-header">{{ related_task.company_name }} - {{ related_task.date }}</div>
@@ -19,8 +20,9 @@
                             <!-- Aynı şirket adına sahip diğer görevler -->
                         </div>
                     {% endfor %}
-                {% endif %}
+          
             </div>
+            {% endif %}
             <div class="col-8 mx-auto">
                 <div class="card border-0 shadow-lg">
                     <div class="card-header bg-black text-white d-flex justify-content-between align-items-center">

@@ -77,6 +77,7 @@ def document_list(request):
             Q(shipyard__icontains=query)
             | Q(boat__icontains=query)
             | Q(engine_name__icontains=query)
+            | Q(power__icontains=query)
         )
 
     if start_date and end_date:
@@ -255,6 +256,7 @@ def task_list(request):
     if assigned_to:
         tasks = tasks.filter(assigned_to__id=assigned_to)
 
+    tasks = tasks.order_by("-created_at")
     # Kullanıcı listesini al (filtre için)
     users = CustomUser.objects.all()
 
