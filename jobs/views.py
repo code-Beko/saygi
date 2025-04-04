@@ -366,6 +366,11 @@ def task_edit(request, id):
             return redirect("task_list")
 
     if request.method == "POST":
+        # **Sadece atanan kullanıcı düzenleme yapabilir** kontrolü
+        if task.assigned_to != request.user and not can_edit_all:
+            messages.error(request, "Bu görevi düzenleme yetkiniz yok.")
+            return redirect("task_list")
+
         if can_edit_all:
             # Tam yetki ve yüksek yetki tüm alanları değiştirebilir
             form = TaskForm(request.POST, instance=task, user=request.user)
